@@ -123,6 +123,58 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &142871051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 142871052}
+  - component: {fileID: 142871053}
+  m_Layer: 5
+  m_Name: RadioOptions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &142871052
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142871051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1241820660}
+  - {fileID: 1949624121}
+  m_Father: {fileID: 1718673128}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &142871053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142871051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!1 &162438894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1340,7 +1392,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596087760}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2353,12 +2405,12 @@ RectTransform:
   m_Children:
   - {fileID: 425366728}
   - {fileID: 1312085891}
-  m_Father: {fileID: 1718673128}
-  m_RootOrder: 4
+  m_Father: {fileID: 142871052}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 167.03545, y: 82.6}
+  m_AnchoredPosition: {x: 167.03546, y: 82.6}
   m_SizeDelta: {x: 164.248, y: 53.2385}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1241820661
@@ -2404,11 +2456,11 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 425366729}
   toggleTransition: 1
   graphic: {fileID: 1421472976}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 142871053}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1249311023
 GameObject:
   m_ObjectHideFlags: 0
@@ -2831,7 +2883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &1344834579
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3653,7 +3705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1718673128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3670,8 +3722,7 @@ RectTransform:
   - {fileID: 162438895}
   - {fileID: 367350410}
   - {fileID: 596087761}
-  - {fileID: 1241820660}
-  - {fileID: 1949624121}
+  - {fileID: 142871052}
   m_Father: {fileID: 1689099110}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3695,7 +3746,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1729156376
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4095,12 +4146,12 @@ RectTransform:
   m_Children:
   - {fileID: 697074763}
   - {fileID: 1620792361}
-  m_Father: {fileID: 1718673128}
-  m_RootOrder: 5
+  m_Father: {fileID: 142871052}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 167.04, y: -15.7}
+  m_AnchoredPosition: {x: 167.04, y: -15.699982}
   m_SizeDelta: {x: 164.25, y: 53.2385}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1949624122
@@ -4146,7 +4197,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 697074764}
   toggleTransition: 1
   graphic: {fileID: 1849595177}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 142871053}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
