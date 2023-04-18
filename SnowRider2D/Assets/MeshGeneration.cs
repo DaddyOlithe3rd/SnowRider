@@ -183,7 +183,7 @@ public class MeshGeneration: MonoBehaviour
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
             // bottom vertex always at y=0
-            _vertexArray[i * 2 + 1] = new Vector3(xPos, -1000, 0);
+            _vertexArray[i * 2 + 1] = new Vector3(xPos, -10000, 0);
 
             points[i] = new Vector2(xPos, yPosTop);
         }
