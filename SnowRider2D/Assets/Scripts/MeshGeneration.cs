@@ -195,9 +195,7 @@ public class MeshGeneration: MonoBehaviour
 
             points[i] = new Vector2(xPos, yPosTop);
         }
-        
 
-       // Tree.transform.position = new Vector3(points[treeCoord].x + (32 * NextSegment), points[treeCoord].y, 0);
         Tree.transform.localScale += scaleChange;
         if (NextSegment % 4 == 0)
         {
