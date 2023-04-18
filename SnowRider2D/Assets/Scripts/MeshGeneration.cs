@@ -156,7 +156,10 @@ public class MeshGeneration: MonoBehaviour
 
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        Vector3 scaleChange = new Vector3(17, 29, 0);
+        Vector3 scaleChange = new Vector3(8, 16, 0);
+        int treeCoord = rnd.Next(0, 31);
+        int rockPos = rnd.Next(0, 31);
+
         for (int i = 0; i < SegmentResolution; ++i)
         {
             startPoint.x += step;
@@ -180,6 +183,11 @@ public class MeshGeneration: MonoBehaviour
             }
             yPosTop = pointBezier.y;
 
+            if (i == treeCoord)
+            {
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + 2, 0);
+                Debug.Log(yPosTop);
+            }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
             // bottom vertex always at y=0
@@ -187,12 +195,9 @@ public class MeshGeneration: MonoBehaviour
 
             points[i] = new Vector2(xPos, yPosTop);
         }
-        int treeCoord = rnd.Next(0, 32);
-        int rockPos = rnd.Next(0, 32);
-        pointBezier = CalculateCubicBezierCurve((0.03125f * treeCoord), p0, p1, p2, p3);
+        
 
-        //yPosTop = pointBezier.y;
-        Tree.transform.position = new Vector3((step * treeCoord) + (32 * NextSegment), pointBezier.y, 0);
+       // Tree.transform.position = new Vector3(points[treeCoord].x + (32 * NextSegment), points[treeCoord].y, 0);
         Tree.transform.localScale += scaleChange;
         if (NextSegment % 4 == 0)
         {
