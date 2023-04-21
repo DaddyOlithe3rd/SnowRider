@@ -145,20 +145,22 @@ public class MeshGeneration: MonoBehaviour
         float time = 0;
         Random rnd = new Random();
         int jumpheight = rnd.Next(0, 8);
-        int p1Change = rnd.Next(4, 14);
-        int p3Change = rnd.Next(6, 12);
+        int p1Change = rnd.Next(4, 12);
+        int p2Change = rnd.Next(0, 16);
+        int p3Change = rnd.Next(4, 12);
 
         Vector3 pointBezier;
-        Vector3 p0 = new Vector3(0, startPoint.y, 0);
-        Vector3 p1 = new Vector3(12, (startPoint.y - p1Change), 0);
-        Vector3 p2 = new Vector3(20, startPoint.y + 2, 0);
-        Vector3 p3 = new Vector3(32, (startPoint.y - p3Change), 0); ;
-
+        Vector3 p0;
+        Vector3 p1;
+        Vector3 p2;
+        Vector3 p3;
+        Vector3 p4;
+        Vector3 p5;
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
         Vector3 scaleChange = new Vector3(8, 16, 0);
-        int treeCoord = rnd.Next(0, 31);
-        int rockPos = rnd.Next(0, 31);
+        int treeCoord = rnd.Next(2, 24);
+        int rockCoord = rnd.Next(2, 24);
 
         for (int i = 0; i < SegmentResolution; ++i)
         {
@@ -174,19 +176,31 @@ public class MeshGeneration: MonoBehaviour
                 pointBezier = CalculateQuadraticBezierCurve(time, p0, p1, p2);
             }
             else
-            {               
+            {
                 p0 = new Vector3(0, startPoint.y, 0);
                 p1 = new Vector3(12, (startPoint.y - p1Change), 0);
                 p2 = new Vector3(20, startPoint.y + 2, 0);
                 p3 = new Vector3(32, (startPoint.y - p3Change), 0);
                 pointBezier = CalculateCubicBezierCurve(time, p0, p1, p2, p3);
+
+                //p0 = new Vector3(0, startPoint.y, 0);
+                //p1 = new Vector3(4, startPoint.y - 4, 0);                          
+                //p2 = new Vector3(12, startPoint.y - p1Change, 0);
+                //p3 = new Vector3(18, startPoint.y - 4, 0);
+                //p4 = new Vector3(24, startPoint.y + 4, 0);
+                //p5 = new Vector3(32, startPoint.y - p2Change, 0);
+                //pointBezier = CalculaticOrder5BezierCurve(time, p0, p1, p2, p3, p4, p5);
             }
             yPosTop = pointBezier.y;
 
             if (i == treeCoord)
             {
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + 2, 0);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
                 Debug.Log(yPosTop);
+            }
+            if (i == rockCoord)
+            {
+                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
             }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
