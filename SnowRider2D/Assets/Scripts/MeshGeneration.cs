@@ -185,7 +185,7 @@ public class MeshGeneration: MonoBehaviour
 
             if (i == treeCoord)
             {
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + 2, 0);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
                 Debug.Log(yPosTop);
             }
             // top vertex          
