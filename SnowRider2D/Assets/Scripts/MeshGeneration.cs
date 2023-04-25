@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -156,7 +156,7 @@ public class MeshGeneration: MonoBehaviour
 
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        Vector3 scaleChange = new Vector3(8, 16, 0);
+        Vector3 scaleChange = new Vector3(12, 24, 0);
         int treeCoord = rnd.Next(0, 31);
         int rockPos = rnd.Next(0, 31);
 
@@ -186,7 +186,7 @@ public class MeshGeneration: MonoBehaviour
             if (i == treeCoord)
             {
                 Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
-                Debug.Log(yPosTop);
+                //Debug.Log(yPosTop);
             }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
