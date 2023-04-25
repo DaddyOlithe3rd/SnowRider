@@ -17,6 +17,9 @@ public class MeshGeneration: MonoBehaviour
     // the maximum number of visible meshes. Should be lower or equal than MeshCount
     public int VisibleMeshes = 4;
 
+    public Vector3 scaleChangeTree = new Vector3(16, 32, 0);
+    public Vector3 scaleChangeRock = new Vector3(16, 32, 0);
+
     // the prefab including MeshFilter and MeshRenderer
     public MeshFilter SegmentPrefab;
     public SpriteRenderer RockPrefab;
@@ -142,6 +145,7 @@ public class MeshGeneration: MonoBehaviour
         float xPos = 0;
         float yPosTop = 0;
         float t = 0.03125f;
+        //float t2 = 0.0078125f;
         float time = 0;
         Random rnd = new Random();
         int jumpheight = rnd.Next(0, 8);
@@ -154,17 +158,17 @@ public class MeshGeneration: MonoBehaviour
         Vector3 p1;
         Vector3 p2;
         Vector3 p3;
-        Vector3 p4;
-        Vector3 p5;
+        //Vector3 p4;
+        //Vector3 p5;
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        Vector3 scaleChange = new Vector3(8, 16, 0);
         int treeCoord = rnd.Next(2, 24);
         int rockCoord = rnd.Next(2, 24);
 
-        for (int i = 0; i < SegmentResolution; ++i)
+        for (int i = 0; i < SegmentResolution; i++)
         {
-            startPoint.x += step;
+            //Debug.Log(i);
+            //startPoint.x += step;
             // get the relative x position
             xPos = step * i;
             time = t * i;
@@ -195,12 +199,12 @@ public class MeshGeneration: MonoBehaviour
 
             if (i == treeCoord)
             {
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
-                Debug.Log(yPosTop);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
+                //Debug.Log(yPosTop);
             }
             if (i == rockCoord)
             {
-                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
+                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
             }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
@@ -208,9 +212,10 @@ public class MeshGeneration: MonoBehaviour
             _vertexArray[i * 2 + 1] = new Vector3(xPos, -10000, 0);
 
             points[i] = new Vector2(xPos, yPosTop);
+            //points[i] = new Vector2(xPos, yPosTop);
         }
+        //Debug.Log(yPosTop);
 
-        Tree.transform.localScale += scaleChange;
         if (NextSegment % 4 == 0)
         {
             startPoint.y = (yPosTop - 6);
@@ -219,6 +224,10 @@ public class MeshGeneration: MonoBehaviour
         {
             startPoint.y = yPosTop;
         }
+
+        Tree.transform.localScale += scaleChangeTree;
+        Rock.transform.localScale += scaleChangeRock;
+
         NextSegment += 1;
 
         mesh.vertices = _vertexArray;      
