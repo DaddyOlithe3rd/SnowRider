@@ -77,8 +77,8 @@ public class SkierController : MonoBehaviour
             if (lastNorm != normal )
             {
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
-                //transform.Rotate(0f, 0f, angle - transform.eulerAngles.z);
-;               transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
+                transform.Rotate(0f, 0f, angle - transform.eulerAngles.z);
+;               //transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
                 //Vector3 contactPoint = new Vector3(contacts[0].point.x, contacts[0].point.y, 0f);
                 //Quaternion rotation = Quaternion.LookRotation(Vector3.forward, normal);
                 //transform.rotation = rotation;
