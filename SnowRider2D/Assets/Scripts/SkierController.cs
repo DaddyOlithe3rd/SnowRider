@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
+using static UnityEngine.GraphicsBuffer;
 
 public class SkierController : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class SkierController : MonoBehaviour
 
     public bool isGrounded;
     public bool isCrouched;
+    public bool isDead;
     public float jumpSpeed;
 
     private Vector3 bottomPoint;
@@ -28,6 +31,7 @@ public class SkierController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         isGrounded = false;
         isCrouched = false;
+        isDead = false;
         lastNorm = Vector2.zero;
         initialSize = transform.localScale;
         lastSpeed = rb.velocity;
@@ -54,19 +58,27 @@ public class SkierController : MonoBehaviour
 
         ContactPoint2D[] contacts = new ContactPoint2D[10];
         int nbContacts = rb.GetContacts(contacts);
+        //contacts = new ContactPoint2D[nbContacts];
         if (nbContacts == 0) isGrounded = false;
         else 
         {
             isGrounded = true;
             normal = contacts[nbContacts - 1].normal;
+            foreach (ContactPoint2D contact in contacts)
+            {
+                //if (contact.collider.gameObject)
+                //{
+                //    isDead = true;
+                //    print("Dead");
+                //}
+            }
 
             //Si on est encore sur la même pente
-            if (lastNorm != normal)
+            if (lastNorm != normal )
             {
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
                 //transform.Rotate(0f, 0f, angle - transform.eulerAngles.z);
-                transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
-                print("New norm");
+;               transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
                 //Vector3 contactPoint = new Vector3(contacts[0].point.x, contacts[0].point.y, 0f);
                 //Quaternion rotation = Quaternion.LookRotation(Vector3.forward, normal);
                 //transform.rotation = rotation;
@@ -94,7 +106,10 @@ public class SkierController : MonoBehaviour
         if((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched)
         {
             transform.localScale = initialSize;
-            rb.velocity = lastSpeed;
+            //ScaleAround(transform.position, bottomPoint, initialSize);
+            
+
+            //rb.velocity = lastSpeed;
             isCrouched = false;
         }
         //Rotating
@@ -122,4 +137,10 @@ public class SkierController : MonoBehaviour
         //averageNormal /= collision.contacts.Length;
         //normal = averageNormal;
     }
+
+    public void ScaleAround(Vector3 position, Vector3 pivot, Vector3 newScale)
+    {
+       
+    }
+
 }
