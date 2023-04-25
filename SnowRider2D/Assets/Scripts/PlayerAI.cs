@@ -8,7 +8,7 @@ public class PlayerAI : MonoBehaviour
     //private float MoveSpeed;
     //private float MoveHorizontal;
     [SerializeField] float obstacleRayDistance;
-    [SerializeField] private LayerMask lM;
+    
 
     bool closeToWall = false;
     bool closeToRock = false;
@@ -18,6 +18,8 @@ public class PlayerAI : MonoBehaviour
     public GameObject obstacleRayFrontHead;
     public GameObject obstacleRayBackHead;
     public GameObject groundRayObject;
+
+    public LayerMask obstacleLayer;
 
 
     void Start()
@@ -49,23 +51,25 @@ public class PlayerAI : MonoBehaviour
 
 
     }
-    IEnumerator Waiter()
+    bool OnCollisionEnter2D(Collision2D other)
     {
-        yield return new WaitForSeconds(2);
+        if (obstacleLayer == (obstacleLayer | (1 << other.gameObject.layer)))
+        {
+            return true;
+        }
+        else return false;
     }
+
     private void FixedUpdate()
     {
 
 
         RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f);
-        //RaycastHit2D hitHead = Physics2D.Raycast(obstacleRayFrontHead.transform.position, Vector2.right, obstacleRayDistance);
         RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f), obstacleRayDistance);
         RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f), obstacleRayDistance);
-        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, -Vector2.up, lM);
+        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, -Vector2.up);
 
         Debug.DrawRay(groundRayObject.transform.position, -Vector2.up * hitGround.distance, Color.red);
-        //Debug.DrawRay(obstacleRayFeet.transform.position, new Vector2(0.8f, 0f) * obstacleRayDistance, Color.green);
-        //Debug.DrawRay(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f) * obstacleRayDistance, Color.green);
         Debug.DrawRay(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f) * obstacleRayDistance, Color.green);
 
         if (hitGround.collider != null)
@@ -90,7 +94,6 @@ public class PlayerAI : MonoBehaviour
         else if (hitFeet.collider != null && hitFront.collider == null && jumpOn == true)
         {
             Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.red);
-            Waiter();
             closeToRock = true;
         }
         else if (hitFront.collider != null && hitFeet.collider == null)
