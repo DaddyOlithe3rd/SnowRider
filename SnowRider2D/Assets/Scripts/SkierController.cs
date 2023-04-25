@@ -43,7 +43,6 @@ public class SkierController : MonoBehaviour
         float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
         bottomPoint = new Vector3(x, y, 0f);
 
-        print("2 BottomPoint: " + bottomPoint);
     }
 
     // Update is called once per frame
@@ -78,10 +77,8 @@ public class SkierController : MonoBehaviour
             {
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
                 transform.Rotate(0f, 0f, angle - transform.eulerAngles.z);
-;               //transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
-                //Vector3 contactPoint = new Vector3(contacts[0].point.x, contacts[0].point.y, 0f);
-                //Quaternion rotation = Quaternion.LookRotation(Vector3.forward, normal);
-                //transform.rotation = rotation;
+                //Quaternion rotation = new Quaternion(eulerToQuaternion(angle));
+                transform.rotation = eulerToQuaternion(angle);
 
                 lastNorm = normal;
             }
@@ -137,10 +134,15 @@ public class SkierController : MonoBehaviour
         //averageNormal /= collision.contacts.Length;
         //normal = averageNormal;
     }
-
-    public void ScaleAround(Vector3 position, Vector3 pivot, Vector3 newScale)
+    
+    //Fonction pour convertir un angle en quaterion, l'angle en argument est un angle de rotation sur l'axe des z en degrés
+    Quaternion eulerToQuaternion(float angle)
     {
-       
+        /*The quaternion use here is simplified because the rotation is exactly arounf the Z axis, which means that
+         the first two compenent representing the rotation around the x and y axis  are zero. */
+        float angleRad = Mathf.Deg2Rad * angle;
+        Quaternion rotation = new Quaternion(0f,0f, Mathf.Sin((angleRad) / 2),  Mathf.Cos((angleRad) / 2));
+        return rotation;
     }
 
 }
