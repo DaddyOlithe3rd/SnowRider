@@ -145,6 +145,9 @@ public class MeshGeneration: MonoBehaviour
         float xPos = 0;
         float yPosTop = 0;
         float t = 0.03125f;
+        int rotTree = 0;
+        int rotRock = 0;
+        float rotation = 0;
         //float t2 = 0.0078125f;
         float time = 0;
         Random rnd = new Random();
@@ -162,8 +165,8 @@ public class MeshGeneration: MonoBehaviour
         //Vector3 p5;
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        int treeCoord = rnd.Next(2, 24);
-        int rockCoord = rnd.Next(2, 24);
+        int treeCoord = rnd.Next(2, 28);
+        int rockCoord = rnd.Next(2, 28);
 
         for (int i = 0; i < SegmentResolution; i++)
         {
@@ -199,11 +202,13 @@ public class MeshGeneration: MonoBehaviour
 
             if (i == treeCoord)
             {
+                rotTree = i;
                 Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
                 //Debug.Log(yPosTop);
             }
             if (i == rockCoord)
             {
+                rotRock = i;
                 Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
             }
             // top vertex          
@@ -212,10 +217,14 @@ public class MeshGeneration: MonoBehaviour
             _vertexArray[i * 2 + 1] = new Vector3(xPos, -10000, 0);
 
             points[i] = new Vector2(xPos, yPosTop);
+
+            //y2-y1/x2-x1
+
             //points[i] = new Vector2(xPos, yPosTop);
         }
         //Debug.Log(yPosTop);
-
+        rotation = (points[rotRock + 1].y - points[rotRock - 1].y) / (points[rotRock + 1].x - points[rotRock - 1].x);
+        rotation = -1 / rotation;
         if (NextSegment % 4 == 0)
         {
             startPoint.y = (yPosTop - 6);
@@ -228,6 +237,11 @@ public class MeshGeneration: MonoBehaviour
         Tree.transform.localScale += scaleChangeTree;
         Rock.transform.localScale += scaleChangeRock;
 
+        Debug.Log(rotation);
+        rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
+
+        Debug.Log((Mathf.Rad2Deg)*Mathf.Atan(rotation / 1));
+        Rock.transform.Rotate(0.0f, 0.0f, (-rotation-90), Space.Self);
         NextSegment += 1;
 
         mesh.vertices = _vertexArray;      
