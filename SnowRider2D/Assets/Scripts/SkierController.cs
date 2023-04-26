@@ -19,6 +19,15 @@ public class SkierController : MonoBehaviour
     public bool isCrouched;
     public static bool isDead;
     public float jumpSpeed;
+    public float minimumSpeed;
+
+    //gameObject.getComponent<SkierController>().downKey = true;
+
+    public bool isAi = false;
+    public bool downKey = false;
+    public bool upKey = false;
+    public bool rightKey = false;
+    public bool leftKey = false;
 
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
@@ -88,12 +97,12 @@ public class SkierController : MonoBehaviour
         }
 
         //Jumping
-        if (Input.GetAxisRaw("Vertical") == 1 && isGrounded)
+        if ((Input.GetAxisRaw("Vertical") == 1 || upKey) && isGrounded)
         {
             rb.velocity += Vector2.up * jumpSpeed;
         }
         //Crouching
-        if (Input.GetAxisRaw("Vertical") == -1 && !isCrouched)
+        if ((Input.GetAxisRaw("Vertical") == -1 || downKey) && !isCrouched)
         {
             lastSpeed = rb.velocity;
             if (isGrounded)
@@ -103,15 +112,15 @@ public class SkierController : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
             isCrouched = true;
         }
-        if((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched)
+        if((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0 || (!downKey && isAi)) && isCrouched)
         {
             transform.localScale = initialSize;
             //ScaleAround(transform.position, bottomPoint, initialSize);
             
-
             //rb.velocity = lastSpeed;
             isCrouched = false;
         }
+
         //Rotating
         if (Input.GetAxisRaw("Horizontal") == 1 && !isGrounded)
         {
@@ -122,9 +131,9 @@ public class SkierController : MonoBehaviour
             transform.Rotate(0f, 0f, 1.5f);
         }
         //Constant speed
-        if(rb.velocity.magnitude < 3f) 
+        if(rb.velocity.magnitude < minimumSpeed) 
         {
-            rb.velocity = Vector2.right * 3.1f;
+            rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)

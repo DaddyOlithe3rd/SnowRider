@@ -626,6 +626,12 @@ MonoBehaviour:
   isGrounded: 0
   isCrouched: 0
   jumpSpeed: 4
+  minimumSpeed: 0
+  isAi: 0
+  downKey: 0
+  upKey: 0
+  rightKey: 0
+  leftKey: 0
   lastNorm: {x: 0, y: 0}
   initialSize: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
@@ -1221,6 +1227,12 @@ MonoBehaviour:
   isGrounded: 0
   isCrouched: 0
   jumpSpeed: 3
+  minimumSpeed: 5
+  isAi: 0
+  downKey: 0
+  upKey: 0
+  rightKey: 0
+  leftKey: 0
   lastNorm: {x: 0, y: 0}
   initialSize: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
@@ -1356,6 +1368,8 @@ MonoBehaviour:
   SegmentResolution: 32
   MeshCount: 4
   VisibleMeshes: 4
+  scaleChangeTree: {x: 16, y: 32, z: 0}
+  scaleChangeRock: {x: 16, y: 32, z: 0}
   SegmentPrefab: {fileID: 966175949}
   RockPrefab: {fileID: 1789418272}
   TreePrefab: {fileID: 71463214}
