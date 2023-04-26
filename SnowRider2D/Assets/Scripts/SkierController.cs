@@ -17,8 +17,10 @@ public class SkierController : MonoBehaviour
 
     public bool isGrounded;
     public bool isCrouched;
+    public bool isUncrouching;
     public bool isDead;
     public float jumpSpeed;
+    public float rotationSpeed;
 
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
@@ -31,6 +33,7 @@ public class SkierController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         isGrounded = false;
         isCrouched = false;
+        isUncrouching = false;
         isDead = false;
         lastNorm = Vector2.zero;
         initialSize = transform.localScale;
@@ -115,11 +118,11 @@ public class SkierController : MonoBehaviour
         //Rotating
         if (Input.GetAxisRaw("Horizontal") == 1 && !isGrounded)
         {
-            transform.Rotate(0f, 0f, -1.5f);
+            transform.Rotate(0f, 0f, -rotationSpeed);
         }
         if (Input.GetAxisRaw("Horizontal") == -1 && !isGrounded)
         {
-            transform.Rotate(0f, 0f, 1.5f);
+            transform.Rotate(0f, 0f, rotationSpeed);
         }
         //Constant speed
         if(rb.velocity.magnitude < 3f) 
@@ -137,10 +140,4 @@ public class SkierController : MonoBehaviour
         //averageNormal /= collision.contacts.Length;
         //normal = averageNormal;
     }
-
-    public void ScaleAround(Vector3 position, Vector3 pivot, Vector3 newScale)
-    {
-       
-    }
-
 }
