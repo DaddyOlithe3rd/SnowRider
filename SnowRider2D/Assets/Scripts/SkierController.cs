@@ -17,10 +17,8 @@ public class SkierController : MonoBehaviour
 
     public bool isGrounded;
     public bool isCrouched;
-    public bool isUncrouching;
-    public bool isDead;
+    public static bool isDead;
     public float jumpSpeed;
-    public float rotationSpeed;
 
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
@@ -33,7 +31,6 @@ public class SkierController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         isGrounded = false;
         isCrouched = false;
-        isUncrouching = false;
         isDead = false;
         lastNorm = Vector2.zero;
         initialSize = transform.localScale;
@@ -67,14 +64,14 @@ public class SkierController : MonoBehaviour
         {
             isGrounded = true;
             normal = contacts[nbContacts - 1].normal;
-            foreach (ContactPoint2D contact in contacts)
-            {
-                //if (contact.collider.gameObject)
-                //{
-                //    isDead = true;
-                //    print("Dead");
-                //}
-            }
+            //foreach (ContactPoint2D contact in contacts)
+            //{
+            //    if (contact.collider.name == "Segment(Clone)")
+            //    {
+            //        isDead = true;
+            //        print("Dead");
+            //    }
+            //}
 
             //Si on est encore sur la même pente
             if (lastNorm != normal )
@@ -82,6 +79,9 @@ public class SkierController : MonoBehaviour
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
                 //transform.Rotate(0f, 0f, angle - transform.eulerAngles.z);
 ;               transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
+                //Vector3 contactPoint = new Vector3(contacts[0].point.x, contacts[0].point.y, 0f);
+                //Quaternion rotation = Quaternion.LookRotation(Vector3.forward, normal);
+                //transform.rotation = rotation;
 
                 lastNorm = normal;
             }
@@ -115,11 +115,11 @@ public class SkierController : MonoBehaviour
         //Rotating
         if (Input.GetAxisRaw("Horizontal") == 1 && !isGrounded)
         {
-            transform.Rotate(0f, 0f, -rotationSpeed);
+            transform.Rotate(0f, 0f, -1.5f);
         }
         if (Input.GetAxisRaw("Horizontal") == -1 && !isGrounded)
         {
-            transform.Rotate(0f, 0f, rotationSpeed);
+            transform.Rotate(0f, 0f, 1.5f);
         }
         //Constant speed
         if(rb.velocity.magnitude < 3f) 
@@ -137,4 +137,15 @@ public class SkierController : MonoBehaviour
         //averageNormal /= collision.contacts.Length;
         //normal = averageNormal;
     }
+
+    public void ScaleAround(Vector3 position, Vector3 pivot, Vector3 newScale)
+    {
+       
+    }
+
+    public bool getDeath()
+    {
+        return isDead;
+    }
+
 }
