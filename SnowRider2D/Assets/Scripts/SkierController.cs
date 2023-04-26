@@ -17,7 +17,7 @@ public class SkierController : MonoBehaviour
 
     public bool isGrounded;
     public bool isCrouched;
-    public bool isDead;
+    public static bool isDead;
     public float jumpSpeed;
 
     private Vector3 bottomPoint;
@@ -64,14 +64,14 @@ public class SkierController : MonoBehaviour
         {
             isGrounded = true;
             normal = contacts[nbContacts - 1].normal;
-            foreach (ContactPoint2D contact in contacts)
-            {
-                //if (contact.collider.gameObject)
-                //{
-                //    isDead = true;
-                //    print("Dead");
-                //}
-            }
+            //foreach (ContactPoint2D contact in contacts)
+            //{
+            //    if (contact.collider.name == "Segment(Clone)")
+            //    {
+            //        isDead = true;
+            //        print("Dead");
+            //    }
+            //}
 
             //Si on est encore sur la même pente
             if (lastNorm != normal )
@@ -141,6 +141,11 @@ public class SkierController : MonoBehaviour
     public void ScaleAround(Vector3 position, Vector3 pivot, Vector3 newScale)
     {
        
+    }
+
+    public bool getDeath()
+    {
+        return isDead;
     }
 
 }
