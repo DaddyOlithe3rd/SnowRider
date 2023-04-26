@@ -156,7 +156,7 @@ public class MeshGeneration: MonoBehaviour
 
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        Vector3 scaleChange = new Vector3(12, 24, 0);
+        Vector3 scaleChange = new Vector3(24, 48, 0);
         int treeCoord = rnd.Next(0, 31);
         int rockPos = rnd.Next(0, 31);
 
@@ -185,7 +185,7 @@ public class MeshGeneration: MonoBehaviour
 
             if (i == treeCoord)
             {
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 12, 0);
                 //Debug.Log(yPosTop);
             }
             // top vertex          

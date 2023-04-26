@@ -33,8 +33,10 @@ public class AIPat : MonoBehaviour
         JumpOn = false;
         rb = GetComponent<Rigidbody2D>();
         characterDirection = 0f;
-        obstacleRayDistance = Mathf.Sqrt((rb.velocity.x)* (rb.velocity.x) + (rb.velocity.y)* (rb.velocity.y));
-        obstacleFeetRayDistance = Mathf.Sqrt((rb.velocity.x) * (rb.velocity.x) + (rb.velocity.y) * (rb.velocity.y));
+        //obstacleRayDistance = Mathf.Sqrt((rb.velocity.x)* (rb.velocity.x) + (rb.velocity.y)* (rb.velocity.y))*100;
+        //obstacleFeetRayDistance = Mathf.Sqrt((rb.velocity.x) * (rb.velocity.x) + (rb.velocity.y) * (rb.velocity.y))*100;
+        obstacleRayDistance = 10;
+        obstacleFeetRayDistance = 10;
         obstacleUncrouchRayDistance = 0.85f;
         obstacleUncrouchFrontRayDistance = 0.85f;
         //scaleChangetoCrouch = new Vector3(transform.localScale.x, transform.localScale.y * (1f/2f), transform.localScale.z);
@@ -72,7 +74,6 @@ public class AIPat : MonoBehaviour
         characterDirection = 1f;
 
         RaycastHit2D hitObstacleHead = Physics2D.Raycast(obstacleRayObject.transform.position, Vector2.right * new Vector2(characterDirection, 0f), obstacleRayDistance, layerMask);
-
         RaycastHit2D hitObstacleFeet = Physics2D.Raycast(obstacleFeetRayObject.transform.position, Vector2.right * new Vector2(characterDirection, 0f), obstacleFeetRayDistance, layerMask);
         RaycastHit2D hitObstacleUncrouch = Physics2D.Raycast(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), obstacleUncrouchRayDistance, layerMask);
         RaycastHit2D hitObstacleUncrouchFront = Physics2D.Raycast(obstacleUncrouchFrontRayObject.transform.position, new Vector2(1, 1), obstacleUncrouchFrontRayDistance, layerMask);
@@ -83,10 +84,16 @@ public class AIPat : MonoBehaviour
         Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, new Vector2(1, 1), Color.green);
         if (hitObstacleHead.collider != null)
         {
+            print("hi");
             Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * hitObstacleHead.distance * new Vector2(characterDirection, 0f), Color.red);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
+            //Input.simulateKey = KeyCode.DownArrow;
         }
-        if (hitObstacleFeet.collider != null)
+        else if (hitObstacleHead.collider == null)
+        {
+            transform.localScale = scaleChangetoStand;
+        }
+        else if (hitObstacleFeet.collider != null)
         {
             Debug.DrawRay(obstacleFeetRayObject.transform.position, Vector2.right * hitObstacleFeet.distance * new Vector2(characterDirection, 0f), Color.red);
             if (JumpOn == true)
