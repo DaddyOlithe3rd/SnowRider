@@ -46,13 +46,6 @@ public class PlayerAI : MonoBehaviour
         //closeToWall = false;
         InitialSize = transform.localScale;
 
-
-        //Trouver le point bottomPoint de la capsule
-        Vector3 center = transform.position;
-        float halfHeight = capsuleCollider.size.y / 2;
-        float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
-        float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
-        bottomPoint = new Vector3(x, y, 0f);
     }
 
     void Update()
