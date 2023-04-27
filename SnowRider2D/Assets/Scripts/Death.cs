@@ -18,11 +18,11 @@ public class Death : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         SkierController.isDead = true;
-        print("Mort");
+        //print("Mort");
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        SkierController.isDead = false;
+        //SkierController.isDead = false;
     }
 }

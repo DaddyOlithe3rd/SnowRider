@@ -17,6 +17,7 @@ public class SkierController : MonoBehaviour
 
     public bool isGrounded;
     public bool isCrouched;
+    public int isUncrouching = 3;
     public static bool isDead;
     public float jumpSpeed;
     public float minimumSpeed;
@@ -44,7 +45,6 @@ public class SkierController : MonoBehaviour
         float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
         bottomPoint = new Vector3(x, y, 0f);
 
-        print("2 BottomPoint: " + bottomPoint);
     }
 
     // Update is called once per frame
@@ -85,7 +85,7 @@ public class SkierController : MonoBehaviour
         {
             crouch();
         }
-        if((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched)
+        if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched) || (isUncrouching <= 2 && Input.GetAxisRaw("Vertical") != -1))
         {
             unCrouch();
         }
@@ -119,12 +119,30 @@ public class SkierController : MonoBehaviour
         }
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
         isCrouched = true;
+        isUncrouching = 0;
     }
 
     public void unCrouch()
     {
-        transform.localScale = initialSize;
-        isCrouched = false;
+        if (isUncrouching == 0)
+        {
+            lastSpeed = rb.velocity;
+            transform.localScale = 0.5f * initialSize;
+        }
+        if(isUncrouching == 1)
+        {
+            transform.localScale = initialSize;
+        }
+        if (isUncrouching == 2)
+        {
+            rb.velocity = lastSpeed;
+            isCrouched = false;
+        }
+        isUncrouching++;
+        //lastSpeed = rb.velocity;
+        //transform.localScale = initialSize;
+        //rb.velocity = lastSpeed;
+        
     }
 
     public void rotateClockwise()

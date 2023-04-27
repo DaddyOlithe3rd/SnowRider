@@ -23,6 +23,7 @@ public class Score : MonoBehaviour
         if (SkierController.isDead)
         {
             score = 0;
+            SkierController.isDead = false;
         }
         score = score + Time.fixedDeltaTime * 10;
         scoreText.text = Mathf.Round(score).ToString();
