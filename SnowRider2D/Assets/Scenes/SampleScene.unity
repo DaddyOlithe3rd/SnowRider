@@ -627,6 +627,7 @@ MonoBehaviour:
   isCrouched: 0
   isAI: 0
   isUncrouching: 3
+  isDead: 0
   jumpSpeed: 4
   minimumSpeed: 0
   lastNorm: {x: 0, y: 0}
@@ -898,6 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22caeedd720e3a4390bc896d2fe364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
 --- !u!58 &774929163
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1111,7 +1113,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1013058833}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 47c0d30ff2544c34094ef04f2f530bbb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1226,6 +1228,7 @@ MonoBehaviour:
   isCrouched: 0
   isAI: 0
   isUncrouching: 3
+  isDead: 0
   jumpSpeed: 3
   minimumSpeed: 5
   lastNorm: {x: 0, y: 0}
@@ -1596,6 +1599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22caeedd720e3a4390bc896d2fe364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
 --- !u!212 &1528063839
 SpriteRenderer:
   m_ObjectHideFlags: 0
