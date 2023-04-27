@@ -420,7 +420,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b5b5ce7af3a0b40a9417e11ed87e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followTransform: {fileID: 1013058838}
+  skiers:
+  - {fileID: 1013058838}
+  - {fileID: 695275501}
+  furthestTransform: {fileID: 0}
 --- !u!1 &661978362
 GameObject:
   m_ObjectHideFlags: 0
