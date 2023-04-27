@@ -4,10 +4,23 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform followTransform;
+    public Transform[] skiers;
+    public Transform furthestTransform;
 
-    void Update()
+    private void Start()
     {
-        this.transform.position = new Vector3(followTransform.position.x, followTransform.position.y, this.transform.position.z);
+        furthestTransform = skiers[0];
+    }
+
+    void FixedUpdate()
+    {
+        for (int i = 0; i < skiers.Length; i++)
+        {
+            if (skiers[i].position.x > furthestTransform.position.x)
+            {
+                furthestTransform = skiers[i];
+            }
+        }
+        transform.position = furthestTransform.position - new Vector3(0f,0f,10f);
     }
 }
