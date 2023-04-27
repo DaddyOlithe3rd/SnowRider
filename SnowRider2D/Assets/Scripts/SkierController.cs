@@ -19,13 +19,15 @@ public class SkierController : MonoBehaviour
     public bool isCrouched;
     public bool isAI;
     public int isUncrouching = 3;
+    public bool isUncrouching2 = false;
     public bool isDead;
     public float jumpSpeed;
     public float minimumSpeed;
+    public float unCrouchingSpeed;
 
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
-    public Vector3 initialSize;
+    public Vector3 initialScale;
     public Vector2 lastSpeed;
 
     void Start()
@@ -36,7 +38,7 @@ public class SkierController : MonoBehaviour
         isCrouched = false;
         isDead = false;
         lastNorm = Vector2.zero;
-        initialSize = transform.localScale;
+        initialScale = transform.localScale;
         lastSpeed = rb.velocity;
 
         //Trouver le point bottomPoint de la capsule
@@ -60,7 +62,6 @@ public class SkierController : MonoBehaviour
 
         ContactPoint2D[] contacts = new ContactPoint2D[10];
         int nbContacts = rb.GetContacts(contacts);
-        //contacts = new ContactPoint2D[nbContacts];
         if (nbContacts == 0) isGrounded = false;
         else 
         {
@@ -88,7 +89,7 @@ public class SkierController : MonoBehaviour
             {
                 crouch();
             }
-            if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") != -1) && isCrouched))
+            if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched))
             {
                 unCrouch();
             }
@@ -103,7 +104,7 @@ public class SkierController : MonoBehaviour
                 rotateAntiClockwise();
             }
         }
-        if (!isCrouched && isUncrouching <= 2)
+        if (isUncrouching2)
         {
             unCrouch();
         }
@@ -118,7 +119,7 @@ public class SkierController : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.velocity += Vector2.up * jumpSpeed;
+            rb.velocity = lastSpeed + Vector2.up * jumpSpeed;
         }
     }
 
@@ -140,21 +141,22 @@ public class SkierController : MonoBehaviour
 
     public void unCrouch()
     {
-        if (isUncrouching == 0)
+        isUncrouching2 = true;
+        
+        if(transform.localScale.y < initialScale.y)
         {
-            lastSpeed = rb.velocity;
-            transform.localScale = 0.5f * initialSize;
+            transform.localScale += new Vector3(0f, unCrouchingSpeed * Time.fixedDeltaTime * initialScale.y, 0f);
         }
-        if(isUncrouching == 1)
+        if (transform.localScale.y >= initialScale.y)
         {
-            transform.localScale = initialSize;
-        }
-        if (isUncrouching == 2)
-        {
-            rb.velocity = lastSpeed;
+            transform.localScale = initialScale;
+            isUncrouching2 = false;
             isCrouched = false;
+            if (isGrounded)
+            {
+                rb.velocity = lastSpeed + Vector2.up * jumpSpeed;
+            }
         }
-        isUncrouching++;
     }
 
     public void rotateClockwise()
