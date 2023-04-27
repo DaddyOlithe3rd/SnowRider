@@ -20,10 +20,10 @@ public class Score : MonoBehaviour
     void Update()
     {
         SkierController controller = GetComponentInParent<SkierController>();
-        if (SkierController.isDead)
+        if (controller.isDead)
         {
             score = 0;
-            SkierController.isDead = false;
+            controller.isDead = false;
         }
         score = score + Time.fixedDeltaTime * 10;
         scoreText.text = Mathf.Round(score).ToString();

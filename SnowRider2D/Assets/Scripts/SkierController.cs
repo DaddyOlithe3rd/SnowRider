@@ -19,7 +19,7 @@ public class SkierController : MonoBehaviour
     public bool isCrouched;
     public bool isAI;
     public int isUncrouching = 3;
-    public static bool isDead;
+    public bool isDead;
     public float jumpSpeed;
     public float minimumSpeed;
 
@@ -88,7 +88,7 @@ public class SkierController : MonoBehaviour
             {
                 crouch();
             }
-            if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") != -1) && isCrouched) || (isUncrouching <= 2 && Input.GetAxisRaw("Vertical") != -1))
+            if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") != -1) && isCrouched))
             {
                 unCrouch();
             }
@@ -103,7 +103,11 @@ public class SkierController : MonoBehaviour
                 rotateAntiClockwise();
             }
         }
-       
+        if (!isCrouched && isUncrouching <= 2)
+        {
+            unCrouch();
+        }
+
         //Constant speed
         if(rb.velocity.magnitude < minimumSpeed) 
         {
@@ -123,20 +127,19 @@ public class SkierController : MonoBehaviour
         if (!isCrouched)
         {
             lastSpeed = rb.velocity;
-                    if (isGrounded)
-                    {
-                        rb.velocity += rb.velocity.normalized * rb.gravityScale;
-                    }
-                    transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
-                    isCrouched = true;
-                    isUncrouching = 0;
+            if (isGrounded)
+            {
+            rb.velocity += rb.velocity.normalized * rb.gravityScale;
+            }
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
+            isCrouched = true;
+            isUncrouching = 0;
         }
         
     }
 
     public void unCrouch()
     {
-
         if (isUncrouching == 0)
         {
             lastSpeed = rb.velocity;
@@ -152,7 +155,6 @@ public class SkierController : MonoBehaviour
             isCrouched = false;
         }
         isUncrouching++;
-        
     }
 
     public void rotateClockwise()

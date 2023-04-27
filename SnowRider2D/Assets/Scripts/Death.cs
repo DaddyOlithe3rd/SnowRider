@@ -5,9 +5,10 @@ using UnityEngine;
 public class Death : MonoBehaviour
 {
     // Start is called before the first frame update
+    public SkierController controller;
     void Start()
     {
-        
+        controller = GetComponentInParent<SkierController>();
     }
 
     // Update is called once per frame
@@ -17,12 +18,11 @@ public class Death : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        SkierController.isDead = true;
-        //print("Mort");
+        controller.isDead = true;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //SkierController.isDead = false;
+        //controller.isDead = false;
     }
 }
