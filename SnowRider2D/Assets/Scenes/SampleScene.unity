@@ -423,7 +423,8 @@ MonoBehaviour:
   skiers:
   - {fileID: 1013058838}
   - {fileID: 695275501}
-  furthestTransform: {fileID: 0}
+  toFollow: {fileID: 695275501}
+  followSpecificSkier: 0
 --- !u!1 &661978362
 GameObject:
   m_ObjectHideFlags: 0
