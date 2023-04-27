@@ -17,13 +17,13 @@ public class SkierController : MonoBehaviour
 
     public bool isGrounded;
     public bool isCrouched;
+    public bool isUncrouching;
     public bool isAI;
-    public int isUncrouching = 3;
-    public bool isUncrouching2 = false;
     public bool isDead;
     public float jumpSpeed;
     public float minimumSpeed;
-    public float unCrouchingSpeed;
+    public float unCrouchingSpeed;//Speed at which the skier uncrouches
+    public float crouchedSpeed;//Speed incrementation when crouching
 
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
@@ -36,6 +36,7 @@ public class SkierController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         isGrounded = false;
         isCrouched = false;
+        isUncrouching = false;
         isDead = false;
         lastNorm = Vector2.zero;
         initialScale = transform.localScale;
@@ -91,6 +92,7 @@ public class SkierController : MonoBehaviour
             }
             if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched))
             {
+                lastSpeed = rb.velocity;
                 unCrouch();
             }
 
@@ -104,7 +106,7 @@ public class SkierController : MonoBehaviour
                 rotateAntiClockwise();
             }
         }
-        if (isUncrouching2)
+        if (isUncrouching)
         {
             unCrouch();
         }
@@ -119,7 +121,7 @@ public class SkierController : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.velocity = lastSpeed + Vector2.up * jumpSpeed;
+            rb.velocity = rb.velocity + Vector2.up * jumpSpeed;
         }
     }
 
@@ -127,21 +129,18 @@ public class SkierController : MonoBehaviour
     {
         if (!isCrouched)
         {
-            lastSpeed = rb.velocity;
             if (isGrounded)
             {
-            rb.velocity += rb.velocity.normalized * rb.gravityScale;
+                rb.velocity += rb.velocity.normalized * crouchedSpeed;
             }
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
             isCrouched = true;
-            isUncrouching = 0;
         }
-        
     }
 
     public void unCrouch()
     {
-        isUncrouching2 = true;
+        isUncrouching = true;
         
         if(transform.localScale.y < initialScale.y)
         {
@@ -150,7 +149,7 @@ public class SkierController : MonoBehaviour
         if (transform.localScale.y >= initialScale.y)
         {
             transform.localScale = initialScale;
-            isUncrouching2 = false;
+            isUncrouching = false;
             isCrouched = false;
             if (isGrounded)
             {
