@@ -21,14 +21,6 @@ public class SkierController : MonoBehaviour
     public float jumpSpeed;
     public float minimumSpeed;
 
-    //gameObject.getComponent<SkierController>().downKey = true;
-
-    public bool isAi = false;
-    public bool downKey = false;
-    public bool upKey = false;
-    public bool rightKey = false;
-    public bool leftKey = false;
-
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
     public Vector3 initialSize;
@@ -73,62 +65,39 @@ public class SkierController : MonoBehaviour
         {
             isGrounded = true;
             normal = contacts[nbContacts - 1].normal;
-            //foreach (ContactPoint2D contact in contacts)
-            //{
-            //    if (contact.collider.name == "Segment(Clone)")
-            //    {
-            //        isDead = true;
-            //        print("Dead");
-            //    }
-            //}
-
+           
             //Si on est encore sur la même pente
             if (lastNorm != normal )
             {
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
-                //transform.Rotate(0f, 0f, angle - transform.eulerAngles.z);
 ;               transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
-                //Vector3 contactPoint = new Vector3(contacts[0].point.x, contacts[0].point.y, 0f);
-                //Quaternion rotation = Quaternion.LookRotation(Vector3.forward, normal);
-                //transform.rotation = rotation;
-
                 lastNorm = normal;
             }
         }
 
         //Jumping
-        if ((Input.GetAxisRaw("Vertical") == 1 || upKey) && isGrounded)
+        if (Input.GetAxisRaw("Vertical") == 1 && isGrounded)
         {
-            rb.velocity += Vector2.up * jumpSpeed;
+            jump();
         }
         //Crouching
-        if ((Input.GetAxisRaw("Vertical") == -1 || downKey) && !isCrouched)
+        if (Input.GetAxisRaw("Vertical") == -1 && !isCrouched)
         {
-            lastSpeed = rb.velocity;
-            if (isGrounded)
-            {
-                rb.velocity += rb.velocity.normalized * rb.gravityScale;
-            }
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
-            isCrouched = true;
+            crouch();
         }
-        if((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0 || (!downKey && isAi)) && isCrouched)
+        if((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched)
         {
-            transform.localScale = initialSize;
-            //ScaleAround(transform.position, bottomPoint, initialSize);
-            
-            //rb.velocity = lastSpeed;
-            isCrouched = false;
+            unCrouch();
         }
 
         //Rotating
         if (Input.GetAxisRaw("Horizontal") == 1 && !isGrounded)
         {
-            transform.Rotate(0f, 0f, -1.5f);
+            rotateClockwise();
         }
         if (Input.GetAxisRaw("Horizontal") == -1 && !isGrounded)
         {
-            transform.Rotate(0f, 0f, 1.5f);
+            rotateAntiClockwise();
         }
         //Constant speed
         if(rb.velocity.magnitude < minimumSpeed) 
@@ -136,22 +105,37 @@ public class SkierController : MonoBehaviour
             rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void jump()
     {
-        //Vector2 averageNormal = Vector2.zero;
-        //foreach (ContactPoint2D contact in collision.contacts)
-        //{
-        //    averageNormal += contact.normal;
-        //}
-        //averageNormal /= collision.contacts.Length;
-        //normal = averageNormal;
+        rb.velocity += Vector2.up * jumpSpeed;
     }
 
-    public void ScaleAround(Vector3 position, Vector3 pivot, Vector3 newScale)
+    public void crouch()
     {
-       
+        lastSpeed = rb.velocity;
+        if (isGrounded)
+        {
+            rb.velocity += rb.velocity.normalized * rb.gravityScale;
+        }
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
+        isCrouched = true;
     }
 
+    public void unCrouch()
+    {
+        transform.localScale = initialSize;
+        isCrouched = false;
+    }
+
+    public void rotateClockwise()
+    {
+        transform.Rotate(0f, 0f, -1.5f);
+    }
+
+    public void rotateAntiClockwise()
+    {
+        transform.Rotate(0f, 0f, 1.5f);
+    }
     public bool getDeath()
     {
         return isDead;
