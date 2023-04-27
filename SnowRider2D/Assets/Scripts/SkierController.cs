@@ -17,6 +17,7 @@ public class SkierController : MonoBehaviour
 
     public bool isGrounded;
     public bool isCrouched;
+    public bool isAI;
     public int isUncrouching = 3;
     public static bool isDead;
     public float jumpSpeed;
@@ -76,29 +77,33 @@ public class SkierController : MonoBehaviour
         }
 
         //Jumping
-        if (Input.GetAxisRaw("Vertical") == 1 && isGrounded)
+        if (!isAI)
         {
-            jump();
-        }
-        //Crouching
-        if (Input.GetAxisRaw("Vertical") == -1 && !isCrouched)
-        {
-            crouch();
-        }
-        if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched) || (isUncrouching <= 2 && Input.GetAxisRaw("Vertical") != -1))
-        {
-            unCrouch();
-        }
+            if (Input.GetAxisRaw("Vertical") == 1)
+            {
+                jump();
+            }
+            //Crouching
+            if (Input.GetAxisRaw("Vertical") == -1)
+            {
+                crouch();
+            }
+            if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") != -1) && isCrouched) || (isUncrouching <= 2 && Input.GetAxisRaw("Vertical") != -1))
+            {
+                unCrouch();
+            }
 
-        //Rotating
-        if (Input.GetAxisRaw("Horizontal") == 1 && !isGrounded)
-        {
-            rotateClockwise();
+            //Rotating
+            if (Input.GetAxisRaw("Horizontal") == 1)
+            {
+                rotateClockwise();
+            }
+            if (Input.GetAxisRaw("Horizontal") == -1)
+            {
+                rotateAntiClockwise();
+            }
         }
-        if (Input.GetAxisRaw("Horizontal") == -1 && !isGrounded)
-        {
-            rotateAntiClockwise();
-        }
+       
         //Constant speed
         if(rb.velocity.magnitude < minimumSpeed) 
         {
@@ -107,23 +112,31 @@ public class SkierController : MonoBehaviour
     }
     public void jump()
     {
-        rb.velocity += Vector2.up * jumpSpeed;
+        if (isGrounded)
+        {
+            rb.velocity += Vector2.up * jumpSpeed;
+        }
     }
 
     public void crouch()
     {
-        lastSpeed = rb.velocity;
-        if (isGrounded)
+        if (!isCrouched)
         {
-            rb.velocity += rb.velocity.normalized * rb.gravityScale;
+            lastSpeed = rb.velocity;
+                    if (isGrounded)
+                    {
+                        rb.velocity += rb.velocity.normalized * rb.gravityScale;
+                    }
+                    transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
+                    isCrouched = true;
+                    isUncrouching = 0;
         }
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
-        isCrouched = true;
-        isUncrouching = 0;
+        
     }
 
     public void unCrouch()
     {
+
         if (isUncrouching == 0)
         {
             lastSpeed = rb.velocity;
@@ -139,20 +152,23 @@ public class SkierController : MonoBehaviour
             isCrouched = false;
         }
         isUncrouching++;
-        //lastSpeed = rb.velocity;
-        //transform.localScale = initialSize;
-        //rb.velocity = lastSpeed;
         
     }
 
     public void rotateClockwise()
     {
-        transform.Rotate(0f, 0f, -1.5f);
+        if (!isGrounded)
+        {
+            transform.Rotate(0f, 0f, -1.5f);
+        }
     }
 
     public void rotateAntiClockwise()
     {
-        transform.Rotate(0f, 0f, 1.5f);
+        if (!isGrounded)
+        {
+            transform.Rotate(0f, 0f, 1.5f);
+        }
     }
     public bool getDeath()
     {

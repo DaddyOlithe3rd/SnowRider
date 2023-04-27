@@ -625,6 +625,8 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
+  isAI: 0
+  isUncrouching: 3
   jumpSpeed: 4
   minimumSpeed: 0
   lastNorm: {x: 0, y: 0}
@@ -872,7 +874,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.73872596, g: 1, b: 0.27987415, a: 1}
   m_FlipX: 0
@@ -1222,6 +1224,8 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
+  isAI: 0
+  isUncrouching: 3
   jumpSpeed: 3
   minimumSpeed: 5
   lastNorm: {x: 0, y: 0}
@@ -1313,7 +1317,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.122641504, g: 0.007713289, b: 0.007713289, a: 1}
   m_FlipX: 0
