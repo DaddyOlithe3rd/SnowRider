@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.XR;
 using static UnityEngine.GraphicsBuffer;
 
-public class SkierController : MonoBehaviour
+public class SkierControllerDeezNuts : MonoBehaviour
 {
     // Start is called before the first frame update
     Vector2 normal = Vector2.up;

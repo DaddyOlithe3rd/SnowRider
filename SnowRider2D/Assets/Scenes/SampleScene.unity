@@ -463,7 +463,6 @@ GameObject:
   - component: {fileID: 695275500}
   - component: {fileID: 695275499}
   - component: {fileID: 695275498}
-  - component: {fileID: 695275497}
   - component: {fileID: 695275502}
   m_Layer: 8
   m_Name: AIvictor
@@ -472,26 +471,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &695275497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695275496}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f44e1ab41f6eb24183c2431102d0b7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  capsuleCollider: {fileID: 0}
-  isGrounded: 0
-  isCrouched: 0
-  isDead: 0
-  jumpSpeed: 4
-  lastNorm: {x: 0, y: 0}
-  initialSize: {x: 0, y: 0, z: 0}
-  lastSpeed: {x: 0, y: 0}
 --- !u!70 &695275498
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -621,6 +600,7 @@ MonoBehaviour:
   closeToRock: 0
   isGrounded: 0
   isDead: 0
+  canRotate: 0
   obstacleRayFeet: {fileID: 723033494}
   obstacleRayFrontHead: {fileID: 693820506}
   obstacleRayBackHead: {fileID: 1642278384}
@@ -817,7 +797,7 @@ GameObject:
   - component: {fileID: 966175949}
   - component: {fileID: 966175948}
   - component: {fileID: 966175951}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1058,7 +1038,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013058833}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.2, y: 1.84, z: 0}
+  m_LocalPosition: {x: -12.32, y: 1.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1083,7 +1063,7 @@ MonoBehaviour:
   isGrounded: 0
   isCrouched: 0
   isDead: 0
-  jumpSpeed: 3
+  jumpSpeed: 4
   lastNorm: {x: 0, y: 0}
   initialSize: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}

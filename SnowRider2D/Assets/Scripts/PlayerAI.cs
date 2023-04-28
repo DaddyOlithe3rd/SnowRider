@@ -21,6 +21,7 @@ public class PlayerAI : MonoBehaviour
     public bool closeToRock;
     public bool isGrounded;
     public bool isDead;
+    public bool canRotate;
 
     //Les 4 Raycasts
     public GameObject obstacleRayFeet;
@@ -41,6 +42,7 @@ public class PlayerAI : MonoBehaviour
         isGrounded = false;
         closeToRock = false;
         isDead = false;
+        canRotate = false;
         lastNormal = Vector2.zero;
         lastSpeed = rb.velocity;
         //closeToWall = false;
@@ -60,6 +62,12 @@ public class PlayerAI : MonoBehaviour
         {
             rb.velocity = Vector2.right * 3.2f;
         }
+
+        //Quand l'AI est dans les airs, il tourne pour faire un backflip.
+        if (canRotate)
+        {
+            transform.Rotate(0f, 0f, 1.5f);
+        }
     }
     private void FixedUpdate()
     {
@@ -74,15 +82,33 @@ public class PlayerAI : MonoBehaviour
         RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f);
         RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f), obstacleRayDistance);
         RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f), obstacleRayDistance);
-        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, -Vector2.up);
+        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, -Vector2.up * 3f);
+
+
+        if (hitGround.collider != null)
+        {
+            //Debug.DrawRay(groundRayObject.transform.position, -Vector2.up * hitGround.distance, Color.red);
+            if (hitGround.distance <= 0.5f)
+            {
+                isGrounded = true;
+            }
+            else
+            {
+                isGrounded = false;
+                canRotate = false;
+            }
+        }
+        else if (hitGround.collider == null)
+        {
+            canRotate = true;
+        }
+
 
         ContactPoint2D[] contacts = new ContactPoint2D[10];
         int nbContacts = rb.GetContacts(contacts);
 
-        if (nbContacts == 0) isGrounded = false;
-        else
+        if (nbContacts != 0)
         {
-            isGrounded = true;
             normal = contacts[nbContacts - 1].normal;
             foreach (ContactPoint2D contact in contacts)
             {
@@ -102,6 +128,7 @@ public class PlayerAI : MonoBehaviour
                 lastNormal = normal;
             }
         }
+
 
         //Si il y a un gros obstacle devant l'AI.
         /*if (hitFeet.collider != null && hitFront.collider != null && isGrounded == true)
@@ -134,7 +161,7 @@ public class PlayerAI : MonoBehaviour
 
             Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.green);
             Debug.DrawRay(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f) * obstacleRayDistance, Color.green);
-            Debug.DrawRay(groundRayObject.transform.position, -Vector2.up * hitGround.distance, Color.blue);
+            Debug.DrawRay(groundRayObject.transform.position, -Vector2.up * 3f, Color.blue);
             Debug.DrawRay(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f) * obstacleRayDistance, Color.green);
         }
 
