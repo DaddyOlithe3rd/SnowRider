@@ -689,6 +689,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  rotationSpeed: 0
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
@@ -1324,6 +1325,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 0
   isDead: 0
+  rotationSpeed: 1.7
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
@@ -1745,6 +1747,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  rotationSpeed: 0
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
