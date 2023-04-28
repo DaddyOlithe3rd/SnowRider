@@ -481,7 +481,7 @@ MonoBehaviour:
   - {fileID: 1237271571}
   - {fileID: 1013058838}
   toFollow: {fileID: 1013058838}
-  followSpecificSkier: 0
+  followSpecificSkier: 1
 --- !u!1 &661978362
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,6 +689,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  rotationSpeed: 0
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
@@ -1322,6 +1323,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 0
   isDead: 0
+  rotationSpeed: 1.7
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
@@ -1741,6 +1743,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  rotationSpeed: 0
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
