@@ -20,6 +20,7 @@ public class SkierController : MonoBehaviour
     public bool isUncrouching;
     public bool isAI;
     public bool isDead;
+    public float rotationSpeed;
     public float jumpSpeed;
     public float minimumSpeed;
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
@@ -178,7 +179,7 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, -1.5f);
+            transform.Rotate(0f, 0f, -rotationSpeed);
         }
     }
 
@@ -186,7 +187,7 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, 1.5f);
+            transform.Rotate(0f, 0f, rotationSpeed);
         }
     }
     public bool getDeath()
