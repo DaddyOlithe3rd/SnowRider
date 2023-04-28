@@ -476,7 +476,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b5b5ce7af3a0b40a9417e11ed87e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followTransform: {fileID: 1237271571}
+  skiers:
+  - {fileID: 695275501}
+  - {fileID: 1237271571}
+  - {fileID: 1013058838}
+  toFollow: {fileID: 1013058838}
+  followSpecificSkier: 0
 --- !u!1 &661978362
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,10 +686,15 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
+  isUncrouching: 0
+  isAI: 0
+  isDead: 0
   jumpSpeed: 4
   minimumSpeed: 0
+  unCrouchingSpeed: 0
+  crouchedSpeed: 0
   lastNorm: {x: 0, y: 0}
-  initialSize: {x: 0, y: 0, z: 0}
+  initialScale: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!70 &695275498
 CapsuleCollider2D:
@@ -952,6 +962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22caeedd720e3a4390bc896d2fe364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
 --- !u!58 &774929163
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1308,10 +1319,15 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
+  isUncrouching: 0
+  isAI: 0
+  isDead: 0
   jumpSpeed: 3
   minimumSpeed: 5
+  unCrouchingSpeed: 0
+  crouchedSpeed: 0
   lastNorm: {x: 0, y: 0}
-  initialSize: {x: 0, y: 0, z: 0}
+  initialScale: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!114 &1013058840
 MonoBehaviour:
@@ -1722,10 +1738,15 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
+  isUncrouching: 0
+  isAI: 0
+  isDead: 0
   jumpSpeed: 3
   minimumSpeed: 5
+  unCrouchingSpeed: 0
+  crouchedSpeed: 0
   lastNorm: {x: 0, y: 0}
-  initialSize: {x: 0, y: 0, z: 0}
+  initialScale: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!70 &1237271568
 CapsuleCollider2D:
@@ -1984,6 +2005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22caeedd720e3a4390bc896d2fe364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
 --- !u!212 &1528063839
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2706,6 +2728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22caeedd720e3a4390bc896d2fe364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
 --- !u!212 &2125078306
 SpriteRenderer:
   m_ObjectHideFlags: 0
