@@ -27,7 +27,7 @@ public class MeshGeneration: MonoBehaviour
 
     public Vector3 startPoint;
 
-    public int NextSegment = 1;
+    public int NextSegment = 0;
 
     // helper array to generate new segment without further allocations
     private Vector3[] _vertexArray;
@@ -163,7 +163,7 @@ public class MeshGeneration: MonoBehaviour
         Vector3 p3;
         //Vector3 p4;
         //Vector3 p5;
-        SpriteRenderer Rock = Instantiate(RockPrefab);
+       //SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
         int treeCoord = rnd.Next(2, 28);
         int rockCoord = rnd.Next(2, 28);
@@ -189,27 +189,18 @@ public class MeshGeneration: MonoBehaviour
                 p2 = new Vector3(20, startPoint.y + 2, 0);
                 p3 = new Vector3(32, (startPoint.y - p3Change), 0);
                 pointBezier = CalculateCubicBezierCurve(time, p0, p1, p2, p3);
-
-                //p0 = new Vector3(0, startPoint.y, 0);
-                //p1 = new Vector3(4, startPoint.y - 4, 0);                          
-                //p2 = new Vector3(12, startPoint.y - p1Change, 0);
-                //p3 = new Vector3(18, startPoint.y - 4, 0);
-                //p4 = new Vector3(24, startPoint.y + 4, 0);
-                //p5 = new Vector3(32, startPoint.y - p2Change, 0);
-                //pointBezier = CalculaticOrder5BezierCurve(time, p0, p1, p2, p3, p4, p5);
             }
             yPosTop = pointBezier.y;
 
             if (i == treeCoord)
             {
                 rotTree = i;
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
-                //Debug.Log(yPosTop);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeTree.y / 8), 0);
             }
             if (i == rockCoord)
             {
                 rotRock = i;
-                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
+                //Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeRock.y / 8), 0);
             }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
@@ -219,12 +210,17 @@ public class MeshGeneration: MonoBehaviour
             points[i] = new Vector2(xPos, yPosTop);
 
             //y2-y1/x2-x1
-
-            //points[i] = new Vector2(xPos, yPosTop);
         }
+
         //Debug.Log(yPosTop);
         rotation = (points[rotRock + 1].y - points[rotRock - 1].y) / (points[rotRock + 1].x - points[rotRock - 1].x);
         rotation = -1 / rotation;
+
+        GameObject circle = GameObject.Find("Circle");
+        Vector3 pos = circle.transform.position;
+        float position = (NextSegment) * 32;
+
+        Debug.Log(pos.x + ", " + position);
         if (NextSegment % 4 == 0)
         {
             startPoint.y = (yPosTop - 6);
@@ -235,15 +231,13 @@ public class MeshGeneration: MonoBehaviour
         }
 
         Tree.transform.localScale += scaleChangeTree;
-        Rock.transform.localScale += scaleChangeRock;
+        //Rock.transform.localScale += scaleChangeRock;
+        //Rock.transform.Rotate(0.0f, 0.0f, (rotation - 90), Space.Self);
 
-        Debug.Log(rotation);
         rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
+        //Debug.Log((Mathf.Rad2Deg)*Mathf.Atan(rotation / 1));
 
-        Debug.Log((Mathf.Rad2Deg)*Mathf.Atan(rotation / 1));
-        Rock.transform.Rotate(0.0f, 0.0f, (-rotation-90), Space.Self);
         NextSegment += 1;
-
         mesh.vertices = _vertexArray;      
         // need to recalculate bounds, because mesh can disappear too early
         mesh.RecalculateBounds();

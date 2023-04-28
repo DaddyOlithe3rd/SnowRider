@@ -686,7 +686,7 @@ MonoBehaviour:
   RockPrefab: {fileID: 917374666}
   TreePrefab: {fileID: 71463214}
   startPoint: {x: 0, y: 8, z: 0}
-  NextSegment: 1
+  NextSegment: 0
 --- !u!4 &1083920322
 Transform:
   m_ObjectHideFlags: 0
