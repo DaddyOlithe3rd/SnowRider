@@ -67,6 +67,9 @@ public class SkierController : MonoBehaviour
         ContactPoint2D[] contacts = new ContactPoint2D[10];
         int nbContacts = rb.GetContacts(contacts);
 
+
+        //What the fuck brotha
+
         Debug.DrawRay(bottomPoint, -1 * normal.normalized * maxRaycastDistance, Color.red);
         RaycastHit2D hit = Physics2D.Raycast(bottomPoint, -1 * normal, maxRaycastDistance);
         if (nbContacts == 0 && !hit)
