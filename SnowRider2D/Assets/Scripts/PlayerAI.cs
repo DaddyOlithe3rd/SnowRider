@@ -68,6 +68,7 @@ public class PlayerAI : MonoBehaviour
         {
             transform.Rotate(0f, 0f, 1.5f);
         }
+        else transform.Rotate(0f, 0f, 0f);
     }
     private void FixedUpdate()
     {
@@ -82,25 +83,30 @@ public class PlayerAI : MonoBehaviour
         RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f);
         RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f), obstacleRayDistance);
         RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f), obstacleRayDistance);
-        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, -Vector2.up * 3f);
+        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, Vector2.down, 6f);
 
 
         if (hitGround.collider != null)
         {
-            //Debug.DrawRay(groundRayObject.transform.position, -Vector2.up * hitGround.distance, Color.red);
+            canRotate = false;
+            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.red);
+
             if (hitGround.distance <= 0.5f)
             {
                 isGrounded = true;
+                Debug.Log("Collide avec dequoi");
             }
             else
             {
                 isGrounded = false;
-                canRotate = false;
+                Debug.Log("Collide, mais trop loin");
             }
         }
-        else if (hitGround.collider == null)
+        if (hitGround.collider == null)
         {
             canRotate = true;
+            Debug.Log("Collide PAS");
+            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.black);
         }
 
 
@@ -161,7 +167,7 @@ public class PlayerAI : MonoBehaviour
 
             Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.green);
             Debug.DrawRay(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f) * obstacleRayDistance, Color.green);
-            Debug.DrawRay(groundRayObject.transform.position, -Vector2.up * 3f, Color.blue);
+
             Debug.DrawRay(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f) * obstacleRayDistance, Color.green);
         }
 

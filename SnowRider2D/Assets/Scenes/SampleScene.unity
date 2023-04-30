@@ -291,37 +291,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &384517204
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 384517205}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &384517205
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 384517204}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03, y: -0.67, z: -0.097505726}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 695275501}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 693820507}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RayFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +537,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695275496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.34, y: 1.84, z: 0}
+  m_LocalPosition: {x: -11.07, y: 1.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -578,7 +547,6 @@ Transform:
   - {fileID: 693820507}
   - {fileID: 1642278385}
   - {fileID: 723033495}
-  - {fileID: 384517205}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -595,7 +563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleRayDistance: 5
-  jumpSpeed: 5
+  jumpSpeed: 2
   angle: 0
   closeToRock: 0
   isGrounded: 0
@@ -618,7 +586,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 723033495}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RayFeet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -763,7 +731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 852293955}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RaySol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -778,7 +746,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852293954}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -0.8, z: -0.097505726}
+  m_LocalPosition: {x: -0.03, y: -0.96, z: -0.097505726}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1162,7 +1130,7 @@ GameObject:
   - component: {fileID: 1083920322}
   - component: {fileID: 1083920321}
   - component: {fileID: 1083920323}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1463,7 +1431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1642278385}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RayBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
