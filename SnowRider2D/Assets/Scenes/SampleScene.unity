@@ -565,6 +565,7 @@ MonoBehaviour:
   obstacleRayDistance: 5
   jumpSpeed: 2
   angle: 0
+  mask: 0
   closeToRock: 0
   isGrounded: 0
   isDead: 0
@@ -746,7 +747,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852293954}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03, y: -0.96, z: -0.097505726}
+  m_LocalPosition: {x: -0.03, y: -0.85, z: -0.097505726}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -765,7 +766,7 @@ GameObject:
   - component: {fileID: 966175949}
   - component: {fileID: 966175948}
   - component: {fileID: 966175951}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
