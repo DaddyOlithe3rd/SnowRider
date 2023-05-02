@@ -17,7 +17,8 @@ public class PlayerAI : MonoBehaviour
     public float jumpSpeed;
     public float angle;  //Angle entre la normal de la collision et Vector2.right
 
-    public int mask;
+    public int mask1;
+    public int mask2;
 
     //bool closeToWall;
     public bool closeToRock;
@@ -50,14 +51,15 @@ public class PlayerAI : MonoBehaviour
         //closeToWall = false;
         InitialSize = transform.localScale;
 
-        mask = 1 << LayerMask.NameToLayer("Ground");
+        mask1 = 1 << LayerMask.NameToLayer("Ground");
+        mask2 = 1 << LayerMask.NameToLayer("Obstacle");
     }
 
     void Update()
     {
         if (closeToRock)
         {
-            rb.velocity += Vector2.up * jumpSpeed;
+            rb.velocity += Vector2.up;
         }
 
         //Avoir une vitesse constante
@@ -69,7 +71,7 @@ public class PlayerAI : MonoBehaviour
         //Quand l'AI est dans les airs, il tourne pour faire un backflip.
         if (canRotate)
         {
-            transform.Rotate(0f, 0f, 1.5f);
+            transform.Rotate(0f, 0f, 1.2f);
         }
         else transform.Rotate(0f, 0f, 0f);
     }
@@ -83,10 +85,10 @@ public class PlayerAI : MonoBehaviour
         bottomPoint = new Vector3(x, y, 0f);
 
 
-        RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f);
-        RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f), obstacleRayDistance);
-        RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f), obstacleRayDistance);
-        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, Vector2.down, 6f, mask);
+        RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f, mask2);
+        RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f), obstacleRayDistance, mask2);
+        RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f), obstacleRayDistance, mask2);
+        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, Vector2.down, 6f, mask1);
 
 
         if (hitGround.collider != null)
@@ -97,18 +99,18 @@ public class PlayerAI : MonoBehaviour
             if (hitGround.distance <= 0.5f)
             {
                 isGrounded = true;
-                Debug.Log("Collide avec dequoi");
+                //Debug.Log("Collide avec dequoi");
             }
             else
             {
                 isGrounded = false;
-                Debug.Log("Collide, mais trop loin");
+                //Debug.Log("Collide, mais trop loin");
             }
         }
         if (hitGround.collider == null)
         {
             canRotate = true;
-            Debug.Log("Collide PAS");
+            //Debug.Log("Collide PAS");
             Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.black);
         }
 
