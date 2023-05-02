@@ -73,7 +73,7 @@ public class PlayerAI : MonoBehaviour
         {
             transform.Rotate(0f, 0f, 1.2f);
         }
-        else transform.Rotate(0f, 0f, 0f);
+        //else transform.Rotate(0f, 0f, 0f);
     }
     private void FixedUpdate()
     {
