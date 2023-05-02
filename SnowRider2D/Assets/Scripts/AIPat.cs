@@ -30,7 +30,7 @@ public class AIPat : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         //obstacleRayDistance = Mathf.Sqrt((rb.velocity.x)* (rb.velocity.x) + (rb.velocity.y)* (rb.velocity.y))*100;
         //obstacleFeetRayDistance = Mathf.Sqrt((rb.velocity.x) * (rb.velocity.x) + (rb.velocity.y) * (rb.velocity.y))*100;
-        obstacleRayDistance = obstacleFeetRayDistance = rb.velocity.magnitude*100;
+        
         obstacleUncrouchRayDistance = 0.85f;
     }
 
@@ -42,6 +42,7 @@ public class AIPat : MonoBehaviour
 
     private void Update()
     {
+        obstacleRayDistance = obstacleFeetRayDistance = rb.velocity.magnitude/2;
         //print(rb.velocity);
         SkierController controller = GetComponentInParent<SkierController>();
 
