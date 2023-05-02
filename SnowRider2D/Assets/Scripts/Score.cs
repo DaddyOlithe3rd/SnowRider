@@ -17,10 +17,7 @@ public class Score : MonoBehaviour
         controller = new List<SkierController>();
         for (int i = 0; i < skier.Length; i++)
         {
-            controller.Add(skier[i].GetComponent<SkierController>());   
-        }
-        for (int i = 0;i < scoreText.Length; i++)
-        {
+            controller.Add(skier[i].GetComponent<SkierController>());
             scoreText[i].text = controller.ElementAt(i).score.ToString();
         }
     }
