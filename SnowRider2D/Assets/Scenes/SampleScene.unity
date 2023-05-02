@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -482,6 +483,26 @@ MonoBehaviour:
   - {fileID: 1013058838}
   toFollow: {fileID: 1013058838}
   followSpecificSkier: 1
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skier:
+  - {fileID: 1013058833}
+  - {fileID: 1237271564}
+  - {fileID: 695275496}
+  scoreText:
+  - {fileID: 661978363}
+  - {fileID: 1088966447}
+  - {fileID: 1664775752}
 --- !u!1 &661978362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1216,6 @@ GameObject:
   - component: {fileID: 1013058836}
   - component: {fileID: 1013058835}
   - component: {fileID: 1013058839}
-  - component: {fileID: 1013058840}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1336,21 +1356,6 @@ MonoBehaviour:
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
---- !u!114 &1013058840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013058833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skier: []
-  scoreText:
-  - {fileID: 0}
 --- !u!1 &1069021253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1684,7 +1689,6 @@ GameObject:
   - component: {fileID: 1237271569}
   - component: {fileID: 1237271568}
   - component: {fileID: 1237271567}
-  - component: {fileID: 1237271566}
   - component: {fileID: 1237271565}
   m_Layer: 7
   m_Name: PatAI
@@ -1720,21 +1724,6 @@ MonoBehaviour:
   layerground:
     serializedVersion: 2
     m_Bits: 1
---- !u!114 &1237271566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237271564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skier: []
-  scoreText:
-  - {fileID: 0}
 --- !u!114 &1237271567
 MonoBehaviour:
   m_ObjectHideFlags: 0
