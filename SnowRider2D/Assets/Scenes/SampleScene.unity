@@ -820,12 +820,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e06bd856f3f1d44ba11caf4a2c7352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleRayDistance: 5
-  jumpSpeed: 5
+  obstacleRayDistance: 7
+  jumpSpeed: 1
   angle: 0
+  mask1: 0
+  mask2: 0
   closeToRock: 0
   isGrounded: 0
   isDead: 0
+  canRotate: 0
   obstacleRayFeet: {fileID: 723033494}
   obstacleRayFrontHead: {fileID: 693820506}
   obstacleRayBackHead: {fileID: 1642278384}
@@ -1054,7 +1057,7 @@ GameObject:
   - component: {fileID: 966175949}
   - component: {fileID: 966175948}
   - component: {fileID: 966175951}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}

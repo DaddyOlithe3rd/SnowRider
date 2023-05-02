@@ -224,9 +224,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 6e750000
-      m_LastClickedID: 30062
-      m_ExpandedIDs: 52ebffff14faffff
+      m_SelectedIDs: 786d0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 10daffff30e3fffffae3ffff52ebffff14faffff6e750000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -557,9 +557,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -4.113474, y: 1.719953, z: -0.076120496}
+    m_Target: {x: -4.0848103, y: 1.6760619, z: -0.07216138}
     speed: 2
-    m_Value: {x: -4.113474, y: 1.719953, z: -0.076120496}
+    m_Value: {x: -4.0848103, y: 1.6760619, z: -0.07216138}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -610,9 +610,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 8.798114
+    m_Target: 8.402199
     speed: 2
-    m_Value: 8.798114
+    m_Value: 8.402199
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -705,21 +705,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\vicba\OneDrive\Documents\Labs Programmation\SnowRider\SnowRider2D
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ea6e0000
-    m_LastClickedID: 28394
+    m_SelectedIDs: b0620000
+    m_LastClickedID: 25264
     m_ExpandedIDs: 000000004e5e000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -773,9 +773,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 6e750000
-    m_LastClickedInstanceID: 30062
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 786d0000
+    m_LastClickedInstanceID: 28024
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -851,8 +851,8 @@ MonoBehaviour:
     y: 0
     width: 290
     height: 579.3333
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
