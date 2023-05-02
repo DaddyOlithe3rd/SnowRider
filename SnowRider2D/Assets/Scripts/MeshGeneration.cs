@@ -20,7 +20,7 @@ public class MeshGeneration: MonoBehaviour
     public Vector3 scaleChangeTree = new Vector3(16, 32, 0);
     public Vector3 scaleChangeRock = new Vector3(16, 32, 0);
 
-    public Vector3 speed;
+    public Vector2 speed;
 
     // the prefab including MeshFilter and MeshRenderer
     public MeshFilter SegmentPrefab;
@@ -197,7 +197,7 @@ public class MeshGeneration: MonoBehaviour
             if (i == treeCoord)
             {
                 rotTree = i;
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeTree.y / 8), 0);
             }
             if (i == rockCoord)
             {
@@ -218,8 +218,8 @@ public class MeshGeneration: MonoBehaviour
         rotation = (points[rotRock + 1].y - points[rotRock - 1].y) / (points[rotRock + 1].x - points[rotRock - 1].x);
         rotation = -1 / rotation;
 
-        GameObject circle = GameObject.Find("Circle");
-        speed = circle.GetComponent<Rigidbody2D>().velocity;
+        //GameObject player = GameObject.Find("Player");
+        //speed = player.GetComponent<Rigidbody2D>().velocity;
         //Vector3 currentPos = circle.velocity;
 
         //Debug.Log(pos.x + ", " + position);
@@ -289,36 +289,39 @@ public class MeshGeneration: MonoBehaviour
     {
         if (!IsSegmentVisible(index))
         {
-            // get from the pool
-            int meshIndex = _freeMeshFilters.Count - 1;
-            MeshFilter filter = _freeMeshFilters[meshIndex];
-            _freeMeshFilters.RemoveAt(meshIndex);
-
-            // generate
-            Mesh mesh = filter.mesh;
-            if(speed.x >= 0)
+            if (speed.x >= 0)
             {
+
+                // get from the pool
+                int meshIndex = _freeMeshFilters.Count - 1;
+                MeshFilter filter = _freeMeshFilters[meshIndex];
+                _freeMeshFilters.RemoveAt(meshIndex);
+
+                // generate
+                //Mesh mesh = filter.mesh;
+                Debug.Log(speed.x);
+                Mesh mesh = filter.mesh;
                 GenerateSegment(index, ref mesh, startPoint);
+                filter.gameObject.GetComponent<EdgeCollider2D>().points = points;
+
+                //if (filter.gameObject.GetComponent<MeshCollider>() == null)
+                //{
+                //    filter.gameObject.AddComponent<MeshCollider>();
+                //}
+
+                // position
+                filter.transform.position = new Vector3(index * SegmentLength, 0, 0);
+
+                // make visible
+                filter.gameObject.SetActive(true);
+
+                // register as visible segment
+                var segment = new Segment();
+                segment.Index = index;
+                segment.MeshFilter = filter;
+
+                _usedSegments.Add(segment);
             }
-            filter.gameObject.GetComponent<EdgeCollider2D>().points = points;
-
-            //if (filter.gameObject.GetComponent<MeshCollider>() == null)
-            //{
-            //    filter.gameObject.AddComponent<MeshCollider>();
-            //}
-
-            // position
-            filter.transform.position = new Vector3(index * SegmentLength, 0, 0);
-
-            // make visible
-            filter.gameObject.SetActive(true);
-
-            // register as visible segment
-            var segment = new Segment();
-            segment.Index = index;
-            segment.MeshFilter = filter;
-
-            _usedSegments.Add(segment);
         }
     }
 
@@ -340,6 +343,9 @@ public class MeshGeneration: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject player = GameObject.Find("Player");
+        speed = player.GetComponent<Rigidbody2D>().velocity;
+
         // get the index of visible segment by finding the center point world position
         Vector3 worldCenter = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         int currentSegment = (int)(worldCenter.x / SegmentLength);
