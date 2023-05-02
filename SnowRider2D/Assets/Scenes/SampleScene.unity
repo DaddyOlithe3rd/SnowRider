@@ -231,14 +231,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71463213}
-  m_LocalRotation: {x: -0.008727774, y: 0, z: -0, w: 0.9999619}
-  m_LocalPosition: {x: -15.15, y: 20.58, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -43.8, y: 26.4, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: -1, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!68 &71463216
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -390,7 +390,6 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
-  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -481,26 +480,8 @@ MonoBehaviour:
   - {fileID: 695275501}
   - {fileID: 1237271571}
   - {fileID: 1013058838}
-  toFollow: {fileID: 1013058838}
-  followSpecificSkier: 1
---- !u!114 &519420034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skier:
-  - {fileID: 1013058833}
-  - {fileID: 1237271564}
-  scoreText:
-  - {fileID: 661978363}
-  - {fileID: 1088966447}
+  toFollow: {fileID: 1237271571}
+  followSpecificSkier: 0
 --- !u!1 &661978362
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +694,6 @@ MonoBehaviour:
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchedSpeed: 4
-  score: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
@@ -840,15 +820,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e06bd856f3f1d44ba11caf4a2c7352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleRayDistance: 7
-  jumpSpeed: 1
+  obstacleRayDistance: 5
+  jumpSpeed: 5
   angle: 0
-  mask1: 0
-  mask2: 0
   closeToRock: 0
   isGrounded: 0
   isDead: 0
-  canRotate: 0
   obstacleRayFeet: {fileID: 723033494}
   obstacleRayFrontHead: {fileID: 693820506}
   obstacleRayBackHead: {fileID: 1642278384}
@@ -1077,7 +1054,7 @@ GameObject:
   - component: {fileID: 966175949}
   - component: {fileID: 966175948}
   - component: {fileID: 966175951}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,7 +1119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 966175947}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.25, y: 20.68, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1214,6 +1191,7 @@ GameObject:
   - component: {fileID: 1013058836}
   - component: {fileID: 1013058835}
   - component: {fileID: 1013058839}
+  - component: {fileID: 1013058840}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1350,10 +1328,23 @@ MonoBehaviour:
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchedSpeed: 4
-  score: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
+--- !u!114 &1013058840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013058833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  scoreText: {fileID: 661978363}
 --- !u!1 &1069021253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1678,7 @@ GameObject:
   - component: {fileID: 1237271569}
   - component: {fileID: 1237271568}
   - component: {fileID: 1237271567}
+  - component: {fileID: 1237271566}
   - component: {fileID: 1237271565}
   m_Layer: 7
   m_Name: PatAI
@@ -1709,7 +1701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   jumpforce: 0
-  groundRayObject: {fileID: 1992004490}
+  closetoground: {fileID: 1992004490}
   obstacleRayObject: {fileID: 7134739}
   obstacleFeetRayObject: {fileID: 868250435}
   obstacleUncrouchRayObject: {fileID: 1971960138}
@@ -1719,6 +1711,23 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  layerground:
+    serializedVersion: 2
+    m_Bits: 1
+--- !u!114 &1237271566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237271564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  scoreText: {fileID: 661978363}
 --- !u!114 &1237271567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1737,12 +1746,11 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 1
   isDead: 0
-  rotationSpeed: 0
+  rotationSpeed: 1.7
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchedSpeed: 4
-  score: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   lastSpeed: {x: 0, y: 0}
