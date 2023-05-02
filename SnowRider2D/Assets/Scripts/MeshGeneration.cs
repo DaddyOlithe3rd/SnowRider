@@ -149,8 +149,9 @@ public class MeshGeneration: MonoBehaviour
         float t = 0.03125f;
         int rotTree = 0;
         int rotRock = 0;
-        float rotation = 0;
-        //float t2 = 0.0078125f;
+        float degreesWithX = 0;
+        float penteDroite = 0;
+
         float time = 0;
         Random rnd = new Random();
         int jumpheight = rnd.Next(0, 8);
@@ -163,9 +164,8 @@ public class MeshGeneration: MonoBehaviour
         Vector3 p1;
         Vector3 p2;
         Vector3 p3;
-        //Vector3 p4;
-        //Vector3 p5;
-       //SpriteRenderer Rock = Instantiate(RockPrefab);
+
+        SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
         int treeCoord = rnd.Next(2, 28);
         int rockCoord = rnd.Next(2, 28);
@@ -197,12 +197,12 @@ public class MeshGeneration: MonoBehaviour
             if (i == treeCoord)
             {
                 rotTree = i;
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeTree.y / 8), 0);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
             }
             if (i == rockCoord)
             {
                 rotRock = i;
-                //Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeRock.y / 8), 0);
+                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
             }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
@@ -215,8 +215,11 @@ public class MeshGeneration: MonoBehaviour
         }
 
         //Debug.Log(yPosTop);
-        rotation = (points[rotRock + 1].y - points[rotRock - 1].y) / (points[rotRock + 1].x - points[rotRock - 1].x);
-        rotation = -1 / rotation;
+        penteDroite = (points[rotRock + 1].y - points[rotRock].y) / (points[rotRock + 1].x - points[rotRock].x);
+        degreesWithX = Mathf.Atan(penteDroite);
+        Debug.Log("penteDroite => " + penteDroite);
+        Debug.Log("DegréesRapportAX => " + degreesWithX);
+        //rotation = -1 / rotation;
 
         //GameObject player = GameObject.Find("Player");
         //speed = player.GetComponent<Rigidbody2D>().velocity;
@@ -234,12 +237,12 @@ public class MeshGeneration: MonoBehaviour
         }
 
         Tree.transform.localScale += scaleChangeTree;
-        //Rock.transform.localScale += scaleChangeRock;
-        //Rock.transform.Rotate(0.0f, 0.0f, (rotation - 90), Space.Self);
+        Rock.transform.localScale += scaleChangeRock;
 
-        rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
-        //Debug.Log((Mathf.Rad2Deg)*Mathf.Atan(rotation / 1));
+        //rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
+        //Debug.Log(-1 * (Mathf.Rad2Deg)*Mathf.Atan(degreesWithX / 1));
 
+        Rock.transform.Rotate(0.0f, 0.0f, (degreesWithX), Space.Self);
         NextSegment += 1;
         mesh.vertices = _vertexArray;      
         // need to recalculate bounds, because mesh can disappear too early
