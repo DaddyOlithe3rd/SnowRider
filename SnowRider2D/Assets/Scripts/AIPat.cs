@@ -67,29 +67,32 @@ public class AIPat : MonoBehaviour
         SkierController controller = GetComponentInParent<SkierController>();
         characterDirection = 1f;
   
-        RaycastHit2D hitObstacleHead = Physics2D.Raycast(obstacleRayObject.transform.position, Vector2.right * new Vector2(characterDirection, 0f), obstacleRayDistance, layerMask);
-        RaycastHit2D hitObstacleFeet = Physics2D.Raycast(obstacleFeetRayObject.transform.position, Vector2.right * new Vector2(characterDirection, 0f), obstacleFeetRayDistance, layerMask);
+        RaycastHit2D hitObstacleHead = Physics2D.Raycast(obstacleRayObject.transform.position, rb.velocity.normalized, obstacleRayDistance, layerMask);
+        RaycastHit2D hitObstacleFeet = Physics2D.Raycast(obstacleFeetRayObject.transform.position, rb.velocity.normalized, obstacleFeetRayDistance, layerMask);
         RaycastHit2D hitObstacleUncrouch = Physics2D.Raycast(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), obstacleUncrouchRayDistance, layerMask);
-        RaycastHit2D hitObstacleUncrouchFront = Physics2D.Raycast(obstacleUncrouchFrontRayObject.transform.position, Vector2.right * new Vector2(characterDirection, 0f), obstacleRayDistance+1.3f, layerMask);
+        RaycastHit2D hitObstacleUncrouchFront = Physics2D.Raycast(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized, obstacleRayDistance + 1.3f, layerMask);
 
-        Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * obstacleRayDistance * new Vector2(characterDirection, 0f), Color.green);
-        Debug.DrawRay(obstacleFeetRayObject.transform.position, Vector2.right * obstacleRayDistance * new Vector2(characterDirection, 0f), Color.green);
+        Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.green);
+        Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.green);
         Debug.DrawRay(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), Color.green);
-        Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, Vector2.right * (obstacleRayDistance + 1.3f), Color.green);
+        Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, (obstacleRayDistance + 1.3f) * rb.velocity.normalized, Color.green);
         if (hitObstacleHead.collider != null)
         {
             print("hi");
-            Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * hitObstacleHead.distance * new Vector2(characterDirection, 0f), Color.red);
+            Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.red);
             //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
             controller.crouch();
         }
         else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null)
         {
-            controller.unCrouch();
+            if(controller.isCrouched == true)
+            {
+                controller.unCrouch();
+            }
         }
         else if (hitObstacleFeet.collider != null)
         {
-            Debug.DrawRay(obstacleFeetRayObject.transform.position, Vector2.right * hitObstacleFeet.distance * new Vector2(characterDirection, 0f), Color.red);
+            Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.red);
             controller.jump();
             print("jump");
         }
@@ -103,7 +106,7 @@ public class AIPat : MonoBehaviour
         }
         if (hitObstacleUncrouchFront.collider != null)
         {
-            Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, Vector2.right * Vector2.right * (obstacleRayDistance + 1.3f), Color.red);
+            Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized * (obstacleRayDistance + 1.3f), Color.red);
         }
     }
 }
