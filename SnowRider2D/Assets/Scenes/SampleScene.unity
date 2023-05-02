@@ -1701,7 +1701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   jumpforce: 0
-  groundRayObject: {fileID: 1992004490}
+  closetoground: {fileID: 1992004490}
   obstacleRayObject: {fileID: 7134739}
   obstacleFeetRayObject: {fileID: 868250435}
   obstacleUncrouchRayObject: {fileID: 1971960138}
@@ -1711,6 +1711,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  layerground:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &1237271566
 MonoBehaviour:
   m_ObjectHideFlags: 0
