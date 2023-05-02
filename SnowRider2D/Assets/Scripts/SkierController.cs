@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using static UnityEngine.GraphicsBuffer;
 
@@ -63,13 +65,30 @@ public class SkierController : MonoBehaviour
         float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
         bottomPoint = new Vector3(x, y, 0f);
 
-        ContactPoint2D[] contacts = new ContactPoint2D[10];
-        int nbContacts = rb.GetContacts(contacts);
+
+        ContactPoint2D[] arrayContacts = new ContactPoint2D[16];
+        int nbContacts = rb.GetContacts(arrayContacts);
+        
         if (nbContacts == 0) isGrounded = false;
         else 
         {
+            List<ContactPoint2D> contacts = new List<ContactPoint2D>();
+            for (int i = 0; i < 16; i++)
+            {
+                print(arrayContacts[i].GetType());
+
+                if (arrayContacts[i].collider != null)
+                {
+                    print("*" + arrayContacts[i].collider.GetType());
+                    contacts.Add(arrayContacts[i]);
+                    if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)")
+                    {
+                        isDead = true;
+                    }
+                }
+            }
             isGrounded = true;
-            normal = contacts[nbContacts - 1].normal;
+            normal = contacts.ElementAt(contacts.Count - 1).normal;
            
             //Si on est encore sur la même pente
             if (lastNorm != normal )
@@ -119,6 +138,18 @@ public class SkierController : MonoBehaviour
             rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
         }
         score += Time.fixedDeltaTime * 10;
+
+        if (isDead)
+        {
+            if (isAI)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                SceneManager.LoadScene("DeathScreen");
+            }
+        }
     }
     public void jump()
     {
