@@ -480,8 +480,8 @@ MonoBehaviour:
   - {fileID: 695275501}
   - {fileID: 1237271571}
   - {fileID: 1013058838}
-  toFollow: {fileID: 1237271571}
-  followSpecificSkier: 0
+  toFollow: {fileID: 1013058838}
+  followSpecificSkier: 1
 --- !u!1 &661978362
 GameObject:
   m_ObjectHideFlags: 0
