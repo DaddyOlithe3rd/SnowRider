@@ -12,13 +12,15 @@ public class MeshGeneration: MonoBehaviour
     public int SegmentResolution = 32;
 
     // the size of meshes in the pool
-    public int MeshCount = 4;
+    public int MeshCount = 6;
 
     // the maximum number of visible meshes. Should be lower or equal than MeshCount
-    public int VisibleMeshes = 4;
+    public int VisibleMeshes = 6;
 
     public Vector3 scaleChangeTree = new Vector3(16, 32, 0);
     public Vector3 scaleChangeRock = new Vector3(16, 32, 0);
+
+    public Vector3 speed;
 
     // the prefab including MeshFilter and MeshRenderer
     public MeshFilter SegmentPrefab;
@@ -195,7 +197,7 @@ public class MeshGeneration: MonoBehaviour
             if (i == treeCoord)
             {
                 rotTree = i;
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeTree.y / 8), 0);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
             }
             if (i == rockCoord)
             {
@@ -217,10 +219,11 @@ public class MeshGeneration: MonoBehaviour
         rotation = -1 / rotation;
 
         GameObject circle = GameObject.Find("Circle");
-        Vector3 pos = circle.transform.position;
-        float position = (NextSegment) * 32;
+        speed = circle.GetComponent<Rigidbody2D>().velocity;
+        //Vector3 currentPos = circle.velocity;
 
-        Debug.Log(pos.x + ", " + position);
+        //Debug.Log(pos.x + ", " + position);
+
         if (NextSegment % 4 == 0)
         {
             startPoint.y = (yPosTop - 6);
@@ -293,8 +296,10 @@ public class MeshGeneration: MonoBehaviour
 
             // generate
             Mesh mesh = filter.mesh;
-            GenerateSegment(index, ref mesh, startPoint);
-             
+            if(speed.x >= 0)
+            {
+                GenerateSegment(index, ref mesh, startPoint);
+            }
             filter.gameObject.GetComponent<EdgeCollider2D>().points = points;
 
             //if (filter.gameObject.GetComponent<MeshCollider>() == null)
