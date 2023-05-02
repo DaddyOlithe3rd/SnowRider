@@ -299,7 +299,7 @@ public class MeshGeneration: MonoBehaviour
 
                 // generate
                 //Mesh mesh = filter.mesh;
-                Debug.Log(speed.x);
+                Debug.Log("speeeeeed: " + speed.x);
                 Mesh mesh = filter.mesh;
                 GenerateSegment(index, ref mesh, startPoint);
                 filter.gameObject.GetComponent<EdgeCollider2D>().points = points;
