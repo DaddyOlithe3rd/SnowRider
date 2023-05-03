@@ -27,7 +27,6 @@ public class SkierController : MonoBehaviour
     public float minimumSpeed;
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
     public float crouchedSpeed;//Speed incrementation when crouching
-    public float score = 0;
 
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
@@ -134,7 +133,6 @@ public class SkierController : MonoBehaviour
         {
             rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
         }
-        score += Time.fixedDeltaTime * 10;
 
         if (isDead)
         {

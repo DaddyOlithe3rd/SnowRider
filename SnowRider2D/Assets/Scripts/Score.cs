@@ -10,6 +10,7 @@ public class Score : MonoBehaviour
     // Start is called before the first frame update
     public GameObject[] skier;
     private List<float> score;
+    public static string playerScore;
     public TMP_Text[] scoreText;
 
     void Start()
@@ -19,6 +20,7 @@ public class Score : MonoBehaviour
         {
             score.Add(0);
         }
+        playerScore = "0";
     }
 
     // Update is called once per frame
@@ -30,6 +32,7 @@ public class Score : MonoBehaviour
             if (scoreText[i]!= null)
             {
                 scoreText[i].text = score[i].ToString();
+                playerScore = scoreText[0].text;
             }
         }
     }
