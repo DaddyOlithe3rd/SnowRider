@@ -75,11 +75,8 @@ public class SkierController : MonoBehaviour
             List<ContactPoint2D> contacts = new List<ContactPoint2D>();
             for (int i = 0; i < 16; i++)
             {
-                print(arrayContacts[i].GetType());
-
                 if (arrayContacts[i].collider != null)
                 {
-                    print("*" + arrayContacts[i].collider.GetType());
                     contacts.Add(arrayContacts[i]);
                     if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)")
                     {
