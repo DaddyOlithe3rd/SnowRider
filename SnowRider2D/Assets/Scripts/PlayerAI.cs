@@ -57,11 +57,12 @@ public class PlayerAI : MonoBehaviour
 
         mask1 = 1 << LayerMask.NameToLayer("Ground");
         mask2 = 1 << LayerMask.NameToLayer("Obstacle");
+        controller = GetComponentInParent<SkierController>();
+
     }
 
     void Update()
     {
-        controller = GetComponentInParent<SkierController>();
 
         if (closeToRock)
         {
