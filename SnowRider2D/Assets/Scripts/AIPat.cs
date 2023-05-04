@@ -37,6 +37,8 @@ public class AIPat : MonoBehaviour
 
     private void Update()
     {
+        print(rb.velocity.magnitude);
+
         SkierController controller = GetComponentInParent<SkierController>();
         
         //this is the distance of the raycast that will be at the feet and the one thats going to be at the head
@@ -62,6 +64,20 @@ public class AIPat : MonoBehaviour
         RaycastHit2D hitObstacleUncrouchFront = Physics2D.Raycast(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized, obstacleRayDistance + 1.3f, layerMask);
         Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, (obstacleRayDistance + 1.3f) * rb.velocity.normalized, Color.green);
 
+        if (rb.velocity.magnitude >= 30)
+        {
+            if (controller.isCrouched == true)
+            {
+                controller.unCrouch();
+            }
+        }
+        else if (rb.velocity.magnitude <30)
+        {
+            controller.crouch();
+        }
+
+
+
         if (hitObstacleHead.collider != null)
         {
             Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.red);
@@ -69,7 +85,7 @@ public class AIPat : MonoBehaviour
         }
         else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null)
         {
-            if(controller.isCrouched == true)
+            if(controller.isCrouched == true && rb.velocity.magnitude >=30)
             {
                 controller.unCrouch();
             }
@@ -79,6 +95,9 @@ public class AIPat : MonoBehaviour
             Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.red);
             controller.jump();
         }
+
+
+        //color of the uncrouch rays
         if (hitObstacleUncrouch.collider != null)
         {
             Debug.DrawRay(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), Color.red);
@@ -88,6 +107,8 @@ public class AIPat : MonoBehaviour
             Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized * (obstacleRayDistance + 1.3f), Color.red);
         }
         
+
+        //rotation
         if (transform.eulerAngles != new Vector3(0,0,0) && hitclosetoground.collider == null)
         {
             if ((transform.eulerAngles.z > 0 && transform.eulerAngles.z <= 180) || (transform.eulerAngles.z < -180 && transform.eulerAngles.z > -360))
