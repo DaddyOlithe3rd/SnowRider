@@ -237,10 +237,8 @@ public class MeshGeneration: MonoBehaviour
         Tree.transform.localScale += scaleChangeTree;
         Rock.transform.localScale += scaleChangeRock;
 
-        Debug.Log(rotation);
         rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
 
-        Debug.Log((Mathf.Rad2Deg)*Mathf.Atan(rotation / 1));
         Rock.transform.Rotate(0.0f, 0.0f, (-rotation-90), Space.Self);
         NextSegment += 1;
 
