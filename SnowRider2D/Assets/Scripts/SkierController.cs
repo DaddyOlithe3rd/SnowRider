@@ -29,6 +29,7 @@ public class SkierController : MonoBehaviour
     public float minimumSpeed;
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
     public float crouchedSpeed;//Speed incrementation when crouching
+    public float force;
 
     private Vector2 normal = Vector2.up;
     private Vector3 bottomPoint;
@@ -134,6 +135,11 @@ public class SkierController : MonoBehaviour
         {
             unCrouch();
         }
+        if (isCrouched)
+        {
+            rb.AddForce(-lastSpeed.normalized * force, ForceMode2D.Force);
+            rb.AddForce(rb.velocity.normalized * force, ForceMode2D.Force);
+        }
 
         //Constant speed
         if(rb.velocity.magnitude < minimumSpeed) 
@@ -166,6 +172,7 @@ public class SkierController : MonoBehaviour
     {
         if (!isCrouched)
         {
+            rb.AddForce(rb.velocity.normalized * force, ForceMode2D.Force);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
             float radius = Mathf.Abs((head.position - feet.position).magnitude) / 2;
             currentRotationSpeed = (Mathf.Pow(initialRadius, 2) / Mathf.Pow(radius, 2)) * rotationSpeed;
@@ -191,6 +198,7 @@ public class SkierController : MonoBehaviour
             {
                 rb.velocity = speedBeforeUnCrouching + Vector2.up * jumpSpeed;
             }
+            rb.AddForce(-1 * rb.velocity.normalized * force, ForceMode2D.Force);
         }
     }
 
@@ -201,7 +209,7 @@ public class SkierController : MonoBehaviour
             transform.Rotate(0f, 0f, -currentRotationSpeed);
         }
     }
-
+    
     public void rotateAntiClockwise()
     {
         if (!isGrounded)
