@@ -12,11 +12,10 @@ public class PlayerAI : MonoBehaviour
     private CapsuleCollider2D capsuleCollider;
 
     [SerializeField] float obstacleRayDistance;
-    
+
 
 
     public float jumpSpeed;
-    private float angle; //Angle entre la normal de la collision et Vector2.right
 
 
     private int mask1;
@@ -25,7 +24,6 @@ public class PlayerAI : MonoBehaviour
     //bool closeToWall;
     private bool closeToRock;
     private bool isGrounded;
-    private bool isDead;
     private bool canRotate;
 
     //Les 4 Raycasts
@@ -48,7 +46,6 @@ public class PlayerAI : MonoBehaviour
         capsuleCollider = gameObject.GetComponent<CapsuleCollider2D>();
         isGrounded = false;
         closeToRock = false;
-        isDead = false;
         canRotate = false;
         lastNormal = Vector2.zero;
         lastSpeed = rb.velocity;
