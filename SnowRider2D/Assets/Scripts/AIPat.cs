@@ -31,7 +31,6 @@ public class AIPat : MonoBehaviour
         obstacleUncrouchRayDistance = 0.85f;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
     }
