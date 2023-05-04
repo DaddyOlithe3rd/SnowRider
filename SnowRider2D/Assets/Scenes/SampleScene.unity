@@ -246,7 +246,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71463213}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -712,6 +712,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  hitGround: 0
   initialRadius: 0
   rotationSpeed: 1.7
   currentRotationSpeed: 0
@@ -720,6 +721,10 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchedSpeed: 4
   force: 0
+  rayCastLength: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -849,22 +854,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleRayDistance: 5
   jumpSpeed: 5
-  angle: 0
-  mask1: 0
-  mask2: 0
-  closeToRock: 0
-  isGrounded: 0
-  isDead: 0
-  canRotate: 0
   obstacleRayFeet: {fileID: 723033494}
   obstacleRayFrontHead: {fileID: 693820506}
   obstacleRayBackHead: {fileID: 1642278384}
   groundRayObject: {fileID: 852293954}
   controller: {fileID: 0}
-  InitialSize: {x: 0, y: 0, z: 0}
-  lastNormal: {x: 0, y: 0}
-  normal: {x: 0, y: 1}
-  lastSpeed: {x: 0, y: 0}
 --- !u!1 &723033494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,6 +1349,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 0
   isDead: 0
+  hitGround: 0
   initialRadius: 0.75
   rotationSpeed: 1.7
   currentRotationSpeed: 0
@@ -1363,6 +1358,10 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchedSpeed: 4
   force: 100
+  rayCastLength: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -1755,6 +1754,7 @@ MonoBehaviour:
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  hitGround: 0
   initialRadius: 0
   rotationSpeed: 1.7
   currentRotationSpeed: 0
@@ -1763,6 +1763,10 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchedSpeed: 4
   force: 0
+  rayCastLength: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
