@@ -705,19 +705,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsuleCollider: {fileID: 0}
+  head: {fileID: 0}
+  feet: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  initialRadius: 0
   rotationSpeed: 0
+  currentRotationSpeed: 0
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchedSpeed: 4
-  score: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
+  speedBeforeUnCrouching: {x: 0, y: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!70 &695275498
 CapsuleCollider2D:
@@ -1342,19 +1346,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsuleCollider: {fileID: 0}
+  head: {fileID: 0}
+  feet: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
   isAI: 0
   isDead: 0
+  initialRadius: 0.75
   rotationSpeed: 1.7
+  currentRotationSpeed: 0
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchedSpeed: 4
-  score: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
+  speedBeforeUnCrouching: {x: 0, y: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!1 &1069021253
 GameObject:
@@ -1737,19 +1745,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsuleCollider: {fileID: 0}
+  head: {fileID: 0}
+  feet: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  initialRadius: 0
   rotationSpeed: 1.7
+  currentRotationSpeed: 0
   jumpSpeed: 3
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchedSpeed: 4
-  score: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
+  speedBeforeUnCrouching: {x: 0, y: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!70 &1237271568
 CapsuleCollider2D:
