@@ -481,7 +481,7 @@ MonoBehaviour:
   - {fileID: 695275501}
   - {fileID: 1237271571}
   - {fileID: 1013058838}
-  toFollow: {fileID: 695275501}
+  toFollow: {fileID: 1013058838}
   followSpecificSkier: 1
 --- !u!114 &519420034
 MonoBehaviour:
