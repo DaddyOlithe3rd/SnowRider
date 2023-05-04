@@ -1,4 +1,4 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -16,6 +16,9 @@ public class MeshGeneration: MonoBehaviour
 
     // the maximum number of visible meshes. Should be lower or equal than MeshCount
     public int VisibleMeshes = 4;
+
+    public Vector3 scaleChangeTree = new Vector3(16, 32, 0);
+    public Vector3 scaleChangeRock = new Vector3(16, 32, 0);
 
     // the prefab including MeshFilter and MeshRenderer
     public MeshFilter SegmentPrefab;
@@ -142,27 +145,33 @@ public class MeshGeneration: MonoBehaviour
         float xPos = 0;
         float yPosTop = 0;
         float t = 0.03125f;
+        int rotTree = 0;
+        int rotRock = 0;
+        float rotation = 0;
+        //float t2 = 0.0078125f;
         float time = 0;
         Random rnd = new Random();
         int jumpheight = rnd.Next(0, 8);
-        int p1Change = rnd.Next(4, 14);
-        int p3Change = rnd.Next(6, 12);
+        int p1Change = rnd.Next(4, 12);
+        int p2Change = rnd.Next(0, 16);
+        int p3Change = rnd.Next(4, 12);
 
         Vector3 pointBezier;
-        Vector3 p0 = new Vector3(0, startPoint.y, 0);
-        Vector3 p1 = new Vector3(12, (startPoint.y - p1Change), 0);
-        Vector3 p2 = new Vector3(20, startPoint.y + 2, 0);
-        Vector3 p3 = new Vector3(32, (startPoint.y - p3Change), 0); ;
-
+        Vector3 p0;
+        Vector3 p1;
+        Vector3 p2;
+        Vector3 p3;
+        //Vector3 p4;
+        //Vector3 p5;
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        Vector3 scaleChange = new Vector3(12, 24, 0);
-        int treeCoord = rnd.Next(0, 31);
-        int rockPos = rnd.Next(0, 31);
+        int treeCoord = rnd.Next(2, 28);
+        int rockCoord = rnd.Next(2, 28);
 
-        for (int i = 0; i < SegmentResolution; ++i)
+        for (int i = 0; i < SegmentResolution; i++)
         {
-            startPoint.x += step;
+            //Debug.Log(i);
+            //startPoint.x += step;
             // get the relative x position
             xPos = step * i;
             time = t * i;
@@ -174,19 +183,33 @@ public class MeshGeneration: MonoBehaviour
                 pointBezier = CalculateQuadraticBezierCurve(time, p0, p1, p2);
             }
             else
-            {               
+            {
                 p0 = new Vector3(0, startPoint.y, 0);
                 p1 = new Vector3(12, (startPoint.y - p1Change), 0);
                 p2 = new Vector3(20, startPoint.y + 2, 0);
                 p3 = new Vector3(32, (startPoint.y - p3Change), 0);
                 pointBezier = CalculateCubicBezierCurve(time, p0, p1, p2, p3);
+
+                //p0 = new Vector3(0, startPoint.y, 0);
+                //p1 = new Vector3(4, startPoint.y - 4, 0);                          
+                //p2 = new Vector3(12, startPoint.y - p1Change, 0);
+                //p3 = new Vector3(18, startPoint.y - 4, 0);
+                //p4 = new Vector3(24, startPoint.y + 4, 0);
+                //p5 = new Vector3(32, startPoint.y - p2Change, 0);
+                //pointBezier = CalculaticOrder5BezierCurve(time, p0, p1, p2, p3, p4, p5);
             }
             yPosTop = pointBezier.y;
 
             if (i == treeCoord)
             {
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + 2, 0);
+                rotTree = i;
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
                 //Debug.Log(yPosTop);
+            }
+            if (i == rockCoord)
+            {
+                rotRock = i;
+                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
             }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
@@ -194,11 +217,14 @@ public class MeshGeneration: MonoBehaviour
             _vertexArray[i * 2 + 1] = new Vector3(xPos, -10000, 0);
 
             points[i] = new Vector2(xPos, yPosTop);
-        }
-        
 
-       // Tree.transform.position = new Vector3(points[treeCoord].x + (32 * NextSegment), points[treeCoord].y, 0);
-        Tree.transform.localScale += scaleChange;
+            //y2-y1/x2-x1
+
+            //points[i] = new Vector2(xPos, yPosTop);
+        }
+        //Debug.Log(yPosTop);
+        rotation = (points[rotRock + 1].y - points[rotRock - 1].y) / (points[rotRock + 1].x - points[rotRock - 1].x);
+        rotation = -1 / rotation;
         if (NextSegment % 4 == 0)
         {
             startPoint.y = (yPosTop - 6);
@@ -207,6 +233,15 @@ public class MeshGeneration: MonoBehaviour
         {
             startPoint.y = yPosTop;
         }
+
+        Tree.transform.localScale += scaleChangeTree;
+        Rock.transform.localScale += scaleChangeRock;
+
+        Debug.Log(rotation);
+        rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
+
+        Debug.Log((Mathf.Rad2Deg)*Mathf.Atan(rotation / 1));
+        Rock.transform.Rotate(0.0f, 0.0f, (-rotation-90), Space.Self);
         NextSegment += 1;
 
         mesh.vertices = _vertexArray;      
