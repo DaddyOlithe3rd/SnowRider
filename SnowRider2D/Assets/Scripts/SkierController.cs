@@ -21,6 +21,7 @@ public class SkierController : MonoBehaviour
     public bool isUncrouching;
     public bool isAI;
     public bool isDead;
+    public bool hitGround;
     float angle;//Angle entre la normal de la collision et Vector2.right
     public float initialRadius;
     public float rotationSpeed;
@@ -30,6 +31,9 @@ public class SkierController : MonoBehaviour
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
     public float crouchedSpeed;//Speed incrementation when crouching
     public float force;
+    public float rayCastLength;
+
+    public LayerMask layerMask;
 
     private Vector2 normal = Vector2.up;
     private Vector3 bottomPoint;
@@ -75,8 +79,15 @@ public class SkierController : MonoBehaviour
 
         ContactPoint2D[] arrayContacts = new ContactPoint2D[16];
         int nbContacts = rb.GetContacts(arrayContacts);
-        
-        if (nbContacts == 0) isGrounded = false;
+
+        RaycastHit2D ground = Physics2D.Raycast(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, rayCastLength, layerMask);
+        Debug.DrawRay(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, Color.red);
+       
+        if (nbContacts != 0)
+        {
+            hitGround = true;
+        }
+        if (nbContacts == 0 && !ground) isGrounded = false;
         else 
         {
             List<ContactPoint2D> contacts = new List<ContactPoint2D>();
@@ -92,7 +103,11 @@ public class SkierController : MonoBehaviour
                 }
             }
             isGrounded = true;
-            normal = contacts.ElementAt(contacts.Count - 1).normal;
+            normal = ground.normal;
+            if (contacts.Count != 0)
+            {
+                normal = contacts.ElementAt(contacts.Count - 1).normal;
+            }
            
             //Si on est encore sur la même pente
             if (lastNorm != normal )
@@ -162,9 +177,11 @@ public class SkierController : MonoBehaviour
     }
     public void jump()
     {
-        if (isGrounded)
+        if (isGrounded && hitGround)
         {
-            rb.velocity = rb.velocity + Vector2.up * jumpSpeed;
+            rb.velocity += Vector2.up * jumpSpeed;
+            hitGround = false;
+            isGrounded = false;
         }
     }
 
