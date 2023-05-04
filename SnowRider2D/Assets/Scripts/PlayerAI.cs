@@ -16,17 +16,17 @@ public class PlayerAI : MonoBehaviour
 
 
     public float jumpSpeed;
-    public float angle; //Angle entre la normal de la collision et Vector2.right
+    private float angle; //Angle entre la normal de la collision et Vector2.right
 
 
-    public int mask1;
-    public int mask2;
+    private int mask1;
+    private int mask2;
 
     //bool closeToWall;
-    public bool closeToRock;
-    public bool isGrounded;
-    public bool isDead;
-    public bool canRotate;
+    private bool closeToRock;
+    private bool isGrounded;
+    private bool isDead;
+    private bool canRotate;
 
     //Les 4 Raycasts
     public GameObject obstacleRayFeet;
@@ -37,10 +37,10 @@ public class PlayerAI : MonoBehaviour
     public SkierController controller;
 
     private Vector3 bottomPoint;
-    public Vector3 InitialSize;
-    public Vector2 lastNormal;
-    public Vector2 normal = Vector2.up;
-    public Vector2 lastSpeed;
+    private Vector3 InitialSize;
+    private Vector2 lastNormal;
+    private Vector2 normal = Vector2.up;
+    private Vector2 lastSpeed;
 
     void Start()
     {
@@ -95,7 +95,7 @@ public class PlayerAI : MonoBehaviour
         if (hitGround.collider != null)
         {
             canRotate = false;
-            //Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.red);
+            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.red);
 
             if (hitGround.distance <= 0.5f)
             {
@@ -109,14 +109,14 @@ public class PlayerAI : MonoBehaviour
         if (hitGround.collider == null)
         {
             canRotate = true;
-            //Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.black);
+            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.black);
         }
 
 
         //S'il y a une roche devant l'AI.
         if (hitFeet.collider != null && hitFront.collider == null && isGrounded)
         {
-            //Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.red);
+            Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.red);
 
             closeToRock = true;
         }

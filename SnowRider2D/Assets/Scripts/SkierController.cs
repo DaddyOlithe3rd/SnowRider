@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using static UnityEngine.GraphicsBuffer;
 
-public class SkierControllerDeezNuts : MonoBehaviour
+public class SkierController : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
