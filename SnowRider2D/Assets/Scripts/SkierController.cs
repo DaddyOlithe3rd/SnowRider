@@ -116,7 +116,6 @@ public class SkierController : MonoBehaviour
             }
             if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched))
             {
-                speedBeforeUnCrouching = rb.velocity;
                 unCrouch();
             }
 
@@ -179,6 +178,7 @@ public class SkierController : MonoBehaviour
         
         if(transform.localScale.y < initialScale.y)
         {
+            speedBeforeUnCrouching = rb.velocity;
             transform.localScale += new Vector3(0f, unCrouchingSpeed * Time.fixedDeltaTime * initialScale.y, 0f);
         }
         if (transform.localScale.y >= initialScale.y)
