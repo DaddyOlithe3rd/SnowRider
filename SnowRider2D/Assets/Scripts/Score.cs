@@ -9,17 +9,18 @@ public class Score : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject[] skier;
-    private List<SkierController> controller;
+    private List<float> score;
+    public static string playerScore;
     public TMP_Text[] scoreText;
 
     void Start()
     {
-        controller = new List<SkierController>();
+        score =  new List<float>();
         for (int i = 0; i < skier.Length; i++)
         {
-            controller.Add(skier[i].GetComponent<SkierController>());
-            scoreText[i].text = controller.ElementAt(i).score.ToString();
+            score.Add(0);
         }
+        playerScore = "0";
     }
 
     // Update is called once per frame
@@ -27,12 +28,12 @@ public class Score : MonoBehaviour
     {
         for (int i = 0; i < skier.Length; i++)
         {
-            if (controller[i].isDead)
+            score[i] = Mathf.Round(skier[i].transform.position.x * 10);
+            if (scoreText[i]!= null)
             {
-                controller[i].score = 0f;
-                controller[i].isDead = false;
+                scoreText[i].text = score[i].ToString();
+                playerScore = scoreText[0].text;
             }
-            scoreText[i].text = Mathf.Round(controller[i].score).ToString();
         }
     }
 }

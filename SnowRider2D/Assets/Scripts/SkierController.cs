@@ -1,56 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using static UnityEngine.GraphicsBuffer;
 
 public class SkierController : MonoBehaviour
 {
     // Start is called before the first frame update
-    Vector2 normal = Vector2.up;
-    float angle;//Angle entre la normal de la collision et Vector2.right
-
     Rigidbody2D rb;
     public  CapsuleCollider2D capsuleCollider;
+    public Transform head;
+    public Transform feet;
 
     public bool isGrounded;
     public bool isCrouched;
     public bool isUncrouching;
     public bool isAI;
     public bool isDead;
+    float angle;//Angle entre la normal de la collision et Vector2.right
+    public float initialRadius;
     public float rotationSpeed;
+    public float currentRotationSpeed;
     public float jumpSpeed;
     public float minimumSpeed;
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
     public float crouchedSpeed;//Speed incrementation when crouching
-    public float score = 0;
 
+    private Vector2 normal = Vector2.up;
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
     public Vector3 initialScale;
-    public Vector2 lastSpeed;
+    public Vector2 speedBeforeUnCrouching;
+    public Vector2 lastSpeed;//Speed from previous fixed update
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        head = transform.Find("head");
+        feet = transform.Find("feet");
         isGrounded = false;
         isCrouched = false;
         isUncrouching = false;
         isDead = false;
         lastNorm = Vector2.zero;
         initialScale = transform.localScale;
-        lastSpeed = rb.velocity;
-
+        speedBeforeUnCrouching = rb.velocity;
+        currentRotationSpeed = rotationSpeed;
+        initialRadius = initialRadius * Mathf.Abs((head.position - feet.position).magnitude) / 2;
+        
         //Trouver le point bottomPoint de la capsule
         Vector3 center = transform.position;
         float halfHeight = capsuleCollider.size.y / 2;
         float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
         float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
         bottomPoint = new Vector3(x, y, 0f);
-
     }
 
     // Update is called once per frame
@@ -63,13 +71,27 @@ public class SkierController : MonoBehaviour
         float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
         bottomPoint = new Vector3(x, y, 0f);
 
-        ContactPoint2D[] contacts = new ContactPoint2D[10];
-        int nbContacts = rb.GetContacts(contacts);
+
+        ContactPoint2D[] arrayContacts = new ContactPoint2D[16];
+        int nbContacts = rb.GetContacts(arrayContacts);
+        
         if (nbContacts == 0) isGrounded = false;
         else 
         {
+            List<ContactPoint2D> contacts = new List<ContactPoint2D>();
+            for (int i = 0; i < 16; i++)
+            {
+                if (arrayContacts[i].collider != null)
+                {
+                    contacts.Add(arrayContacts[i]);
+                    if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)")
+                    {
+                        isDead = true;
+                    }
+                }
+            }
             isGrounded = true;
-            normal = contacts[nbContacts - 1].normal;
+            normal = contacts.ElementAt(contacts.Count - 1).normal;
            
             //Si on est encore sur la même pente
             if (lastNorm != normal )
@@ -94,7 +116,7 @@ public class SkierController : MonoBehaviour
             }
             if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched))
             {
-                lastSpeed = rb.velocity;
+                speedBeforeUnCrouching = rb.velocity;
                 unCrouch();
             }
 
@@ -118,7 +140,19 @@ public class SkierController : MonoBehaviour
         {
             rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
         }
-        score += Time.fixedDeltaTime * 10;
+
+        if (isDead)
+        {
+            if (isAI)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                SceneManager.LoadScene("DeathScreen");
+            }
+        }
+        lastSpeed = rb.velocity;
     }
     public void jump()
     {
@@ -132,11 +166,9 @@ public class SkierController : MonoBehaviour
     {
         if (!isCrouched)
         {
-            if (isGrounded)
-            {
-                rb.velocity += rb.velocity.normalized * crouchedSpeed;
-            }
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
+            float radius = Mathf.Abs((head.position - feet.position).magnitude) / 2;
+            currentRotationSpeed = (Mathf.Pow(initialRadius, 2) / Mathf.Pow(radius, 2)) * rotationSpeed;
             isCrouched = true;
         }
     }
@@ -151,12 +183,13 @@ public class SkierController : MonoBehaviour
         }
         if (transform.localScale.y >= initialScale.y)
         {
+            currentRotationSpeed = rotationSpeed;
             transform.localScale = initialScale;
             isUncrouching = false;
             isCrouched = false;
             if (isGrounded)
             {
-                rb.velocity = lastSpeed + Vector2.up * jumpSpeed;
+                rb.velocity = speedBeforeUnCrouching + Vector2.up * jumpSpeed;
             }
         }
     }
@@ -165,7 +198,7 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, -rotationSpeed);
+            transform.Rotate(0f, 0f, -currentRotationSpeed);
         }
     }
 
@@ -173,12 +206,7 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, rotationSpeed);
+            transform.Rotate(0f, 0f, currentRotationSpeed);
         }
     }
-    public bool getDeath()
-    {
-        return isDead;
-    }
-
 }
