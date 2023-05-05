@@ -15,6 +15,7 @@ public class SkierController : MonoBehaviour
     public  CapsuleCollider2D capsuleCollider;
     public Transform head;
     public Transform feet;
+    public Transform bottomPointObject;
 
     public bool isGrounded;
     public bool isCrouched;
@@ -26,11 +27,10 @@ public class SkierController : MonoBehaviour
     public float initialRadius;
     public float rotationSpeed;
     public float currentRotationSpeed;
-    public float jumpSpeed;
+    public float jumpForce;
     public float minimumSpeed;
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
-    public float crouchedSpeed;//Speed incrementation when crouching
-    public float force;
+    public float crouchingForce;
     public float rayCastLength;
 
     public LayerMask layerMask;
@@ -48,6 +48,8 @@ public class SkierController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         head = transform.Find("head");
         feet = transform.Find("feet");
+        bottomPointObject = transform.Find("bottomPoint");
+        bottomPoint = bottomPointObject.transform.position;
         isGrounded = false;
         isCrouched = false;
         isUncrouching = false;
@@ -59,22 +61,23 @@ public class SkierController : MonoBehaviour
         initialRadius = initialRadius * Mathf.Abs((head.position - feet.position).magnitude) / 2;
         
         //Trouver le point bottomPoint de la capsule
-        Vector3 center = transform.position;
-        float halfHeight = capsuleCollider.size.y / 2;
-        float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
-        float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
-        bottomPoint = new Vector3(x, y, 0f);
+        //Vector3 center = transform.position;
+        //float halfHeight = capsuleCollider.size.y / 2;
+        //float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
+        //float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
+        //bottomPoint = new Vector3(x, y, 0f);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         //Trouver le point bottomPoint de la capsule
-        Vector3 center = transform.position;
-        float halfHeight = capsuleCollider.size.y / 2;
-        float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
-        float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
-        bottomPoint = new Vector3(x, y, 0f);
+        //Vector3 center = transform.position;
+        //float halfHeight = capsuleCollider.size.y / 2;
+        //float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
+        //float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
+        //bottomPoint = new Vector3(x, y, 0f);
+        bottomPoint = bottomPointObject.transform.position;
 
 
         ContactPoint2D[] arrayContacts = new ContactPoint2D[16];
@@ -82,7 +85,7 @@ public class SkierController : MonoBehaviour
 
         RaycastHit2D ground = Physics2D.Raycast(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, rayCastLength, layerMask);
         Debug.DrawRay(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, Color.red);
-       
+
         if (nbContacts != 0)
         {
             hitGround = true;
@@ -152,8 +155,8 @@ public class SkierController : MonoBehaviour
         }
         if (isCrouched)
         {
-            rb.AddForce(-lastSpeed.normalized * force, ForceMode2D.Force);
-            rb.AddForce(rb.velocity.normalized * force, ForceMode2D.Force);
+            rb.AddForce(-lastSpeed.normalized * crouchingForce, ForceMode2D.Force);
+            rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
         }
 
         //Constant speed
@@ -179,7 +182,7 @@ public class SkierController : MonoBehaviour
     {
         if (isGrounded && hitGround)
         {
-            rb.velocity += Vector2.up * jumpSpeed;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             hitGround = false;
             isGrounded = false;
         }
@@ -189,7 +192,7 @@ public class SkierController : MonoBehaviour
     {
         if (!isCrouched)
         {
-            rb.AddForce(rb.velocity.normalized * force, ForceMode2D.Force);
+            rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
             float radius = Mathf.Abs((head.position - feet.position).magnitude) / 2;
             currentRotationSpeed = (Mathf.Pow(initialRadius, 2) / Mathf.Pow(radius, 2)) * rotationSpeed;
@@ -213,9 +216,10 @@ public class SkierController : MonoBehaviour
             isCrouched = false;
             if (isGrounded)
             {
-                rb.velocity = speedBeforeUnCrouching + Vector2.up * jumpSpeed;
+                rb.velocity = speedBeforeUnCrouching;
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
-            rb.AddForce(-1 * rb.velocity.normalized * force, ForceMode2D.Force);
+            rb.AddForce(-1 * rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
         }
     }
 
