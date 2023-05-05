@@ -220,13 +220,6 @@ public class MeshGeneration: MonoBehaviour
         degreesWithX = (Mathf.Rad2Deg) * degreesWithX;
         Debug.Log("penteDroite => " + penteDroite);
         Debug.Log("DegréesRapportAX => " + degreesWithX);
-        //rotation = -1 / rotation;
-
-        //GameObject player = GameObject.Find("Player");
-        //speed = player.GetComponent<Rigidbody2D>().velocity;
-        //Vector3 currentPos = circle.velocity;
-
-        //Debug.Log(pos.x + ", " + position);
 
         if (NextSegment % 4 == 0)
         {
@@ -240,13 +233,9 @@ public class MeshGeneration: MonoBehaviour
         Tree.transform.localScale += scaleChangeTree;
         Rock.transform.localScale += scaleChangeRock;
 
-        //rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
-        //Debug.Log(-1 * (Mathf.Rad2Deg)*Mathf.Atan(degreesWithX / 1));
-
         Rock.transform.Rotate(0.0f, 0.0f, (degreesWithX), Space.Self);
         NextSegment += 1;
         mesh.vertices = _vertexArray;      
-        // need to recalculate bounds, because mesh can disappear too early
         mesh.RecalculateBounds();
     }
 
@@ -255,7 +244,6 @@ public class MeshGeneration: MonoBehaviour
         Vector3 worldLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector3 worldRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0));
 
-        // check left and right segment side
         float x1 = index * SegmentLength;
         float x2 = x1 + SegmentLength;
 
