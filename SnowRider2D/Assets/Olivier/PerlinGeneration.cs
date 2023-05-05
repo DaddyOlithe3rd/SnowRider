@@ -6,6 +6,7 @@ public class PerlinGeneration : MonoBehaviour
 {
     //public LineRenderer myLineRenderer;
     public GameObject tree;
+    public GameObject rock;
     public int points;
     public Transform target;
     EdgeCollider2D edgeCollider;
@@ -314,7 +315,8 @@ public class PerlinGeneration : MonoBehaviour
             }
             else
             {
-                Debug.Log("Roche");
+                Instantiate(rock, new Vector3(x3, y3 + 0.5f, 0), transform.rotation);
+                //Debug.Log("Roche");
             }
             nbObstacles--;
         }
