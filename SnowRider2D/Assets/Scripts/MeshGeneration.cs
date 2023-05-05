@@ -167,8 +167,8 @@ public class MeshGeneration: MonoBehaviour
 
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        int treeCoord = rnd.Next(2, 28);
-        int rockCoord = rnd.Next(2, 28);
+        int treeCoord = rnd.Next(2, 14);
+        int rockCoord = rnd.Next(16, 30);
 
         for (int i = 0; i < SegmentResolution; i++)
         {
@@ -194,12 +194,12 @@ public class MeshGeneration: MonoBehaviour
             }
             yPosTop = pointBezier.y;
 
-            if (i == treeCoord)
+            if (i == treeCoord && NextSegment % 2 == 0)
             {
                 rotTree = i;
                 Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
             }
-            if (i == rockCoord)
+            if (i == rockCoord && NextSegment % 3 == 0)
             {
                 rotRock = i;
                 Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
@@ -217,6 +217,7 @@ public class MeshGeneration: MonoBehaviour
         //Debug.Log(yPosTop);
         penteDroite = (points[rotRock + 1].y - points[rotRock].y) / (points[rotRock + 1].x - points[rotRock].x);
         degreesWithX = Mathf.Atan(penteDroite);
+        degreesWithX = (Mathf.Rad2Deg) * degreesWithX;
         Debug.Log("penteDroite => " + penteDroite);
         Debug.Log("DegréesRapportAX => " + degreesWithX);
         //rotation = -1 / rotation;
