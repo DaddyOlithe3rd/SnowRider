@@ -190,8 +190,9 @@ public class SkierController : MonoBehaviour
 
     public void crouch()
     {
-        if (!isCrouched)
+        if (!isCrouched && !isUncrouching)
         {
+            print("its in");
             rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
             float radius = Mathf.Abs((head.position - feet.position).magnitude) / 2;

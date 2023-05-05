@@ -1758,7 +1758,7 @@ MonoBehaviour:
   isAI: 1
   isDead: 0
   hitGround: 0
-  initialRadius: 0
+  initialRadius: 0.75
   rotationSpeed: 1.7
   currentRotationSpeed: 0
   jumpForce: 0.5
