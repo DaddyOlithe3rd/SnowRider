@@ -167,8 +167,8 @@ public class MeshGeneration: MonoBehaviour
 
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        int treeCoord = rnd.Next(2, 14);
-        int rockCoord = rnd.Next(16, 30);
+        int treeCoord = rnd.Next(12, 24);
+        int rockCoord = rnd.Next(12, 24);
 
         for (int i = 0; i < SegmentResolution; i++)
         {
