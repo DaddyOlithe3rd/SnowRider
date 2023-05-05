@@ -684,18 +684,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsuleCollider: {fileID: 0}
+  head: {fileID: 0}
+  feet: {fileID: 0}
+  bottomPointObject: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  hitGround: 0
+  initialRadius: 0
   rotationSpeed: 0
-  jumpSpeed: 3
+  currentRotationSpeed: 0
+  jumpForce: 0
   minimumSpeed: 5
   unCrouchingSpeed: 4
-  crouchedSpeed: 4
+  crouchingForce: 0
+  rayCastLength: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
+  speedBeforeUnCrouching: {x: 0, y: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!70 &695275498
 CapsuleCollider2D:
@@ -822,21 +833,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleRayDistance: 7
   jumpSpeed: 1
-  angle: 0
-  mask1: 0
-  mask2: 0
-  closeToRock: 0
-  isGrounded: 0
-  isDead: 0
-  canRotate: 0
   obstacleRayFeet: {fileID: 723033494}
   obstacleRayFrontHead: {fileID: 693820506}
   obstacleRayBackHead: {fileID: 1642278384}
   groundRayObject: {fileID: 852293954}
-  InitialSize: {x: 0, y: 0, z: 0}
-  lastNormal: {x: 0, y: 0}
-  normal: {x: 0, y: 1}
-  lastSpeed: {x: 0, y: 0}
+  controller: {fileID: 0}
 --- !u!1 &723033494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,18 +1322,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsuleCollider: {fileID: 0}
+  head: {fileID: 0}
+  feet: {fileID: 0}
+  bottomPointObject: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
   isAI: 0
   isDead: 0
+  hitGround: 0
+  initialRadius: 0
   rotationSpeed: 1.7
-  jumpSpeed: 3
+  currentRotationSpeed: 0
+  jumpForce: 0
   minimumSpeed: 5
   unCrouchingSpeed: 4
-  crouchedSpeed: 4
+  crouchingForce: 0
+  rayCastLength: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
+  speedBeforeUnCrouching: {x: 0, y: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!114 &1013058840
 MonoBehaviour:
@@ -1346,8 +1358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  scoreText: {fileID: 661978363}
+  skier: []
+  scoreText: []
 --- !u!1 &1069021253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,7 +1717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   jumpforce: 0
-  groundRayObject: {fileID: 1992004490}
+  closetoground: {fileID: 0}
   obstacleRayObject: {fileID: 7134739}
   obstacleFeetRayObject: {fileID: 868250435}
   obstacleUncrouchRayObject: {fileID: 1971960138}
@@ -1715,6 +1727,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  layerground:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1237271566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,8 +1742,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  scoreText: {fileID: 661978363}
+  skier: []
+  scoreText: []
 --- !u!114 &1237271567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1742,18 +1757,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsuleCollider: {fileID: 0}
+  head: {fileID: 0}
+  feet: {fileID: 0}
+  bottomPointObject: {fileID: 0}
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
   isAI: 1
   isDead: 0
+  hitGround: 0
+  initialRadius: 0
   rotationSpeed: 0
-  jumpSpeed: 3
+  currentRotationSpeed: 0
+  jumpForce: 0
   minimumSpeed: 5
   unCrouchingSpeed: 4
-  crouchedSpeed: 4
+  crouchingForce: 0
+  rayCastLength: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
+  speedBeforeUnCrouching: {x: 0, y: 0}
   lastSpeed: {x: 0, y: 0}
 --- !u!70 &1237271568
 CapsuleCollider2D:
@@ -2414,6 +2440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1789418273}
   - component: {fileID: 1789418272}
+  - component: {fileID: 1789418274}
   m_Layer: 6
   m_Name: Big Rock
   m_TagString: Untagged
@@ -2482,12 +2509,45 @@ Transform:
   m_GameObject: {fileID: 1789418271}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 50, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1789418274
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789418271}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.10608876, y: -0.11855698}
+  - {x: 0.12886389, y: -0.118515015}
+  - {x: 0.12280141, y: -0.0779686}
+  - {x: 0.075619794, y: -0.03290558}
+  - {x: 0.091088206, y: 0.022182465}
+  - {x: 0.029845897, y: 0.09283447}
+  - {x: -0.009491619, y: 0.092494965}
+  - {x: -0.032524295, y: 0.021690369}
+  - {x: -0.014398146, y: -0.016094208}
+  - {x: -0.090641946, y: -0.015625}
+  - {x: -0.13789788, y: -0.060699463}
+  - {x: -0.13849571, y: -0.081344604}
+  - {x: -0.10909062, y: -0.12078476}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &1971960138
 GameObject:
   m_ObjectHideFlags: 0
