@@ -37,10 +37,10 @@ public class AIPat : MonoBehaviour
 
     private void Update()
     {
-        print(rb.velocity.magnitude);
+        //print(rb.velocity.magnitude);
 
         SkierController controller = GetComponentInParent<SkierController>();
-        
+
         //this is the distance of the raycast that will be at the feet and the one thats going to be at the head
         obstacleRayDistance = obstacleFeetRayDistance = rb.velocity.magnitude/2;
 
@@ -111,6 +111,7 @@ public class AIPat : MonoBehaviour
         //rotation
         if (transform.eulerAngles != new Vector3(0,0,0) && hitclosetoground.collider == null)
         {
+            print("should rotate");
             if ((transform.eulerAngles.z > 0 && transform.eulerAngles.z <= 180) || (transform.eulerAngles.z < -180 && transform.eulerAngles.z > -360))
             {
                 controller.rotateClockwise();

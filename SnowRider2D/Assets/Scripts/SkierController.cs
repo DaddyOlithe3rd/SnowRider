@@ -224,6 +224,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, -currentRotationSpeed);
+            //print("should rotate clockwise");
         }
     }
     
@@ -232,6 +233,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, currentRotationSpeed);
+            //print("should rotate anticlockwise");
         }
     }
 }
