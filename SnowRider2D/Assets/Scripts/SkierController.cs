@@ -1,148 +1,241 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using static UnityEngine.GraphicsBuffer;
 
 public class SkierController : MonoBehaviour
 {
     // Start is called before the first frame update
-    Vector2 normal = Vector2.up;
-    float angle;//Angle entre la normal de la collision et Vector2.right
-
     Rigidbody2D rb;
     public  CapsuleCollider2D capsuleCollider;
+    public Transform head;
+    public Transform feet;
+    public Transform bottomPointObject;
 
     public bool isGrounded;
     public bool isCrouched;
+    public bool isUncrouching;
+    public bool isAI;
     public bool isDead;
-    public float jumpSpeed;
+    public bool hitGround;
+    float angle;//Angle entre la normal de la collision et Vector2.right
+    public float initialRadius;
+    public float rotationSpeed;
+    public float currentRotationSpeed;
+    public float jumpForce;
+    public float minimumSpeed;
+    public float unCrouchingSpeed;//Speed at which the skier uncrouches
+    public float crouchingForce;
+    public float rayCastLength;
 
+    public LayerMask layerMask;
+
+    private Vector2 normal = Vector2.up;
     private Vector3 bottomPoint;
     public Vector2 lastNorm;
-    public Vector3 initialSize;
-    public Vector2 lastSpeed;
+    public Vector3 initialScale;
+    public Vector2 speedBeforeUnCrouching;
+    public Vector2 lastSpeed;//Speed from previous fixed update
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        head = transform.Find("head");
+        feet = transform.Find("feet");
+        bottomPointObject = transform.Find("bottomPoint");
+        bottomPoint = bottomPointObject.transform.position;
         isGrounded = false;
         isCrouched = false;
+        isUncrouching = false;
         isDead = false;
         lastNorm = Vector2.zero;
-        initialSize = transform.localScale;
-        lastSpeed = rb.velocity;
-
+        initialScale = transform.localScale;
+        speedBeforeUnCrouching = rb.velocity;
+        currentRotationSpeed = rotationSpeed;
+        initialRadius = initialRadius * Mathf.Abs((head.position - feet.position).magnitude) / 2;
+        
         //Trouver le point bottomPoint de la capsule
-        Vector3 center = transform.position;
-        float halfHeight = capsuleCollider.size.y / 2;
-        float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
-        float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
-        bottomPoint = new Vector3(x, y, 0f);
-
+        //Vector3 center = transform.position;
+        //float halfHeight = capsuleCollider.size.y / 2;
+        //float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
+        //float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
+        //bottomPoint = new Vector3(x, y, 0f);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         //Trouver le point bottomPoint de la capsule
-        Vector3 center = transform.position;
-        float halfHeight = capsuleCollider.size.y / 2;
-        float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
-        float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
-        bottomPoint = new Vector3(x, y, 0f);
+        //Vector3 center = transform.position;
+        //float halfHeight = capsuleCollider.size.y / 2;
+        //float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
+        //float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
+        //bottomPoint = new Vector3(x, y, 0f);
+        bottomPoint = bottomPointObject.transform.position;
 
-        ContactPoint2D[] contacts = new ContactPoint2D[10];
-        int nbContacts = rb.GetContacts(contacts);
-        //contacts = new ContactPoint2D[nbContacts];
-        if (nbContacts == 0) isGrounded = false;
+
+        ContactPoint2D[] arrayContacts = new ContactPoint2D[16];
+        int nbContacts = rb.GetContacts(arrayContacts);
+
+        RaycastHit2D ground = Physics2D.Raycast(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, rayCastLength, layerMask);
+        Debug.DrawRay(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, Color.red);
+
+        if (nbContacts != 0)
+        {
+            hitGround = true;
+        }
+        if (nbContacts == 0 && !ground) isGrounded = false;
         else 
         {
-            isGrounded = true;
-            normal = contacts[nbContacts - 1].normal;
-            foreach (ContactPoint2D contact in contacts)
+            List<ContactPoint2D> contacts = new List<ContactPoint2D>();
+            for (int i = 0; i < 16; i++)
             {
-                //if (contact.collider.gameObject)
-                //{
-                //    isDead = true;
-                //    print("Dead");
-                //}
+                if (arrayContacts[i].collider != null)
+                {
+                    contacts.Add(arrayContacts[i]);
+                    if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)")
+                    {
+                        isDead = true;
+                    }
+                }
             }
-
+            isGrounded = true;
+            normal = ground.normal;
+            if (contacts.Count != 0)
+            {
+                normal = contacts.ElementAt(contacts.Count - 1).normal;
+            }
+           
             //Si on est encore sur la même pente
             if (lastNorm != normal )
             {
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
-                transform.Rotate(0f, 0f, angle - transform.eulerAngles.z);
-                //Quaternion rotation = new Quaternion(eulerToQuaternion(angle));
-                transform.rotation = eulerToQuaternion(angle);
-
+;               transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
                 lastNorm = normal;
             }
         }
 
         //Jumping
-        if (Input.GetAxisRaw("Vertical") == 1 && isGrounded)
+        if (!isAI)
         {
-            rb.velocity += Vector2.up * jumpSpeed;
-        }
-        //Crouching
-        if (Input.GetAxisRaw("Vertical") == -1 && !isCrouched)
-        {
-            lastSpeed = rb.velocity;
-            if (isGrounded)
+            if (Input.GetAxisRaw("Vertical") == 1)
             {
-                rb.velocity += rb.velocity.normalized * rb.gravityScale;
+                jump();
             }
+            //Crouching
+            if (Input.GetAxisRaw("Vertical") == -1)
+            {
+                crouch();
+            }
+            if (((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched))
+            {
+                speedBeforeUnCrouching = rb.velocity;
+                unCrouch();
+            }
+
+            //Rotating
+            if (Input.GetAxisRaw("Horizontal") == 1)
+            {
+                rotateClockwise();
+            }
+            if (Input.GetAxisRaw("Horizontal") == -1)
+            {
+                rotateAntiClockwise();
+            }
+        }
+        if (isUncrouching)
+        {
+            unCrouch();
+        }
+        if (isCrouched)
+        {
+            rb.AddForce(-lastSpeed.normalized * crouchingForce, ForceMode2D.Force);
+            rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
+        }
+
+        //Constant speed
+        if(rb.velocity.magnitude < minimumSpeed) 
+        {
+            rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
+        }
+
+        if (isDead)
+        {
+            if (isAI)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                SceneManager.LoadScene("DeathScreen");
+            }
+        }
+        lastSpeed = rb.velocity;
+    }
+    public void jump()
+    {
+        if (isGrounded && hitGround)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            hitGround = false;
+            isGrounded = false;
+        }
+    }
+
+    public void crouch()
+    {
+        if (!isCrouched)
+        {
+            rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
+            float radius = Mathf.Abs((head.position - feet.position).magnitude) / 2;
+            currentRotationSpeed = (Mathf.Pow(initialRadius, 2) / Mathf.Pow(radius, 2)) * rotationSpeed;
             isCrouched = true;
         }
-        if((Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") == 0) && isCrouched)
-        {
-            transform.localScale = initialSize;
-            //ScaleAround(transform.position, bottomPoint, initialSize);
-            
+    }
 
-            //rb.velocity = lastSpeed;
+    public void unCrouch()
+    {
+        isUncrouching = true;
+        
+        if(transform.localScale.y < initialScale.y)
+        {
+            transform.localScale += new Vector3(0f, unCrouchingSpeed * Time.fixedDeltaTime * initialScale.y, 0f);
+        }
+        if (transform.localScale.y >= initialScale.y)
+        {
+            currentRotationSpeed = rotationSpeed;
+            transform.localScale = initialScale;
+            isUncrouching = false;
             isCrouched = false;
-        }
-        //Rotating
-        if (Input.GetAxisRaw("Horizontal") == 1 && !isGrounded)
-        {
-            transform.Rotate(0f, 0f, -1.5f);
-        }
-        if (Input.GetAxisRaw("Horizontal") == -1 && !isGrounded)
-        {
-            transform.Rotate(0f, 0f, 1.5f);
-        }
-        //Constant speed
-        if(rb.velocity.magnitude < 3f) 
-        {
-            rb.velocity = Vector2.right * 3.1f;
+            if (isGrounded)
+            {
+                rb.velocity = speedBeforeUnCrouching;
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
+            rb.AddForce(-1 * rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public void rotateClockwise()
     {
-        //Vector2 averageNormal = Vector2.zero;
-        //foreach (ContactPoint2D contact in collision.contacts)
-        //{
-        //    averageNormal += contact.normal;
-        //}
-        //averageNormal /= collision.contacts.Length;
-        //normal = averageNormal;
+        if (!isGrounded)
+        {
+            transform.Rotate(0f, 0f, -currentRotationSpeed);
+        }
     }
     
-    //Fonction pour convertir un angle en quaterion, l'angle en argument est un angle de rotation sur l'axe des z en degrés
-    Quaternion eulerToQuaternion(float angle)
+    public void rotateAntiClockwise()
     {
-        /*The quaternion use here is simplified because the rotation is exactly arounf the Z axis, which means that
-         the first two compenent representing the rotation around the x and y axis  are zero. */
-        float angleRad = Mathf.Deg2Rad * angle;
-        Quaternion rotation = new Quaternion(0f,0f, Mathf.Sin((angleRad) / 2),  Mathf.Cos((angleRad) / 2));
-        return rotation;
+        if (!isGrounded)
+        {
+            transform.Rotate(0f, 0f, currentRotationSpeed);
+        }
     }
-
 }
