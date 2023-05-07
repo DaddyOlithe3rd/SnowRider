@@ -194,7 +194,7 @@ public class MeshGeneration: MonoBehaviour
             }
             yPosTop = pointBezier.y;
 
-            Debug.Log(NextSegment);
+            //Debug.Log(NextSegment);
             if (i == treeCoord && NextSegment % 2 == 0 && NextSegment != 2)
             {
                 rotTree = i;

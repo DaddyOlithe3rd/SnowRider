@@ -180,7 +180,7 @@ public class SkierController : MonoBehaviour
     }
     public void jump()
     {
-        if (isGrounded && hitGround)
+        if (isGrounded /*&& hitGround*/)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             hitGround = false;
@@ -190,7 +190,7 @@ public class SkierController : MonoBehaviour
 
     public void crouch()
     {
-        if (!isCrouched)
+        if (!isCrouched && !isUncrouching)
         {
             rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
@@ -228,6 +228,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, -currentRotationSpeed);
+            //print("should rotate clockwise");
         }
     }
     
@@ -236,6 +237,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, currentRotationSpeed);
+            //print("should rotate anticlockwise");
         }
     }
 }
