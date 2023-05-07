@@ -12,6 +12,8 @@ public class AIPat : MonoBehaviour
     public GameObject closetoground;
     public GameObject obstacleRayObject;
     public GameObject obstacleFeetRayObject;
+    public GameObject obstacleHighFeetRayObject;
+    public GameObject obstacleLowFeetRayObject;
     public GameObject obstacleUncrouchRayObject;
     public GameObject obstacleUncrouchFrontRayObject;
     public Vector3 scaleChangetoCrouch;
@@ -55,6 +57,10 @@ public class AIPat : MonoBehaviour
         //Raycast at the level of the feet (used to detect when to jump)
         RaycastHit2D hitObstacleFeet = Physics2D.Raycast(obstacleFeetRayObject.transform.position, rb.velocity.normalized, obstacleFeetRayDistance, layerMask);
         Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.green);
+        RaycastHit2D hitObstacleHighFeet = Physics2D.Raycast(obstacleHighFeetRayObject.transform.position, rb.velocity.normalized * new Vector2(0.9961947f,0.087155743f), obstacleFeetRayDistance, layerMask);
+        Debug.DrawRay(obstacleHighFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized * new Vector2(0.9961947f, 0.087155743f), Color.green);
+        RaycastHit2D hitObstacleLowFeet = Physics2D.Raycast(obstacleLowFeetRayObject.transform.position, new Vector2(rb.velocity.normalized.x * Mathf.Cos(5) - rb.velocity.normalized.y * Mathf.Sin(5), rb.velocity.normalized.x * Mathf.Cos(5) + rb.velocity.normalized.y * Mathf.Sin(5)), obstacleFeetRayDistance, layerMask);
+        Debug.DrawRay(obstacleLowFeetRayObject.transform.position, obstacleFeetRayDistance * new Vector2(rb.velocity.normalized.x * Mathf.Cos(5) - rb.velocity.normalized.y * Mathf.Sin(5), rb.velocity.normalized.x * Mathf.Cos(5) + rb.velocity.normalized.y * Mathf.Sin(5)), Color.green);
 
         //Raycast higher than the head (used to detect if an object is still above the AI when he is crouched)
         RaycastHit2D hitObstacleUncrouch = Physics2D.Raycast(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), obstacleUncrouchRayDistance, layerMask);
@@ -82,7 +88,7 @@ public class AIPat : MonoBehaviour
         {
             Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.red);
             controller.jump();
-            print("jumping");
+            print("trying to jump");
         }
         else if (hitObstacleHead.collider != null)
         {
@@ -107,6 +113,9 @@ public class AIPat : MonoBehaviour
         //    }
         //}
 
+
+
+
         //color of the uncrouch rays
         if (hitObstacleUncrouch.collider != null)
         {
@@ -117,19 +126,16 @@ public class AIPat : MonoBehaviour
             Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized * (obstacleRayDistance + 1.3f), Color.red);
         }
 
-
         //rotation
         if (transform.eulerAngles != new Vector3(0, 0, 0) /*&& hitclosetoground.collider == null*/)
         {
             if ((transform.eulerAngles.z > 0 && transform.eulerAngles.z <= 180) || (transform.eulerAngles.z < -180 && transform.eulerAngles.z > -360))
             {
                 controller.rotateClockwise();
-                print("rotation clock");
             }
             else if ((transform.eulerAngles.z > 180 && transform.eulerAngles.z < 360) || (transform.eulerAngles.z < 0 && transform.eulerAngles.z > -180))
             {
                 controller.rotateAntiClockwise();
-                print("rotation anticlock");
             }
         }
     }
