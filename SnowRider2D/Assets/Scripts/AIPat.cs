@@ -43,6 +43,7 @@ public class AIPat : MonoBehaviour
 
         //this is the distance of the raycast that will be at the feet and the one thats going to be at the head
         obstacleRayDistance = obstacleFeetRayDistance = rb.velocity.magnitude/2;
+        obstacleRayDistance = obstacleRayDistance - rb.velocity.magnitude / 8;
 
         //Raycast to see if the player is close to the ground (used for seeing when to rotate)
         //RaycastHit2D hitclosetoground = Physics2D.Raycast(closetoground.transform.position, new Vector2(0, -1), transform.localScale.x * 2, layerground);
@@ -82,14 +83,13 @@ public class AIPat : MonoBehaviour
         {
             Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.red);
             controller.jump();
-            //print("trying to jump");
         }
         else if (hitObstacleHead.collider != null)
         {
             Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.red);
             controller.crouch();
         }
-        else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null && controller.isCrouched == true && rb.velocity.magnitude >= 27)
+        else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null && controller.isCrouched == true)
         {
             //print("uncrouch");
             controller.unCrouch();
