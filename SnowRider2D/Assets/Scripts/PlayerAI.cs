@@ -60,6 +60,7 @@ public class PlayerAI : MonoBehaviour
         if (closeToRock)
         {
             controller.jump();
+            closeToRock = false;
         }
 
         if (isCrouched) controller.crouch();
@@ -86,7 +87,7 @@ public class PlayerAI : MonoBehaviour
         if (hitGround.collider != null)
         {
             canRotate = false;
-            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.red);
+            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 8f, Color.red);
 
             if (hitGround.distance <= 0.5f)
             {
@@ -100,7 +101,7 @@ public class PlayerAI : MonoBehaviour
         if (hitGround.collider == null)
         {
             canRotate = true;
-            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 6f, Color.black);
+            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 8f, Color.black);
         }
 
 
