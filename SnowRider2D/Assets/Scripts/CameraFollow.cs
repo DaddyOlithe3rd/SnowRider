@@ -12,6 +12,15 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
+        if (!Settings.AI1)
+        {
+            skiers[1].gameObject.SetActive(false);
+        }
+        if (!Settings.AI2)
+        {
+            skiers[2].gameObject.SetActive(false);
+        }
+
         furthestTransform = skiers[0];
     }
 
