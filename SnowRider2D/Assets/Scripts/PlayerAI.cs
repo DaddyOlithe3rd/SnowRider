@@ -79,15 +79,21 @@ public class PlayerAI : MonoBehaviour
 
 
         RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f, mask2);
-        RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f), obstacleRayDistance, mask2);
-        RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f), obstacleRayDistance, mask2);
+        RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.3f, 0.3f), obstacleRayDistance, mask2);
+        RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.15f, 0.4f), obstacleRayDistance, mask2);
         RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, Vector2.down, 8f, mask1);
+
+
+        Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.green);
+        Debug.DrawRay(obstacleRayFrontHead.transform.position, new Vector2(0.3f, 0.3f) * obstacleRayDistance, Color.green);
+        Debug.DrawRay(obstacleRayBackHead.transform.position, new Vector2(0.15f, 0.4f) * obstacleRayDistance, Color.green);
+        Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 8f, Color.green);
 
 
         if (hitGround.collider != null)
         {
             canRotate = false;
-            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 8f, Color.red);
+            //Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 8f, Color.red);
 
             if (hitGround.distance <= 0.5f)
             {
@@ -101,14 +107,14 @@ public class PlayerAI : MonoBehaviour
         if (hitGround.collider == null)
         {
             canRotate = true;
-            Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 8f, Color.black);
+            //Debug.DrawRay(groundRayObject.transform.position, Vector2.down * 8f, Color.black);
         }
 
 
         //S'il y a une roche devant l'AI.
         if (hitFeet.collider != null && hitFront.collider == null && isGrounded)
         {
-            Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.red);
+            //Debug.DrawRay(obstacleRayFeet.transform.position, Vector2.right * obstacleRayDistance * 0.6f, Color.red);
 
             closeToRock = true;
         }
