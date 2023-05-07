@@ -185,7 +185,6 @@ public class SkierController : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             hitGround = false;
             isGrounded = false;
-            print("should be jumping");
         }
     }
 
