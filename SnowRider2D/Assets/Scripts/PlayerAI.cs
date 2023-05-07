@@ -24,6 +24,7 @@ public class PlayerAI : MonoBehaviour
     //bool closeToWall;
     private bool closeToRock;
     private bool isGrounded;
+    private bool isCrouched;
     private bool canRotate;
 
     //Les 4 Raycasts
@@ -34,11 +35,8 @@ public class PlayerAI : MonoBehaviour
 
     public SkierController controller;
 
-    private Vector3 bottomPoint;
-    private Vector3 InitialSize;
-    private Vector2 lastNormal;
-    private Vector2 normal = Vector2.up;
-    private Vector2 lastSpeed;
+    private Vector3 initialSize;
+
 
     void Start()
     {
@@ -47,10 +45,8 @@ public class PlayerAI : MonoBehaviour
         isGrounded = false;
         closeToRock = false;
         canRotate = false;
-        lastNormal = Vector2.zero;
-        lastSpeed = rb.velocity;
         //closeToWall = false;
-        InitialSize = transform.localScale;
+        initialSize = transform.localScale;
 
         mask1 = 1 << LayerMask.NameToLayer("Ground");
         mask2 = 1 << LayerMask.NameToLayer("Obstacle");
@@ -66,11 +62,9 @@ public class PlayerAI : MonoBehaviour
             controller.jump();
         }
 
-        //Avoir une vitesse constante
-        /*if (rb.velocity.magnitude < 3f)
-        {
-            rb.velocity = Vector2.right * 3.2f;
-        }*/
+        if (isCrouched) controller.crouch();
+
+        else if (!isCrouched && transform.localScale != initialSize) controller.unCrouch();
 
         //Quand l'AI est dans les airs, il tourne pour faire un backflip.
         if (canRotate)
@@ -86,7 +80,7 @@ public class PlayerAI : MonoBehaviour
         RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f, mask2);
         RaycastHit2D hitFront = Physics2D.Raycast(obstacleRayFrontHead.transform.position, new Vector2(0.8f, 0.4f), obstacleRayDistance, mask2);
         RaycastHit2D hitBack = Physics2D.Raycast(obstacleRayBackHead.transform.position, new Vector2(0.2f, 0.5f), obstacleRayDistance, mask2);
-        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, Vector2.down, 6f, mask1);
+        RaycastHit2D hitGround = Physics2D.Raycast(groundRayObject.transform.position, Vector2.down, 8f, mask1);
 
 
         if (hitGround.collider != null)
@@ -119,15 +113,9 @@ public class PlayerAI : MonoBehaviour
         }
 
         //S'il y a un arbre devant l'AI, son scale devient plus petit, comme s'il "s'accroupissait".
-        else if (hitFront.collider != null && hitFeet.collider == null)
-        {
-            controller.crouch();
-        }
+        else if (hitFront.collider != null && hitFeet.collider == null) isCrouched = true;
 
-        else
-        {
-            if (hitBack.collider == null) controller.unCrouch();
-        }
+        else if (hitBack.collider == null) isCrouched = false;
 
 
     }

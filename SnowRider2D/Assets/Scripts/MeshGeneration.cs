@@ -12,13 +12,15 @@ public class MeshGeneration: MonoBehaviour
     public int SegmentResolution = 32;
 
     // the size of meshes in the pool
-    public int MeshCount = 4;
+    public int MeshCount = 6;
 
     // the maximum number of visible meshes. Should be lower or equal than MeshCount
-    public int VisibleMeshes = 4;
+    public int VisibleMeshes = 6;
 
     public Vector3 scaleChangeTree = new Vector3(16, 32, 0);
     public Vector3 scaleChangeRock = new Vector3(16, 32, 0);
+
+    public Vector2 speed;
 
     // the prefab including MeshFilter and MeshRenderer
     public MeshFilter SegmentPrefab;
@@ -27,7 +29,7 @@ public class MeshGeneration: MonoBehaviour
 
     public Vector3 startPoint;
 
-    public int NextSegment = 1;
+    public int NextSegment = 0;
 
     // helper array to generate new segment without further allocations
     private Vector3[] _vertexArray;
@@ -147,8 +149,9 @@ public class MeshGeneration: MonoBehaviour
         float t = 0.03125f;
         int rotTree = 0;
         int rotRock = 0;
-        float rotation = 0;
-        //float t2 = 0.0078125f;
+        float degreesWithX = 0;
+        float penteDroite = 0;
+
         float time = 0;
         Random rnd = new Random();
         int jumpheight = rnd.Next(0, 8);
@@ -161,12 +164,11 @@ public class MeshGeneration: MonoBehaviour
         Vector3 p1;
         Vector3 p2;
         Vector3 p3;
-        //Vector3 p4;
-        //Vector3 p5;
+
         SpriteRenderer Rock = Instantiate(RockPrefab);
         SpriteRenderer Tree = Instantiate(TreePrefab);
-        int treeCoord = rnd.Next(2, 28);
-        int rockCoord = rnd.Next(2, 28);
+        int treeCoord = rnd.Next(12, 20);
+        int rockCoord = rnd.Next(12, 20);
 
         for (int i = 0; i < SegmentResolution; i++)
         {
@@ -189,24 +191,16 @@ public class MeshGeneration: MonoBehaviour
                 p2 = new Vector3(20, startPoint.y + 2, 0);
                 p3 = new Vector3(32, (startPoint.y - p3Change), 0);
                 pointBezier = CalculateCubicBezierCurve(time, p0, p1, p2, p3);
-
-                //p0 = new Vector3(0, startPoint.y, 0);
-                //p1 = new Vector3(4, startPoint.y - 4, 0);                          
-                //p2 = new Vector3(12, startPoint.y - p1Change, 0);
-                //p3 = new Vector3(18, startPoint.y - 4, 0);
-                //p4 = new Vector3(24, startPoint.y + 4, 0);
-                //p5 = new Vector3(32, startPoint.y - p2Change, 0);
-                //pointBezier = CalculaticOrder5BezierCurve(time, p0, p1, p2, p3, p4, p5);
             }
             yPosTop = pointBezier.y;
 
-            if (i == treeCoord)
+            Debug.Log(NextSegment);
+            if (i == treeCoord && NextSegment % 2 == 0 && NextSegment != 2)
             {
                 rotTree = i;
                 Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
-                //Debug.Log(yPosTop);
             }
-            if (i == rockCoord)
+            else if (i == rockCoord && NextSegment % 2 !=0)
             {
                 rotRock = i;
                 Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
@@ -219,12 +213,15 @@ public class MeshGeneration: MonoBehaviour
             points[i] = new Vector2(xPos, yPosTop);
 
             //y2-y1/x2-x1
-
-            //points[i] = new Vector2(xPos, yPosTop);
         }
+
         //Debug.Log(yPosTop);
-        rotation = (points[rotRock + 1].y - points[rotRock - 1].y) / (points[rotRock + 1].x - points[rotRock - 1].x);
-        rotation = -1 / rotation;
+        penteDroite = (points[rotRock + 1].y - points[rotRock].y) / (points[rotRock + 1].x - points[rotRock].x);
+        degreesWithX = Mathf.Atan(penteDroite);
+        degreesWithX = (Mathf.Rad2Deg) * degreesWithX;
+        //Debug.Log("penteDroite => " + penteDroite);
+       // Debug.Log("DegréesRapportAX => " + degreesWithX);
+
         if (NextSegment % 4 == 0)
         {
             startPoint.y = (yPosTop - 6);
@@ -237,13 +234,9 @@ public class MeshGeneration: MonoBehaviour
         Tree.transform.localScale += scaleChangeTree;
         Rock.transform.localScale += scaleChangeRock;
 
-        rotation = -1 * ((Mathf.Rad2Deg) * Mathf.Atan(rotation / 1));
-
-        Rock.transform.Rotate(0.0f, 0.0f, (-rotation-90), Space.Self);
+        Rock.transform.Rotate(0.0f, 0.0f, (degreesWithX), Space.Self);
         NextSegment += 1;
-
         mesh.vertices = _vertexArray;      
-        // need to recalculate bounds, because mesh can disappear too early
         mesh.RecalculateBounds();
     }
 
@@ -252,7 +245,6 @@ public class MeshGeneration: MonoBehaviour
         Vector3 worldLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector3 worldRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0));
 
-        // check left and right segment side
         float x1 = index * SegmentLength;
         float x2 = x1 + SegmentLength;
 
@@ -290,34 +282,39 @@ public class MeshGeneration: MonoBehaviour
     {
         if (!IsSegmentVisible(index))
         {
-            // get from the pool
-            int meshIndex = _freeMeshFilters.Count - 1;
-            MeshFilter filter = _freeMeshFilters[meshIndex];
-            _freeMeshFilters.RemoveAt(meshIndex);
+            if (speed.x >= 0)
+            {
 
-            // generate
-            Mesh mesh = filter.mesh;
-            GenerateSegment(index, ref mesh, startPoint);
-             
-            filter.gameObject.GetComponent<EdgeCollider2D>().points = points;
+                // get from the pool
+                int meshIndex = _freeMeshFilters.Count - 1;
+                MeshFilter filter = _freeMeshFilters[meshIndex];
+                _freeMeshFilters.RemoveAt(meshIndex);
 
-            //if (filter.gameObject.GetComponent<MeshCollider>() == null)
-            //{
-            //    filter.gameObject.AddComponent<MeshCollider>();
-            //}
+                // generate
+                //Mesh mesh = filter.mesh;
+                Debug.Log(speed.x);
+                Mesh mesh = filter.mesh;
+                GenerateSegment(index, ref mesh, startPoint);
+                filter.gameObject.GetComponent<EdgeCollider2D>().points = points;
 
-            // position
-            filter.transform.position = new Vector3(index * SegmentLength, 0, 0);
+                //if (filter.gameObject.GetComponent<MeshCollider>() == null)
+                //{
+                //    filter.gameObject.AddComponent<MeshCollider>();
+                //}
 
-            // make visible
-            filter.gameObject.SetActive(true);
+                // position
+                filter.transform.position = new Vector3(index * SegmentLength, 0, 0);
 
-            // register as visible segment
-            var segment = new Segment();
-            segment.Index = index;
-            segment.MeshFilter = filter;
+                // make visible
+                filter.gameObject.SetActive(true);
 
-            _usedSegments.Add(segment);
+                // register as visible segment
+                var segment = new Segment();
+                segment.Index = index;
+                segment.MeshFilter = filter;
+
+                _usedSegments.Add(segment);
+            }
         }
     }
 
@@ -339,6 +336,9 @@ public class MeshGeneration: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject player = GameObject.Find("Player");
+        speed = player.GetComponent<Rigidbody2D>().velocity;
+
         // get the index of visible segment by finding the center point world position
         Vector3 worldCenter = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         int currentSegment = (int)(worldCenter.x / SegmentLength);
