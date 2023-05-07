@@ -23,6 +23,7 @@ public class SkierController : MonoBehaviour
     public bool isAI;
     public bool isDead;
     public bool hitGround;
+    public bool useQuaternions;
     float angle;//Angle entre la normal de la collision et Vector2.right
     public float initialRadius;
     public float rotationSpeed;
@@ -227,7 +228,14 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, -currentRotationSpeed);
+            if (useQuaternions)
+            {
+                transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z-currentRotationSpeed);
+            }
+            else
+            {
+                transform.RotateAround(bottomPoint, Vector3.forward, -currentRotationSpeed);
+            }
         }
     }
     
@@ -235,7 +243,23 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, currentRotationSpeed);
+            if (useQuaternions)
+            {
+                transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z+currentRotationSpeed);
+            }
+            else
+            {
+                transform.RotateAround(bottomPoint, Vector3.forward,currentRotationSpeed);
+            }
         }
+    }
+
+    Quaternion eulerToQuaternion(float angle)
+    {
+        /*The quaternion use here is simplified because the rotation is exactly arounf the Z axis, which means that
+         the first two compenent representing the rotation around the x and y axis  are zero. */
+        float angleRad = Mathf.Deg2Rad * angle;
+        Quaternion rotation = new Quaternion(0f, 0f, Mathf.Sin((angleRad) / 2), Mathf.Cos((angleRad) / 2));
+        return rotation;
     }
 }

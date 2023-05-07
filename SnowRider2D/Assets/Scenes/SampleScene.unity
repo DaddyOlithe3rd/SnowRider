@@ -246,7 +246,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71463213}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -691,7 +691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &695275497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,6 +714,7 @@ MonoBehaviour:
   isAI: 1
   isDead: 0
   hitGround: 0
+  useQuaternions: 0
   initialRadius: 0
   rotationSpeed: 1.7
   currentRotationSpeed: 0
@@ -1213,10 +1214,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1013058838}
+  - component: {fileID: 1013058839}
   - component: {fileID: 1013058837}
   - component: {fileID: 1013058836}
   - component: {fileID: 1013058835}
-  - component: {fileID: 1013058839}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1321,7 +1322,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013058833}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.67, y: 4.72, z: 0}
+  m_LocalPosition: {x: -0.4, y: 11.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1353,11 +1354,12 @@ MonoBehaviour:
   isAI: 0
   isDead: 0
   hitGround: 0
-  initialRadius: 0.75
+  useQuaternions: 1
+  initialRadius: 1
   rotationSpeed: 1.7
   currentRotationSpeed: 0
   jumpForce: 0.5
-  minimumSpeed: 5
+  minimumSpeed: 0
   unCrouchingSpeed: 4
   crouchingForce: 100
   rayCastLength: 0.3
@@ -1708,7 +1710,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1237271565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1758,6 +1760,7 @@ MonoBehaviour:
   isAI: 1
   isDead: 0
   hitGround: 0
+  useQuaternions: 0
   initialRadius: 0
   rotationSpeed: 1.7
   currentRotationSpeed: 0
