@@ -8,8 +8,14 @@ public class Settings : MonoBehaviour
     // Start is called before the first frame update
     public Toggle toggle1;
     public Toggle toggle2;
+    public Toggle toggle3;
+    public Toggle toggle4;
+
     public static bool AI1;
     public static bool AI2;
+    public static bool bezier;
+    public static bool perlin;
+
     void Start()
     {
 
@@ -20,5 +26,7 @@ public class Settings : MonoBehaviour
     {
         AI1 = toggle1.isOn;
         AI2 = toggle2.isOn;
+        bezier = toggle3.isOn;
+        perlin = toggle4.isOn;
     }
 }

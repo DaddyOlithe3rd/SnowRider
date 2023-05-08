@@ -4161,6 +4161,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toggle1: {fileID: 367350411}
   toggle2: {fileID: 596087762}
+  toggle3: {fileID: 1241820661}
+  toggle4: {fileID: 1949624122}
 --- !u!1 &1706768548
 GameObject:
   m_ObjectHideFlags: 0
