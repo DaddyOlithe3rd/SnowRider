@@ -32,6 +32,8 @@ public class SkierController : MonoBehaviour
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
     public float crouchingForce;
     public float rayCastLength;
+    public float numberOfTurns = 0;
+    public int flips = 0;
 
     public LayerMask layerMask;
 
@@ -165,6 +167,12 @@ public class SkierController : MonoBehaviour
             rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
         }
 
+        if(numberOfTurns > 1 || numberOfTurns < -1)
+        {
+            numberOfTurns = 0;
+            flips++;
+        }
+
         if (isDead)
         {
             if (isAI)
@@ -190,7 +198,7 @@ public class SkierController : MonoBehaviour
 
     public void crouch()
     {
-        if (!isCrouched)
+        if (!isCrouched && !isUncrouching)
         {
             rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
@@ -228,6 +236,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, -currentRotationSpeed);
+            numberOfTurns -= currentRotationSpeed / 360; 
         }
     }
     
@@ -236,6 +245,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, currentRotationSpeed);
+            numberOfTurns += currentRotationSpeed / 360;
         }
     }
 }
