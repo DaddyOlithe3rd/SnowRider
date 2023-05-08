@@ -101,7 +101,7 @@ public class SkierController : MonoBehaviour
                 if (arrayContacts[i].collider != null)
                 {
                     contacts.Add(arrayContacts[i]);
-                    if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)")
+                    if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)" && contacts.ElementAt(i).collider.gameObject.name != "line")
                     {
                         isDead = true;
                     }
@@ -188,7 +188,7 @@ public class SkierController : MonoBehaviour
     }
     public void jump()
     {
-        if (isGrounded && hitGround)
+        if (isGrounded /*&& hitGround*/)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             hitGround = false;
@@ -236,7 +236,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, -currentRotationSpeed);
-            numberOfTurns -= currentRotationSpeed / 360; 
+            //print("should rotate clockwise");
         }
     }
     
@@ -245,7 +245,7 @@ public class SkierController : MonoBehaviour
         if (!isGrounded)
         {
             transform.Rotate(0f, 0f, currentRotationSpeed);
-            numberOfTurns += currentRotationSpeed / 360;
+            //print("should rotate anticlockwise");
         }
     }
 }

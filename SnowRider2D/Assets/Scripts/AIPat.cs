@@ -28,54 +28,89 @@ public class AIPat : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //obstacleRayDistance = Mathf.Sqrt((rb.velocity.x)* (rb.velocity.x) + (rb.velocity.y)* (rb.velocity.y))*100;
-        //obstacleFeetRayDistance = Mathf.Sqrt((rb.velocity.x) * (rb.velocity.x) + (rb.velocity.y) * (rb.velocity.y))*100;
-        
         obstacleUncrouchRayDistance = 0.85f;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 down = transform.TransformDirection(-Vector3.up);
     }
 
     private void Update()
     {
-        obstacleRayDistance = obstacleFeetRayDistance = rb.velocity.magnitude/2;
-        //print(rb.velocity);
+        //print(rb.velocity.magnitude);
+
         SkierController controller = GetComponentInParent<SkierController>();
 
-        RaycastHit2D hitclosetoground = Physics2D.Raycast(closetoground.transform.position, new Vector2(0, -1), transform.localScale.x * 2, layerground);
-        Debug.DrawRay(closetoground.transform.position, transform.localScale.x * 2 * new Vector2(0, -1), Color.blue);
+        //this is the distance of the raycast that will be at the feet and the one thats going to be at the head
+        obstacleRayDistance = obstacleFeetRayDistance = rb.velocity.magnitude/2;
+        obstacleRayDistance = obstacleRayDistance - rb.velocity.magnitude / 8;
 
+        //Raycast to see if the player is close to the ground (used for seeing when to rotate)
+        //RaycastHit2D hitclosetoground = Physics2D.Raycast(closetoground.transform.position, new Vector2(0, -1), transform.localScale.x * 2, layerground);
+        //Debug.DrawRay(closetoground.transform.position, transform.localScale.x * 2 * new Vector2(0, -1), Color.blue);
+
+        //Raycast at the level of the head (used to detect when to crouch)
         RaycastHit2D hitObstacleHead = Physics2D.Raycast(obstacleRayObject.transform.position, rb.velocity.normalized, obstacleRayDistance, layerMask);
-        RaycastHit2D hitObstacleFeet = Physics2D.Raycast(obstacleFeetRayObject.transform.position, rb.velocity.normalized, obstacleFeetRayDistance, layerMask);
-        RaycastHit2D hitObstacleUncrouch = Physics2D.Raycast(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), obstacleUncrouchRayDistance, layerMask);
-        RaycastHit2D hitObstacleUncrouchFront = Physics2D.Raycast(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized, obstacleRayDistance + 1.3f, layerMask);
-
         Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.green);
+
+        //Raycast at the level of the feet (used to detect when to jump)
+        RaycastHit2D hitObstacleFeet = Physics2D.Raycast(obstacleFeetRayObject.transform.position, rb.velocity.normalized, obstacleFeetRayDistance, layerMask);
         Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.green);
+
+        //Raycast higher than the head (used to detect if an object is still above the AI when he is crouched)
+        RaycastHit2D hitObstacleUncrouch = Physics2D.Raycast(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), obstacleUncrouchRayDistance, layerMask);
         Debug.DrawRay(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), Color.green);
+
+        //Raycast higher than the head (used to detect if an object is still above the AI when he is crouched)
+        RaycastHit2D hitObstacleUncrouchFront = Physics2D.Raycast(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized, obstacleRayDistance + 1.3f, layerMask);
         Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, (obstacleRayDistance + 1.3f) * rb.velocity.normalized, Color.green);
-        if (hitObstacleHead.collider != null)
-        {
-            Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.red);
-            //transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
-            controller.crouch();
-        }
-        else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null)
-        {
-            if(controller.isCrouched == true)
-            {
-                controller.unCrouch();
-            }
-        }
-        else if (hitObstacleFeet.collider != null)
+
+        //if (rb.velocity.magnitude >= 25)
+        //{
+        //    if (controller.isCrouched == true)
+        //    {
+        //        controller.unCrouch();
+        //        //print("Uncrouching");
+        //    }
+        //}
+        //else if (rb.velocity.magnitude < 25)
+        //{
+        //    controller.crouch();
+        //}
+
+
+        if (hitObstacleFeet.collider != null)
         {
             Debug.DrawRay(obstacleFeetRayObject.transform.position, obstacleFeetRayDistance * rb.velocity.normalized, Color.red);
             controller.jump();
         }
+        else if (hitObstacleHead.collider != null)
+        {
+            Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.red);
+            controller.crouch();
+        }
+        else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null && controller.isCrouched == true)
+        {
+            //print("uncrouch");
+            controller.unCrouch();
+        }
+        //else if (rb.velocity.magnitude < 23 && controller.isCrouched == false)
+        //{
+        //    controller.crouch();
+        //}
+        //else if (rb.velocity.magnitude >= 25)
+        //{
+        //    if (controller.isCrouched == true)
+        //    {
+        //        controller.unCrouch();
+        //        //print("Uncrouching");
+        //    }
+        //}
+
+
+
+
+        //color of the uncrouch rays
         if (hitObstacleUncrouch.collider != null)
         {
             Debug.DrawRay(obstacleUncrouchRayObject.transform.position, new Vector2(-1, 1), Color.red);
@@ -84,14 +119,15 @@ public class AIPat : MonoBehaviour
         {
             Debug.DrawRay(obstacleUncrouchFrontRayObject.transform.position, rb.velocity.normalized * (obstacleRayDistance + 1.3f), Color.red);
         }
-        
-        if (transform.eulerAngles != new Vector3(0,0,0) && hitclosetoground.collider == null)
+
+        //rotation
+        if (transform.eulerAngles != new Vector3(0, 0, 0) /*&& hitclosetoground.collider == null*/)
         {
             if ((transform.eulerAngles.z > 0 && transform.eulerAngles.z <= 180) || (transform.eulerAngles.z < -180 && transform.eulerAngles.z > -360))
             {
                 controller.rotateClockwise();
             }
-            else if ((transform.eulerAngles.z > 180 && transform.eulerAngles.z < 360)||(transform.eulerAngles.z < 0 && transform.eulerAngles.z > -180))
+            else if ((transform.eulerAngles.z > 180 && transform.eulerAngles.z < 360) || (transform.eulerAngles.z < 0 && transform.eulerAngles.z > -180))
             {
                 controller.rotateAntiClockwise();
             }
