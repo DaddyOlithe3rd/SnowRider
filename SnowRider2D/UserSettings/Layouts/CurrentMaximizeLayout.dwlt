@@ -226,7 +226,11 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
+<<<<<<< Updated upstream
       m_ExpandedIDs: 4e80ffff4086ffff9292ffffe69effffeeb6fffff2b8ffff9abaffffb4bbffff12c3ffff40c7ffffd0f8ffff14faffff54b00000
+=======
+      m_ExpandedIDs: 4208ffffc430ffff1431ffff7635ffff4e80ffff4086ffff9292ffffe69effffeeb6fffff2b8ffff9abaffffb4bbffff12c3ffff40c7ffffd0f8ffff14faffff54b00000
+>>>>>>> Stashed changes
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -775,7 +779,11 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
+<<<<<<< Updated upstream
     m_HadKeyboardFocusLastEvent: 0
+=======
+    m_HadKeyboardFocusLastEvent: 1
+>>>>>>> Stashed changes
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
