@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 575150862680756683}
   - component: {fileID: 4184970996648458446}
   - component: {fileID: 1146179465826796249}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PerlinTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
