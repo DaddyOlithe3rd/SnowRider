@@ -99,7 +99,7 @@ public class SkierController : MonoBehaviour
                 if (arrayContacts[i].collider != null)
                 {
                     contacts.Add(arrayContacts[i]);
-                    if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)")
+                    if (contacts.ElementAt(i).collider.gameObject.name != "Segment(Clone)" && contacts.ElementAt(i).collider.gameObject.name != "line")
                     {
                         isDead = true;
                     }
