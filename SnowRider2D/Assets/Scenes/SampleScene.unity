@@ -726,6 +726,8 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchingForce: 100
   rayCastLength: 0.3
+  numberOfTurns: 0
+  flips: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -1218,9 +1220,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1013058838}
   - component: {fileID: 1013058837}
+  - component: {fileID: 1013058839}
   - component: {fileID: 1013058836}
   - component: {fileID: 1013058835}
-  - component: {fileID: 1013058839}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1360,11 +1362,13 @@ MonoBehaviour:
   initialRadius: 0.75
   rotationSpeed: 1.7
   currentRotationSpeed: 0
-  jumpForce: 0.5
+  jumpForce: 1.2
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchingForce: 100
   rayCastLength: 0.3
+  numberOfTurns: 0
+  flips: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -1490,7 +1494,7 @@ MonoBehaviour:
   SegmentResolution: 32
   MeshCount: 6
   VisibleMeshes: 6
-  scaleChangeTree: {x: 16, y: 48, z: 0}
+  scaleChangeTree: {x: 16, y: 30, z: 0}
   scaleChangeRock: {x: 16, y: 10, z: 0}
   speed: {x: 0, y: 0}
   SegmentPrefab: {fileID: 966175949}
@@ -1771,6 +1775,8 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchingForce: 100
   rayCastLength: 0.3
+  numberOfTurns: 0
+  flips: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
