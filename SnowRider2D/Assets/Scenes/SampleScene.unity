@@ -721,7 +721,7 @@ MonoBehaviour:
   initialRadius: 0
   rotationSpeed: 1.7
   currentRotationSpeed: 0
-  jumpForce: 0.5
+  jumpForce: 1.2
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchingForce: 100
@@ -1770,7 +1770,7 @@ MonoBehaviour:
   initialRadius: 0.75
   rotationSpeed: 1.7
   currentRotationSpeed: 0
-  jumpForce: 0.5
+  jumpForce: 1.2
   minimumSpeed: 5
   unCrouchingSpeed: 4
   crouchingForce: 100
