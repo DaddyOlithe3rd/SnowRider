@@ -56,29 +56,17 @@ public class SkierController : MonoBehaviour
         isCrouched = false;
         isUncrouching = false;
         isDead = false;
+        hitGround = true;
         lastNorm = Vector2.zero;
         initialScale = transform.localScale;
         speedBeforeUnCrouching = rb.velocity;
         currentRotationSpeed = rotationSpeed;
         initialRadius = initialRadius * Mathf.Abs((head.position - feet.position).magnitude) / 2;
-        
-        //Trouver le point bottomPoint de la capsule
-        //Vector3 center = transform.position;
-        //float halfHeight = capsuleCollider.size.y / 2;
-        //float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
-        //float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
-        //bottomPoint = new Vector3(x, y, 0f);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Trouver le point bottomPoint de la capsule
-        //Vector3 center = transform.position;
-        //float halfHeight = capsuleCollider.size.y / 2;
-        //float x = center.x + halfHeight * Mathf.Sin((transform.eulerAngles.z * Mathf.PI) / 180);
-        //float y = center.y - halfHeight * Mathf.Cos((transform.eulerAngles.z * Mathf.PI) / 180);
-        //bottomPoint = new Vector3(x, y, 0f);
         bottomPoint = bottomPointObject.transform.position;
 
 
@@ -191,9 +179,9 @@ public class SkierController : MonoBehaviour
         if (isGrounded && hitGround)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            transform.position += new Vector3(0.1f, 0.1f, 0f);
             hitGround = false;
             isGrounded = false;
-            print("Jumo");
         }
     }
 
@@ -212,7 +200,6 @@ public class SkierController : MonoBehaviour
     public void unCrouch()
     {
         isUncrouching = true;
-        
         if(transform.localScale.y < initialScale.y)
         {
             transform.localScale += new Vector3(0f, unCrouchingSpeed * Time.fixedDeltaTime * initialScale.y, 0f);
@@ -226,7 +213,8 @@ public class SkierController : MonoBehaviour
             if (isGrounded)
             {
                 rb.velocity = speedBeforeUnCrouching;
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                jump();
             }
             rb.AddForce(-1 * rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
         }
