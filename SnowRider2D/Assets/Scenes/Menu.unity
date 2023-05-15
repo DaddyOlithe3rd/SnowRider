@@ -1078,8 +1078,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Cette zone de texte pr\xE9sente les r\xE8gles et le fonctionnement du
-    jeu"
+  m_text: "Le joueur meurt d\xE8s que sa t\xEAte touche le sol ou que n'importe quelle
+    partie de son corps touche un obstacle.\nLe score est d\xE9termin\xE9 en fonction
+    de la distance parcourue"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -4161,6 +4162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toggle1: {fileID: 367350411}
   toggle2: {fileID: 596087762}
+  toggle3: {fileID: 1241820661}
+  toggle4: {fileID: 1949624122}
 --- !u!1 &1706768548
 GameObject:
   m_ObjectHideFlags: 0

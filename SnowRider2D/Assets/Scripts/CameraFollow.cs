@@ -21,6 +21,16 @@ public class CameraFollow : MonoBehaviour
         {
             skiers[2].gameObject.SetActive(false);
         }
+        if (Settings.perlin)
+        {
+            GameObject.Find("Perlin").SetActive(true);
+            GameObject.Find("Controller").SetActive(false);
+        }
+        else if (Settings.bezier)
+        {
+            GameObject.Find("Perlin").SetActive(false);
+            GameObject.Find("Controller").SetActive(true);
+        }
     }
 
     void FixedUpdate()

@@ -73,7 +73,7 @@ public class PerlinGeneration : MonoBehaviour
                 Interpolation(x1, x2, x3, y1, y2, y3, start);
                 jumptime = 0;
             }
-            else if (obstacletime == 3)
+            else if (obstacletime == 6)
             {
                 Debug.Log("obstacle");
                 ObstacleGeneration(Random.Range(2, 6));
@@ -87,7 +87,7 @@ public class PerlinGeneration : MonoBehaviour
                 y2 = y3;
                 x3 += Random.Range(2f, 6f);
 
-                if (jumptime == 10)
+                if (jumptime == 8)
                 {
                     y3 = y2 + 1;
                 }
@@ -105,7 +105,7 @@ public class PerlinGeneration : MonoBehaviour
 
         for (int i = 0; i < list_of_object.Count; i++)
         {
-            if (list_of_object[i].Value < (target.transform.position.x - 20))
+            if (list_of_object[i].Value < (target.transform.position.x - 50))
             {
                 Destroy(list_of_object[i].Key);
                 list_of_object.RemoveAt(i);
@@ -300,17 +300,17 @@ public class PerlinGeneration : MonoBehaviour
         {
             x1 = x2;
             x2 = x3;
-            x3 += Random.Range(5.0f, 8.0f);
+            x3 += Random.Range(20.0f, 30.0f);
 
             y1 = y3;
             y2 = y3;
-            y3 -= 1;
+            y3 -= Random.Range(1.0f, 3.0f);
 
             Interpolation(x1, x2, x3, y1, y2, y3, start);
 
             if (Random.Range(0, 2) == 0)
             {
-                Instantiate(tree, new Vector3(x3, y3 + 1.05f, 0), transform.rotation);
+                Instantiate(tree, new Vector3(x3, y3 + 2.0f, 0), transform.rotation);
                 //list_of_object.Add(new KeyValuePair<GameObject, float>(arbre, x2));
             }
             else
