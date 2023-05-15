@@ -42,8 +42,8 @@ public class AIPat : MonoBehaviour
         SkierController controller = GetComponentInParent<SkierController>();
 
         //this is the distance of the raycast that will be at the feet and the one thats going to be at the head
-        obstacleRayDistance = obstacleFeetRayDistance = rb.velocity.magnitude/2;
-        obstacleRayDistance = obstacleRayDistance - rb.velocity.magnitude / 8;
+        obstacleFeetRayDistance = rb.velocity.magnitude/2;
+        obstacleRayDistance = rb.velocity.magnitude / 8;
 
         //Raycast to see if the player is close to the ground (used for seeing when to rotate)
         //RaycastHit2D hitclosetoground = Physics2D.Raycast(closetoground.transform.position, new Vector2(0, -1), transform.localScale.x * 2, layerground);
