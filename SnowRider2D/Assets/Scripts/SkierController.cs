@@ -211,7 +211,6 @@ public class SkierController : MonoBehaviour
             if (isGrounded)
             {
                 rb.velocity = speedBeforeUnCrouching;
-                //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 jump();
             }
             rb.AddForce(-1 * rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
