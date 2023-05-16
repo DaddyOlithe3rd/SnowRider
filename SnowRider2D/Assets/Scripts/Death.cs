@@ -19,7 +19,7 @@ public class Death : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        controller.isDead = true;
+        controller.status.isDead = true;
     }
 
     private void OnCollisionExit2D(Collision2D collision)

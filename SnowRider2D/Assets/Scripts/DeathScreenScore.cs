@@ -9,10 +9,10 @@ public class DeathScreenScore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Score.playerScore != null) 
+        if (GameManager.playerScore != null) 
         {
-            print("Player Score: "+Score.playerScore);
-            finalScore.text = "Pointage final "+Score.playerScore;
+            print("Player Score: "+ GameManager.playerScore);
+            finalScore.text = "Pointage final "+ GameManager.playerScore;
         }
     }
 

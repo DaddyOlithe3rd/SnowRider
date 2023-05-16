@@ -5,7 +5,7 @@ using TMPro;
 using System;
 using System.Linq;
 
-public class Score : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject[] skier;
@@ -34,6 +34,7 @@ public class Score : MonoBehaviour
                 scoreText[i].text = score[i].ToString();
                 playerScore = scoreText[0].text;
             }
+            
         }
     }
 }

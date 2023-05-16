@@ -171,7 +171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &71463214
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -712,6 +712,11 @@ MonoBehaviour:
   head: {fileID: 0}
   feet: {fileID: 0}
   bottomPointObject: {fileID: 0}
+  tryJump: 0
+  tryRotateColckWise: 0
+  tryRotateAntiColckWise: 0
+  tryCrouch: 0
+  tryUnCrouch: 0
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
@@ -843,7 +848,7 @@ Transform:
   - {fileID: 384517205}
   - {fileID: 1520545282}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &695275502
 MonoBehaviour:
@@ -1219,6 +1224,7 @@ GameObject:
   - component: {fileID: 1013058838}
   - component: {fileID: 1013058837}
   - component: {fileID: 1013058839}
+  - component: {fileID: 1013058840}
   - component: {fileID: 1013058836}
   - component: {fileID: 1013058835}
   m_Layer: 7
@@ -1333,7 +1339,7 @@ Transform:
   - {fileID: 1069021254}
   - {fileID: 1929899349}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1013058839
 MonoBehaviour:
@@ -1351,6 +1357,11 @@ MonoBehaviour:
   head: {fileID: 0}
   feet: {fileID: 0}
   bottomPointObject: {fileID: 0}
+  tryJump: 0
+  tryRotateColckWise: 0
+  tryRotateAntiColckWise: 0
+  tryCrouch: 0
+  tryUnCrouch: 0
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
@@ -1372,6 +1383,18 @@ MonoBehaviour:
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
   lastSpeed: {x: 0, y: 0}
+--- !u!114 &1013058840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013058833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67cb333296606d24a8da0fb027d8f951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1069021253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1780,11 @@ MonoBehaviour:
   head: {fileID: 0}
   feet: {fileID: 0}
   bottomPointObject: {fileID: 0}
+  tryJump: 0
+  tryRotateColckWise: 0
+  tryRotateAntiColckWise: 0
+  tryCrouch: 0
+  tryUnCrouch: 0
   isGrounded: 0
   isCrouched: 0
   isUncrouching: 0
@@ -1888,7 +1916,7 @@ Transform:
   - {fileID: 1204174057}
   - {fileID: 2032413354}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1312831486
 GameObject:
@@ -2137,7 +2165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!68 &1542749043
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -2236,7 +2264,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1600811694
 GameObject:
@@ -2575,7 +2603,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1929899348
 GameObject:

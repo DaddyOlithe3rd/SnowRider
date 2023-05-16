@@ -89,7 +89,7 @@ public class AIPat : MonoBehaviour
             Debug.DrawRay(obstacleRayObject.transform.position, obstacleRayDistance * rb.velocity.normalized, Color.red);
             controller.crouch();
         }
-        else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null && controller.isCrouched == true)
+        else if (hitObstacleHead.collider == null && hitObstacleUncrouch.collider == null && hitObstacleUncrouchFront.collider == null && controller.status.isCrouched == true)
         {
             //print("uncrouch");
             controller.unCrouch();
