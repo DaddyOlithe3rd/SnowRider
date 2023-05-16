@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Ce script n'est pas utilisé finalement
 [RequireComponent(typeof(EdgeCollider2D))]
 public class LineCollider : MonoBehaviour
 {
