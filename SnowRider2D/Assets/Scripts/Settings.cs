@@ -10,10 +10,10 @@ public class Settings : MonoBehaviour
     public Toggle toggle3;//Courbes de Bézier
     public Toggle toggle4;//Bruit de Perlin
 
-    public static bool AI1;
-    public static bool AI2;
-    public static bool bezier;
-    public static bool perlin;
+    public static bool AI1 = true;
+    public static bool AI2 = true;
+    public static bool bezier = true;
+    public static bool perlin = false;
 
     void Start()
     {

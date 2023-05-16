@@ -685,9 +685,9 @@ GameObject:
   m_Component:
   - component: {fileID: 695275501}
   - component: {fileID: 695275500}
+  - component: {fileID: 695275497}
   - component: {fileID: 695275499}
   - component: {fileID: 695275498}
-  - component: {fileID: 695275497}
   - component: {fileID: 695275502}
   m_Layer: 8
   m_Name: AIvictor
@@ -703,7 +703,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695275496}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f44e1ab41f6eb24183c2431102d0b7a, type: 3}
   m_Name: 
@@ -718,7 +718,7 @@ MonoBehaviour:
   isAI: 1
   isDead: 0
   hitGround: 0
-  initialRadius: 0
+  initialRadius: 0.75
   rotationSpeed: 1.7
   currentRotationSpeed: 0
   jumpForce: 1.2
@@ -726,8 +726,6 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchingForce: 100
   rayCastLength: 0.3
-  numberOfTurns: 0
-  flips: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -1367,8 +1365,6 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchingForce: 100
   rayCastLength: 0.3
-  numberOfTurns: 0
-  flips: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -1775,8 +1771,6 @@ MonoBehaviour:
   unCrouchingSpeed: 4
   crouchingForce: 100
   rayCastLength: 0.3
-  numberOfTurns: 0
-  flips: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
