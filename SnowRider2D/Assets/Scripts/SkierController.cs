@@ -231,7 +231,7 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);");
+            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);
         }
     }
 
