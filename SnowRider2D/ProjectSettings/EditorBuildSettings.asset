@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: fbf1fc0dd14f590439018548e43d78a0
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/GameScene.unity
     guid: aa2eca02af095ca43a357642579a79c8
   - enabled: 1
     path: Assets/Scenes/DeathScreen.unity

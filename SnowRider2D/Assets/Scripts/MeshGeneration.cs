@@ -194,16 +194,16 @@ public class MeshGeneration: MonoBehaviour
             }
             yPosTop = pointBezier.y;
 
-            Debug.Log(NextSegment);
+            //Debug.Log(NextSegment);
             if (i == treeCoord && NextSegment % 2 == 0 && NextSegment != 2)
             {
                 rotTree = i;
-                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeTree.y / 8), 0);
+                Tree.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeTree.y / 8) - 1, 0);
             }
-            else if (i == rockCoord && NextSegment % 2 !=0)
+            else if (i == rockCoord && NextSegment % 2 !=0 && NextSegment != 1)
             {
                 rotRock = i;
-                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 3)), yPosTop + (scaleChangeRock.y / 8), 0);
+                Rock.transform.position = new Vector3(xPos + (32 * (NextSegment - 2)), yPosTop + (scaleChangeRock.y / 8), 0);
             }
             // top vertex          
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
