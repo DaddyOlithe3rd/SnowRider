@@ -224,8 +224,9 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, -currentRotationSpeed);
-            //print("should rotate clockwise");
+            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z - currentRotationSpeed);
+            //transform.Rotate(0f, 0f, -currentRotationSpeed);
+            print("should rotate clockwise");
         }
     }
     
@@ -233,8 +234,19 @@ public class SkierController : MonoBehaviour
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, currentRotationSpeed);
-            //print("should rotate anticlockwise");
+            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);
+            //transform.Rotate(0f, 0f, currentRotationSpeed);
+            print("should rotate anticlockwise");
         }
     }
+    Quaternion eulerToQuaternion(float angle)
+    {
+        /*The quaternion use here is simplified because the rotation is exactly arounf the Z axis, which means that
+         the first two compenent representing the rotation around the x and y axis  are zero. */
+        float angleRad = Mathf.Deg2Rad * angle;
+        Quaternion rotation = new Quaternion(0f, 0f, Mathf.Sin((angleRad) / 2), Mathf.Cos((angleRad) / 2));
+        return rotation;
+    }
 }
+
+
