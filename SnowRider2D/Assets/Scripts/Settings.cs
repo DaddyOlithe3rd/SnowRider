@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Toggle toggle1;
-    public Toggle toggle2;
-    public Toggle toggle3;
-    public Toggle toggle4;
+    public Toggle toggle1;//Ai1
+    public Toggle toggle2;//AI2
+    public Toggle toggle3;//Courbes de Bézier
+    public Toggle toggle4;//Bruit de Perlin
 
     public static bool AI1;
     public static bool AI2;
@@ -18,7 +17,10 @@ public class Settings : MonoBehaviour
 
     void Start()
     {
-
+        toggle1.isOn = AI1;
+        toggle2.isOn = AI2;
+        toggle3.isOn = bezier;
+        toggle4.isOn = perlin;
     }
 
     // Update is called once per frame
