@@ -860,7 +860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleRayDistance: 5
-  jumpSpeed: 5
+  jumpSpeed: 0
   obstacleRayFeet: {fileID: 723033494}
   obstacleRayFrontHead: {fileID: 693820506}
   obstacleRayBackHead: {fileID: 1642278384}
