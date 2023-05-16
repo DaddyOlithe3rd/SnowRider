@@ -10,7 +10,6 @@ using static UnityEngine.GraphicsBuffer;
 
 public class SkierController : MonoBehaviour
 {
-    // Start is called before the first frame update
     Rigidbody2D rb;
     public  CapsuleCollider2D capsuleCollider;
     public Transform head;
@@ -23,7 +22,7 @@ public class SkierController : MonoBehaviour
     public bool isAI;
     public bool isDead;
     public bool hitGround;
-    float angle;//Angle entre la normal de la collision et Vector2.right
+    float angle;//Angle between the collision vector and the horizontal(Vector2.right)
     public float initialRadius;
     public float rotationSpeed;
     public float currentRotationSpeed;
@@ -32,8 +31,6 @@ public class SkierController : MonoBehaviour
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
     public float crouchingForce;
     public float rayCastLength;
-    public float numberOfTurns = 0;
-    public int flips = 0;
 
     public LayerMask layerMask;
 
@@ -44,6 +41,7 @@ public class SkierController : MonoBehaviour
     public Vector2 speedBeforeUnCrouching;
     public Vector2 lastSpeed;//Speed from previous fixed update
 
+    //Initializing variables
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,12 +65,13 @@ public class SkierController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        bottomPoint = bottomPointObject.transform.position;
-
+        bottomPoint = bottomPointObject.transform.position;//Finding the bottom point of the skier for the raycast and the skier's rotation
 
         ContactPoint2D[] arrayContacts = new ContactPoint2D[16];
         int nbContacts = rb.GetContacts(arrayContacts);
 
+        /*This raycast is used to detect the ground. If the ground is close enough according to the rayCastLength, the 
+         isGrounded variable will stay true*/
         RaycastHit2D ground = Physics2D.Raycast(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, rayCastLength, layerMask);
         Debug.DrawRay(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, Color.red);
 
@@ -102,7 +101,8 @@ public class SkierController : MonoBehaviour
                 normal = contacts.ElementAt(contacts.Count - 1).normal;
             }
            
-            //Si on est encore sur la même pente
+            /*If the skier is still on the same slope angle, there is no need to update its rotation, if it isn't, the
+             rotation of the skier is adjusted to match the normal of the slope*/
             if (lastNorm != normal )
             {
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
@@ -111,14 +111,13 @@ public class SkierController : MonoBehaviour
             }
         }
 
-        //Jumping
+        //Player input
         if (!isAI)
         {
             if (Input.GetAxisRaw("Vertical") == 1)
             {
                 jump();
             }
-            //Crouching
             if (Input.GetAxisRaw("Vertical") == -1)
             {
                 crouch();
@@ -129,7 +128,6 @@ public class SkierController : MonoBehaviour
                 unCrouch();
             }
 
-            //Rotating
             if (Input.GetAxisRaw("Horizontal") == 1)
             {
                 rotateClockwise();
@@ -149,18 +147,13 @@ public class SkierController : MonoBehaviour
             rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
         }
 
-        //Constant speed
+        //Making sure the skier always has a minimum positive x axis speed
         if(rb.velocity.magnitude < minimumSpeed) 
         {
             rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
         }
 
-        if(numberOfTurns > 1 || numberOfTurns < -1)
-        {
-            numberOfTurns = 0;
-            flips++;
-        }
-
+        //In case the skier dies
         if (isDead)
         {
             if (isAI)
@@ -172,8 +165,11 @@ public class SkierController : MonoBehaviour
                 SceneManager.LoadScene("DeathScreen");
             }
         }
+        
         lastSpeed = rb.velocity;
     }
+
+    //Making the skier jump
     public void jump()
     {
         if (isGrounded && hitGround)
@@ -185,6 +181,7 @@ public class SkierController : MonoBehaviour
         }
     }
 
+    //Making the skier crouch
     public void crouch()
     {
         if (!isCrouched && !isUncrouching)
@@ -197,6 +194,7 @@ public class SkierController : MonoBehaviour
         }
     }
 
+    //Making the skier unCrouch
     public void unCrouch()
     {
         isUncrouching = true;
@@ -213,28 +211,37 @@ public class SkierController : MonoBehaviour
             if (isGrounded)
             {
                 rb.velocity = speedBeforeUnCrouching;
-                //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 jump();
             }
             rb.AddForce(-1 * rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
         }
     }
 
+    //Making the skier turn clockWise according to the predefined rotation speed
     public void rotateClockwise()
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, -currentRotationSpeed);
-            //print("should rotate clockwise");
+            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z - currentRotationSpeed);
         }
     }
-    
+
+    //Making the skier turn antiClockWise according to the predefined rotation speed
     public void rotateAntiClockwise()
     {
         if (!isGrounded)
         {
-            transform.Rotate(0f, 0f, currentRotationSpeed);
-            //print("should rotate anticlockwise");
+            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);");
         }
+    }
+
+    //Converting an angle to a quaternion, this angle must ba an angle of rotation relative to the z axis
+    Quaternion eulerToQuaternion(float angle)
+    {
+        /*The quaternion use here is simplified because the rotation is exactly arounf the Z axis, which means that
+         the first two compenent representing the rotation around the x and y axis  are zero. */
+        float angleRad = Mathf.Deg2Rad * angle;
+        Quaternion rotation = new Quaternion(0f, 0f, Mathf.Sin((angleRad) / 2), Mathf.Cos((angleRad) / 2));
+        return rotation;
     }
 }
