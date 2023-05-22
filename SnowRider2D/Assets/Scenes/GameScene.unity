@@ -499,10 +499,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809036283a6a0e94cbd3cf2fff409da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skier:
+  skiers:
   - {fileID: 1013058833}
   - {fileID: 1237271564}
   - {fileID: 695275496}
+  skierControllers: []
   scoreText:
   - {fileID: 661978363}
   - {fileID: 1088966447}
@@ -708,32 +709,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f44e1ab41f6eb24183c2431102d0b7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  status:
+    isDead: 0
+    isGrounded: 0
+    hasJumped: 0
+    isCrouched: 0
+    isUnCrouching: 0
+    isAI: 1
+    isBackFlipping: 0
+    isFrontFlipping: 0
+    tryJump: 0
+    tryRotateColckWise: 0
+    tryRotateAntiColckWise: 0
+    tryCrouch: 0
+    tryUnCrouch: 0
+    tryBackFlip: 0
+    tryFrontFlip: 0
+  properties:
+    initialRadius: 0
+    rotationSpeed: 0
+    jumpForce: 0
+    minimumSpeed: 0
+    unCrouchingSpeed: 0
+    crouchingForce: 0
+    rayCastLength: 0
+    timeBeforeFlipping: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
   capsuleCollider: {fileID: 0}
   head: {fileID: 0}
   feet: {fileID: 0}
   bottomPointObject: {fileID: 0}
-  tryJump: 0
-  tryRotateColckWise: 0
-  tryRotateAntiColckWise: 0
-  tryCrouch: 0
-  tryUnCrouch: 0
-  isGrounded: 0
-  isCrouched: 0
-  isUncrouching: 0
-  isAI: 1
-  isDead: 0
-  hitGround: 0
-  initialRadius: 0.75
-  rotationSpeed: 1.7
+  angle: 0
   currentRotationSpeed: 0
-  jumpForce: 1.2
-  minimumSpeed: 5
-  unCrouchingSpeed: 4
-  crouchingForce: 100
-  rayCastLength: 0.3
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  time: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -1353,32 +1363,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f44e1ab41f6eb24183c2431102d0b7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  status:
+    isDead: 0
+    isGrounded: 0
+    hasJumped: 0
+    isCrouched: 0
+    isUnCrouching: 0
+    isAI: 0
+    isBackFlipping: 0
+    isFrontFlipping: 0
+    tryJump: 0
+    tryRotateColckWise: 0
+    tryRotateAntiColckWise: 0
+    tryCrouch: 0
+    tryUnCrouch: 0
+    tryBackFlip: 0
+    tryFrontFlip: 0
+  properties:
+    initialRadius: 0.83
+    rotationSpeed: 1.3
+    jumpForce: 1.5
+    minimumSpeed: 0
+    unCrouchingSpeed: 1
+    crouchingForce: 100
+    rayCastLength: 0.3
+    timeBeforeFlipping: 3
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1024
   capsuleCollider: {fileID: 0}
   head: {fileID: 0}
   feet: {fileID: 0}
   bottomPointObject: {fileID: 0}
-  tryJump: 0
-  tryRotateColckWise: 0
-  tryRotateAntiColckWise: 0
-  tryCrouch: 0
-  tryUnCrouch: 0
-  isGrounded: 0
-  isCrouched: 0
-  isUncrouching: 0
-  isAI: 0
-  isDead: 0
-  hitGround: 0
-  initialRadius: 0.75
-  rotationSpeed: 1.7
+  angle: 0
   currentRotationSpeed: 0
-  jumpForce: 1.2
-  minimumSpeed: 5
-  unCrouchingSpeed: 4
-  crouchingForce: 100
-  rayCastLength: 0.3
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  time: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -1726,9 +1745,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1237271571}
   - component: {fileID: 1237271570}
+  - component: {fileID: 1237271567}
   - component: {fileID: 1237271569}
   - component: {fileID: 1237271568}
-  - component: {fileID: 1237271567}
   - component: {fileID: 1237271565}
   m_Layer: 7
   m_Name: PatAI
@@ -1776,32 +1795,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f44e1ab41f6eb24183c2431102d0b7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  status:
+    isDead: 0
+    isGrounded: 0
+    hasJumped: 0
+    isCrouched: 0
+    isUnCrouching: 0
+    isAI: 1
+    isBackFlipping: 0
+    isFrontFlipping: 0
+    tryJump: 0
+    tryRotateColckWise: 0
+    tryRotateAntiColckWise: 0
+    tryCrouch: 0
+    tryUnCrouch: 0
+    tryBackFlip: 0
+    tryFrontFlip: 0
+  properties:
+    initialRadius: 0
+    rotationSpeed: 0
+    jumpForce: 0
+    minimumSpeed: 0
+    unCrouchingSpeed: 0
+    crouchingForce: 0
+    rayCastLength: 0
+    timeBeforeFlipping: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
   capsuleCollider: {fileID: 0}
   head: {fileID: 0}
   feet: {fileID: 0}
   bottomPointObject: {fileID: 0}
-  tryJump: 0
-  tryRotateColckWise: 0
-  tryRotateAntiColckWise: 0
-  tryCrouch: 0
-  tryUnCrouch: 0
-  isGrounded: 0
-  isCrouched: 0
-  isUncrouching: 0
-  isAI: 1
-  isDead: 0
-  hitGround: 0
-  initialRadius: 0.75
-  rotationSpeed: 1.7
+  angle: 0
   currentRotationSpeed: 0
-  jumpForce: 1.2
-  minimumSpeed: 5
-  unCrouchingSpeed: 4
-  crouchingForce: 100
-  rayCastLength: 0.3
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  time: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -2165,7 +2193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!68 &1542749043
 EdgeCollider2D:
   m_ObjectHideFlags: 0

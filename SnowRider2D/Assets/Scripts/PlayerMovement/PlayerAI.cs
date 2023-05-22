@@ -56,6 +56,11 @@ public class PlayerAI : MonoBehaviour
 
     void Update()
     {
+        
+    }
+
+    public void CustomUpdate()
+    {
         //S'il est proche d'une roche, il saute.
         if (closeToRock)
         {
@@ -78,9 +83,7 @@ public class PlayerAI : MonoBehaviour
         {
             controller.rotateAntiClockwise();
         }*/
-    }
-    private void FixedUpdate()
-    {
+
 
         //Définition des 4 raycasts.
         RaycastHit2D hitFeet = Physics2D.Raycast(obstacleRayFeet.transform.position, Vector2.right, obstacleRayDistance * 0.6f, mask2);
@@ -129,6 +132,10 @@ public class PlayerAI : MonoBehaviour
         else if (hitFront.collider != null && hitFeet.collider == null) isCrouched = true;
 
         else if (hitBack.collider == null) isCrouched = false;
+    }
+    private void FixedUpdate()
+    {
+        
 
 
     }

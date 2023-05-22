@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class Status
 {
     // Start is called before the first frame update
@@ -11,12 +11,17 @@ public class Status
     public bool isCrouched;
     public bool isUnCrouching;
     public bool isAI;
+    public bool isBackFlipping;
+    public bool isFrontFlipping;
+    public bool timerStarted;//Timer for buffer between jumping and flipping
 
     public bool tryJump;
     public bool tryRotateColckWise;
     public bool tryRotateAntiColckWise;
     public bool tryCrouch;
     public bool tryUnCrouch;
+    public bool tryBackFlip;
+    public bool tryFrontFlip;
     public Status()
     {
         isDead = false;
@@ -24,7 +29,6 @@ public class Status
         hasJumped = false;
         isCrouched = false;
         isUnCrouching = false;
-        isAI = false;
         tryJump = false;
         tryRotateColckWise = false;
         tryRotateAntiColckWise = false;

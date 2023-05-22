@@ -12,23 +12,18 @@ public class SkierController : MonoBehaviour
 {
     Rigidbody2D rb;
     public Status status;
+    public Properties properties;
 
-    public  CapsuleCollider2D capsuleCollider;
+    public CapsuleCollider2D capsuleCollider;
     public Transform head;
     public Transform feet;
     public Transform bottomPointObject;
 
-    float angle;//Angle between the collision vector and the horizontal(Vector2.right)
-    public float initialRadius;
-    public float rotationSpeed;
-    public float currentRotationSpeed;
-    public float jumpForce;
-    public float minimumSpeed;
-    public float unCrouchingSpeed;//Speed at which the skier uncrouches
-    public float crouchingForce;
-    public float rayCastLength;
 
-    public LayerMask layerMask;
+    public float angle;//Angle between the collision vector and the horizontal(Vector2.right)
+    public float currentRotationSpeed;
+    public float timeAfterJump = 0;
+    public float timeBeforeJump = 0;
 
     private Vector2 normal = Vector2.up;
     private Vector3 bottomPoint;
@@ -40,7 +35,7 @@ public class SkierController : MonoBehaviour
     //Initializing variables
     void Start()
     {
-        status = new Status();
+        //status = new Status();
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         head = transform.Find("head");
@@ -50,29 +45,31 @@ public class SkierController : MonoBehaviour
         lastNorm = Vector2.zero;
         initialScale = transform.localScale;
         speedBeforeUnCrouching = rb.velocity;
-        currentRotationSpeed = rotationSpeed;
-        initialRadius = initialRadius * Mathf.Abs((head.position - feet.position).magnitude) / 2;
+        currentRotationSpeed = properties.rotationSpeed;
+        properties.initialRadius = properties.initialRadius * Mathf.Abs((head.position - feet.position).magnitude) / 2;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    public void CustomUpdate()
     {
         bottomPoint = bottomPointObject.transform.position;//Finding the bottom point of the skier for the raycast and the skier's rotation
 
         ContactPoint2D[] arrayContacts = new ContactPoint2D[16];
         int nbContacts = rb.GetContacts(arrayContacts);
 
-        /*This raycast is used to detect the ground. If the ground is close enough according to the rayCastLength, the 
+        /*This raycast is used to detect the ground. If the ground is close enough according to the properties.rayCastLength, the 
          isGrounded variable will stay true*/
-        RaycastHit2D groundRay = Physics2D.Raycast(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, rayCastLength, layerMask);
-        Debug.DrawRay(bottomPoint, -rayCastLength * (transform.position - bottomPoint).normalized, Color.red);
+        RaycastHit2D groundRay = Physics2D.Raycast(bottomPoint, -properties.rayCastLength * (transform.position - bottomPoint).normalized, properties.rayCastLength, properties.layerMask);
+        Debug.DrawRay(bottomPoint, -properties.rayCastLength * (transform.position - bottomPoint).normalized, Color.red);
 
         if (nbContacts != 0)
         {
             status.hasJumped = false;
+            status.isFrontFlipping = false;
+            status.isBackFlipping = false;
+            timeAfterJump = properties.timeBeforeFlipping;
         }
         if (nbContacts == 0 && !groundRay) status.isGrounded = false;
-        else 
+        else
         {
             status.isGrounded = true;
             List<ContactPoint2D> contacts = new List<ContactPoint2D>();
@@ -92,13 +89,13 @@ public class SkierController : MonoBehaviour
             {
                 normal = contacts.ElementAt(contacts.Count - 1).normal;
             }
-           
+
             /*If the skier is still on the same slope angle, there is no need to update its rotation, if it isn't, the
              rotation of the skier is adjusted to match the normal of the slope*/
-            if (lastNorm != normal )
+            if (lastNorm != normal)
             {
                 angle = (Vector2.SignedAngle(Vector2.up, normal));
-;               transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
+                transform.RotateAround(bottomPoint, Vector3.forward, (angle - transform.eulerAngles.z));
                 lastNorm = normal;
             }
         }
@@ -117,45 +114,42 @@ public class SkierController : MonoBehaviour
             speedBeforeUnCrouching = rb.velocity;
             unCrouch();
         }
-
-        if (status.tryRotateColckWise)
+        if ((status.tryFrontFlip && timeAfterJump > 0) || status.isFrontFlipping)
         {
             rotateClockwise();
         }
-        if (status.tryRotateAntiColckWise)
+        if ((status.tryBackFlip && timeAfterJump > 0) || status.isBackFlipping)
         {
             rotateAntiClockwise();
         }
+
         if (status.isUnCrouching)
         {
             unCrouch();
         }
+        if (status.hasJumped)
+        {
+            timeAfterJump--;
+        }
         if (status.isCrouched)
         {
-            rb.AddForce(-lastSpeed.normalized * crouchingForce, ForceMode2D.Force);
-            rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
+            rb.AddForce(-lastSpeed.normalized * properties.crouchingForce, ForceMode2D.Force);
+            rb.AddForce(rb.velocity.normalized * properties.crouchingForce, ForceMode2D.Force);
         }
 
         //Making sure the skier always has a minimum positive x axis speed
-        if(rb.velocity.magnitude < minimumSpeed) 
+        if (rb.velocity.magnitude < properties.minimumSpeed)
         {
-            rb.velocity = Vector2.right * (minimumSpeed + 0.1f);
+            rb.velocity = Vector2.right * (properties.minimumSpeed + 0.1f);
         }
 
-        //In case the skier dies
-        if (status.isDead)
-        {
-            if (status.isAI)
-            {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                SceneManager.LoadScene("DeathScreen");
-            }
-        }
-        
         lastSpeed = rb.velocity;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate() 
+    {
+        
     }
 
     //Making the skier jump
@@ -163,22 +157,23 @@ public class SkierController : MonoBehaviour
     {
         if (status.isGrounded && !status.hasJumped)
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * properties.jumpForce, ForceMode2D.Impulse);
             transform.position += new Vector3(0.1f, 0.1f, 0f);
             status.hasJumped = true;
-            status.isGrounded = false;
+            print(gameObject.name + " jumped");
         }
     }
 
     //Making the skier crouch
     public void crouch()
     {
+        print("Crouch");
         if (!status.isCrouched && !status.isUnCrouching)
         {
-            rb.AddForce(rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
+            rb.AddForce(rb.velocity.normalized * properties.crouchingForce, ForceMode2D.Force);
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.6f, 0f);
             float radius = Mathf.Abs((head.position - feet.position).magnitude) / 2;
-            currentRotationSpeed = (Mathf.Pow(initialRadius, 2) / Mathf.Pow(radius, 2)) * rotationSpeed;
+            currentRotationSpeed = (Mathf.Pow(properties.initialRadius, 2) / Mathf.Pow(radius, 2)) * properties.rotationSpeed;
             status.isCrouched = true;
         }
     }
@@ -186,14 +181,15 @@ public class SkierController : MonoBehaviour
     //Making the skier unCrouch
     public void unCrouch()
     {
+        print("UnCrouch");
         status.isUnCrouching = true;
         if(transform.localScale.y < initialScale.y)
         {
-            transform.localScale += new Vector3(0f, unCrouchingSpeed * Time.fixedDeltaTime * initialScale.y, 0f);
+            transform.localScale += new Vector3(0f, properties.unCrouchingSpeed * Time.fixedDeltaTime * initialScale.y, 0f);
         }
         if (transform.localScale.y >= initialScale.y)
         {
-            currentRotationSpeed = rotationSpeed;
+            currentRotationSpeed = properties.rotationSpeed;
             transform.localScale = initialScale;
             status.isUnCrouching = false;
             status.isCrouched = false;
@@ -202,26 +198,22 @@ public class SkierController : MonoBehaviour
                 rb.velocity = speedBeforeUnCrouching;
                 jump();
             }
-            rb.AddForce(-1 * rb.velocity.normalized * crouchingForce, ForceMode2D.Force);
+            rb.AddForce(-1 * rb.velocity.normalized * properties.crouchingForce, ForceMode2D.Force);
         }
     }
 
     //Making the skier turn clockWise according to the predefined rotation speed
     public void rotateClockwise()
     {
-        if (!status.isGrounded)
-        {
-            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z - currentRotationSpeed);
-        }
+        status.isFrontFlipping = true;
+        transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z - currentRotationSpeed);
     }
 
     //Making the skier turn antiClockWise according to the predefined rotation speed
     public void rotateAntiClockwise()
     {
-        if (!status.isGrounded)
-        {
-            transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);
-        }
+        status.isBackFlipping = true;
+        transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);
     }
 
     //Converting an angle to a quaternion, this angle must ba an angle of rotation relative to the z axis
