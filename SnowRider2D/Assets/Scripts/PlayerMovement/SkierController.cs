@@ -22,8 +22,7 @@ public class SkierController : MonoBehaviour
 
     public float angle;//Angle between the collision vector and the horizontal(Vector2.right)
     public float currentRotationSpeed;
-    public float timeAfterJump = 0;
-    public float timeBeforeJump = 0;
+    public float timer = 0;
 
     private Vector2 normal = Vector2.up;
     private Vector3 bottomPoint;
@@ -66,7 +65,6 @@ public class SkierController : MonoBehaviour
             status.hasJumped = false;
             status.isFrontFlipping = false;
             status.isBackFlipping = false;
-            timeAfterJump = properties.timeBeforeFlipping;
         }
         if (nbContacts == 0 && !groundRay) status.isGrounded = false;
         else
@@ -114,22 +112,17 @@ public class SkierController : MonoBehaviour
             speedBeforeUnCrouching = rb.velocity;
             unCrouch();
         }
-        if ((status.tryFrontFlip && timeAfterJump > 0) || status.isFrontFlipping)
+        if ((status.tryFrontFlip || status.isFrontFlipping) && !status.isBackFlipping)
         {
             rotateClockwise();
         }
-        if ((status.tryBackFlip && timeAfterJump > 0) || status.isBackFlipping)
+        if ((status.tryBackFlip || status.isBackFlipping) && !status.isFrontFlipping)
         {
             rotateAntiClockwise();
         }
-
         if (status.isUnCrouching)
         {
             unCrouch();
-        }
-        if (status.hasJumped)
-        {
-            timeAfterJump--;
         }
         if (status.isCrouched)
         {
@@ -205,14 +198,22 @@ public class SkierController : MonoBehaviour
     //Making the skier turn clockWise according to the predefined rotation speed
     public void rotateClockwise()
     {
-        status.isFrontFlipping = true;
+        if (status.isGrounded && !status.isFrontFlipping)
+        {
+            jump();
+            status.isFrontFlipping = true;
+        }
         transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z - currentRotationSpeed);
     }
 
     //Making the skier turn antiClockWise according to the predefined rotation speed
     public void rotateAntiClockwise()
     {
-        status.isBackFlipping = true;
+        if (status.isGrounded && !status.isBackFlipping)
+        {
+            jump();
+            status.isBackFlipping = true;
+        }
         transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);
     }
 

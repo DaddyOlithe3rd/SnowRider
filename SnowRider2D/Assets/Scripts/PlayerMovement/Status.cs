@@ -13,7 +13,6 @@ public class Status
     public bool isAI;
     public bool isBackFlipping;
     public bool isFrontFlipping;
-    public bool timerStarted;//Timer for buffer between jumping and flipping
 
     public bool tryJump;
     public bool tryRotateColckWise;

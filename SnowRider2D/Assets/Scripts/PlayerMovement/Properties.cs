@@ -12,7 +12,6 @@ public class Properties
     public float unCrouchingSpeed;//Speed at which the skier uncrouches
     public float crouchingForce;
     public float rayCastLength;
-    public float timeBeforeFlipping;
     public LayerMask layerMask;
 
 

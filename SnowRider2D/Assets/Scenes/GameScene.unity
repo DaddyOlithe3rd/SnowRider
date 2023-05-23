@@ -718,6 +718,7 @@ MonoBehaviour:
     isAI: 1
     isBackFlipping: 0
     isFrontFlipping: 0
+    timerStarted: 0
     tryJump: 0
     tryRotateColckWise: 0
     tryRotateAntiColckWise: 0
@@ -733,7 +734,7 @@ MonoBehaviour:
     unCrouchingSpeed: 0
     crouchingForce: 0
     rayCastLength: 0
-    timeBeforeFlipping: 0
+    flippingBuffer: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 0
@@ -743,7 +744,7 @@ MonoBehaviour:
   bottomPointObject: {fileID: 0}
   angle: 0
   currentRotationSpeed: 0
-  time: 0
+  timer: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -1372,6 +1373,7 @@ MonoBehaviour:
     isAI: 0
     isBackFlipping: 0
     isFrontFlipping: 0
+    timerStarted: 0
     tryJump: 0
     tryRotateColckWise: 0
     tryRotateAntiColckWise: 0
@@ -1387,7 +1389,7 @@ MonoBehaviour:
     unCrouchingSpeed: 1
     crouchingForce: 100
     rayCastLength: 0.3
-    timeBeforeFlipping: 3
+    flippingBuffer: 1
     layerMask:
       serializedVersion: 2
       m_Bits: 1024
@@ -1397,7 +1399,7 @@ MonoBehaviour:
   bottomPointObject: {fileID: 0}
   angle: 0
   currentRotationSpeed: 0
-  time: 0
+  timer: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -1804,6 +1806,7 @@ MonoBehaviour:
     isAI: 1
     isBackFlipping: 0
     isFrontFlipping: 0
+    timerStarted: 0
     tryJump: 0
     tryRotateColckWise: 0
     tryRotateAntiColckWise: 0
@@ -1819,7 +1822,7 @@ MonoBehaviour:
     unCrouchingSpeed: 0
     crouchingForce: 0
     rayCastLength: 0
-    timeBeforeFlipping: 0
+    flippingBuffer: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 0
@@ -1829,7 +1832,7 @@ MonoBehaviour:
   bottomPointObject: {fileID: 0}
   angle: 0
   currentRotationSpeed: 0
-  time: 0
+  timer: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
