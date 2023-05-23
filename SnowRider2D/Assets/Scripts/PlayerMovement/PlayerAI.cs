@@ -26,7 +26,7 @@ public class PlayerAI : MonoBehaviour
     private bool closeToRock;
     private bool isGrounded;
     private bool isCrouched;
-    private bool canRotate;
+    //private bool canRotate;
 
     //Les 4 Raycasts
     public GameObject obstacleRayFeet;
@@ -45,7 +45,7 @@ public class PlayerAI : MonoBehaviour
         capsuleCollider = gameObject.GetComponent<CapsuleCollider2D>();
         isGrounded = false;
         closeToRock = false;
-        canRotate = false;
+        //canRotate = false;
         initialSize = transform.localScale;
 
         mask1 = 1 << LayerMask.NameToLayer("Ground");
@@ -100,7 +100,7 @@ public class PlayerAI : MonoBehaviour
         //Si le raycast du sol touche le sol.
         if (hitGround.collider != null)
         {
-            canRotate = false;
+            //canRotate = false;
 
             //S'il est assez proche du sol, il peut sauter.
             if (hitGround.distance <= 0.5f)
@@ -116,7 +116,7 @@ public class PlayerAI : MonoBehaviour
         // Mais j'ai enlevé le code plus haut, donc il ne fera rien.
         if (hitGround.collider == null)
         {
-            canRotate = true;
+            //canRotate = true;
         }
 
 

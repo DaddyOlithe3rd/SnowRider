@@ -718,7 +718,6 @@ MonoBehaviour:
     isAI: 1
     isBackFlipping: 0
     isFrontFlipping: 0
-    timerStarted: 0
     tryJump: 0
     tryRotateColckWise: 0
     tryRotateAntiColckWise: 0
@@ -734,7 +733,6 @@ MonoBehaviour:
     unCrouchingSpeed: 0
     crouchingForce: 0
     rayCastLength: 0
-    flippingBuffer: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 0
@@ -744,7 +742,8 @@ MonoBehaviour:
   bottomPointObject: {fileID: 0}
   angle: 0
   currentRotationSpeed: 0
-  timer: 0
+  rotation: 0
+  nbFlips: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -1373,7 +1372,6 @@ MonoBehaviour:
     isAI: 0
     isBackFlipping: 0
     isFrontFlipping: 0
-    timerStarted: 0
     tryJump: 0
     tryRotateColckWise: 0
     tryRotateAntiColckWise: 0
@@ -1389,7 +1387,6 @@ MonoBehaviour:
     unCrouchingSpeed: 1
     crouchingForce: 100
     rayCastLength: 0.3
-    flippingBuffer: 1
     layerMask:
       serializedVersion: 2
       m_Bits: 1024
@@ -1399,7 +1396,8 @@ MonoBehaviour:
   bottomPointObject: {fileID: 0}
   angle: 0
   currentRotationSpeed: 0
-  timer: 0
+  rotation: 0
+  nbFlips: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -1806,7 +1804,6 @@ MonoBehaviour:
     isAI: 1
     isBackFlipping: 0
     isFrontFlipping: 0
-    timerStarted: 0
     tryJump: 0
     tryRotateColckWise: 0
     tryRotateAntiColckWise: 0
@@ -1822,7 +1819,6 @@ MonoBehaviour:
     unCrouchingSpeed: 0
     crouchingForce: 0
     rayCastLength: 0
-    flippingBuffer: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 0
@@ -1832,7 +1828,8 @@ MonoBehaviour:
   bottomPointObject: {fileID: 0}
   angle: 0
   currentRotationSpeed: 0
-  timer: 0
+  rotation: 0
+  nbFlips: 0
   lastNorm: {x: 0, y: 0}
   initialScale: {x: 0, y: 0, z: 0}
   speedBeforeUnCrouching: {x: 0, y: 0}
@@ -2336,7 +2333,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.119}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 13.9, y: 16.2}
+  m_AnchoredPosition: {x: 1.06, y: 12.51}
   m_SizeDelta: {x: 30, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1600811696

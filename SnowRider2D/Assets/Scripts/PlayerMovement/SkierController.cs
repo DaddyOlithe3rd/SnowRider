@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.XR;
 using static UnityEngine.GraphicsBuffer;
 
@@ -19,10 +20,10 @@ public class SkierController : MonoBehaviour
     public Transform feet;
     public Transform bottomPointObject;
 
-
     public float angle;//Angle between the collision vector and the horizontal(Vector2.right)
     public float currentRotationSpeed;
-    public float timer = 0;
+    public float rotation;
+    public int nbFlips = 0;
 
     private Vector2 normal = Vector2.up;
     private Vector3 bottomPoint;
@@ -136,6 +137,7 @@ public class SkierController : MonoBehaviour
             rb.velocity = Vector2.right * (properties.minimumSpeed + 0.1f);
         }
 
+        properties.score = Mathf.Round(transform.position.x * 10) * nbFlips;
         lastSpeed = rb.velocity;
     }
 
@@ -153,14 +155,14 @@ public class SkierController : MonoBehaviour
             rb.AddForce(Vector2.up * properties.jumpForce, ForceMode2D.Impulse);
             transform.position += new Vector3(0.1f, 0.1f, 0f);
             status.hasJumped = true;
-            print(gameObject.name + " jumped");
+            //print(gameObject.name + " jumped");
         }
     }
 
     //Making the skier crouch
     public void crouch()
     {
-        print("Crouch");
+        //print("Crouch");
         if (!status.isCrouched && !status.isUnCrouching)
         {
             rb.AddForce(rb.velocity.normalized * properties.crouchingForce, ForceMode2D.Force);
@@ -174,7 +176,7 @@ public class SkierController : MonoBehaviour
     //Making the skier unCrouch
     public void unCrouch()
     {
-        print("UnCrouch");
+        //print("UnCrouch");
         status.isUnCrouching = true;
         if(transform.localScale.y < initialScale.y)
         {
@@ -204,6 +206,12 @@ public class SkierController : MonoBehaviour
             status.isFrontFlipping = true;
         }
         transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z - currentRotationSpeed);
+        rotation += Mathf.Abs(currentRotationSpeed);
+        if(rotation >= 360)
+        {
+            nbFlips++;
+            rotation = 0;
+        }
     }
 
     //Making the skier turn antiClockWise according to the predefined rotation speed
@@ -215,6 +223,12 @@ public class SkierController : MonoBehaviour
             status.isBackFlipping = true;
         }
         transform.rotation = eulerToQuaternion(transform.rotation.eulerAngles.z + currentRotationSpeed);
+        rotation += Mathf.Abs(currentRotationSpeed);
+        if (rotation >= 360)
+        {
+            nbFlips++;
+            rotation = 0;
+        }
     }
 
     //Converting an angle to a quaternion, this angle must ba an angle of rotation relative to the z axis

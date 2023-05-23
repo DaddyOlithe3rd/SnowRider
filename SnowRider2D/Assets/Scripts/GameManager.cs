@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
             skierControllers.Add(skiers[i].GetComponent<SkierController>());
             score.Add(0);
         }
-        playerScore = "0";
     }
 
     // Update is called once per frame
@@ -41,11 +40,13 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < skiers.Length; i++)
         {
             skierControllers[i].CustomUpdate();
-            score[i] = Mathf.Round(skiers[i].transform.position.x * 10);
+            //score[i] = Mathf.Round(skiers[i].transform.position.x * 10);
+            score[i] = skierControllers[i].properties.score;
             if (scoreText[i]!= null)
             {
                 scoreText[i].text = score[i].ToString();
                 playerScore = scoreText[0].text;
+                print("score");
             }
             if (skierControllers[i].status.isDead)
             {
